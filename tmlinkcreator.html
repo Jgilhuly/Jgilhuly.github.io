@@ -1,0 +1,345 @@
+<html>
+  <head>
+    <title>Ticketmaster Link Creator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <link rel="apple-touch-icon" sizes="57x57" href="//branch.io/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="//branch.io/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="//branch.io/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="//branch.io/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="//branch.io/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="//branch.io/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="//branch.io/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="//branch.io/img/favicon/apple-touch-icon-152x152.png">
+
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,700,600,300' rel='stylesheet' type='text/css'>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <style>
+    .page-header,
+    .panel-title,
+    label {
+        font-weight: lighter
+    }
+
+    .btn,
+    .page-header {
+        text-transform: uppercase
+    }
+
+    body {
+        font-family: "Open Sans", Helvetica, Arial;
+        background-color: #fafafa;
+        color: #444
+    }
+
+    label {
+        font-size: 110%
+    }
+
+    .panel-body {
+        display: grid
+    }
+
+    .panel-header {
+        margin-top: 70px
+    }
+
+    .page-header {
+        font-size: 300%;
+        margin-bottom: 30px
+    }
+
+    .panel-title {
+        font-size: 150%
+    }
+
+    .label {
+        display: inline-flex
+    }
+
+    .form-control {
+        margin-bottom: 10px;
+        height: inherit
+    }
+
+    .redactor_box,
+    input.form-control,
+    option,
+    select {
+        border-radius: 3px;
+        border-color: #eee;
+        font-size: 16px;
+        line-height: normal;
+        margin-right: 0;
+        padding: 15px 20px;
+        -moz-box-shadow: none;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        width: 100%;
+        color: #444;
+        font-weight: 400;
+        background: #fff
+    }
+
+    .btn {
+        background-color: #1cadce;
+        font-weight: 700;
+        font-size: 16px;
+        display: inline-block;
+        padding: 15px 15px;
+        border-radius: 2px;
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        color: #fff;
+        transition: background 250ms;
+        -webkit-transition: background 250ms;
+        margin: 30px auto 30px;
+        min-width: 170px
+    }
+
+    #final_url {
+        margin-top: 2%;
+        margin-bottom: 5%;
+        font-weight: lighter;
+        font-size: 110%
+    }
+
+    .navbar-brand img {
+        max-height: 40px
+    }
+
+    nav.navbar-main {
+        padding: 2px 0;
+        background-color: #2F2F2F;
+        position: fixed;
+        width: 100%;
+        z-index: 99;
+        border-radius: 0
+    }
+
+    .brand {
+        margin-top: -10px
+    }
+
+    .custom-select {
+      width: 145px;
+      padding: 15px;
+      font-size: 16px;
+      font-weight: 100;
+    }
+    p {
+      font-style: italic;
+      font-size: 85%;
+    }
+    .extra-field {
+      display: inline-flex;
+    }
+    .extra-field-input {
+      margin: 10px 40px 10px 40px !important;
+    }
+    .add-field-btn {
+      font-size: 12px;
+    }
+    </style>
+
+    <script>
+      (function(b,r,a,n,c,h,_,s,d,k){if(!b[n]||!b[n]._q){for(;s<_.length;)c(h,_[s++]);d=r.createElement(a);d.async=1;d.src="https://cdn.branch.io/branch-latest.min.js";k=r.getElementsByTagName(a)[0];k.parentNode.insertBefore(d,k);b[n]=h}})(window,document,"script","branch",function(b,r){b[r]=function(){b._q.push([r,arguments])}},{_q:[],_v:1},"addListener applyCode banner closeBanner creditHistory credits data deepview deepviewCta first getCode init link logout redeem referrals removeListener sendSMS setBranchViewData setIdentity track validateCode".split(" "), 0);
+
+      function createLink() {
+        branch.init('key_live_pbtE4dcavETgqI5C3M8n0eabADiL8rYZ');
+
+        var linkData = {
+          tags: [],
+          // channel: channel,
+          // campaign: teamName,
+          // type: 2,
+          data: {
+          "$one_time_use": false,
+          }
+        };
+
+        branch.link(linkData, function(err, link) {
+
+          if (err == null) {
+            document.getElementById('final_url').value = link;
+          }
+          else {
+            console.log(err, link);
+            document.getElementById('final_url').value = err;
+          }
+        });
+      }
+    </script>
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-static-top navbar-main">
+      <div class="container">
+        <div class="navbar-header">
+          <div class="navbar-brand brand">
+            <a href="https://branch.io" target="_blank" class="logo-container">
+              <div class="branch-logo"><img src="https://branch.io/img/logo_white.png" alt="BranchMetrics" title="Branch Metrics"></div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="panel-header page-header">
+        Ticketmaster Branch Link Creator
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-body">
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#basic_fields" aria-expanded="false" aria-controls="other_fields">
+                  Basic Setup
+                </a>
+              </h3>
+            </div>
+            <div id="basic_fields" class="collapse show">
+              <div class="panel-body">
+
+                <label>Web URL:
+                  <p>Enter a URL to link to? (Deep link data and open graph info will be grabbed from this url)</p>
+                  <input type="text" id="url" class="form-control" value=""/>
+                </label>
+
+                <label>Campaign:
+                  <p>What campaign does this belong to?</p>
+                  <input type="text" id="campaign" class="form-control" value=""/>
+                </label>
+
+                <label>Campaign:
+                  <p>Which campaign does this belong to?</p>
+                  <select class="form-control custom-select" id="team_name_selector">
+                    <option value="facebook-fall-outreach">Facebook Fall Outreach</option>
+                    <option value="facebook-fall-outreach">Twitter September</option>
+                  </select>
+                </label>
+
+                <label>Channel:
+                  <p>Where will this be used/posted?</p>
+                  <input type="text" id="channel" class="form-control" value=""/>
+                </label>
+
+                <label>Source:
+                  <!-- <p>Where will this be used/posted?</p> -->
+                  <input type="text" id="source" class="form-control" value=""/>
+                </label>
+
+                <label>Alias (Optional):
+                  <p>Alias will be appended to the link domain. For example, if you entered "test_alias",
+                  we would create the following link: "https://.app.link/test_alias".
+                  <b>Note: link aliases may not be reused</b></p>
+                  <input type="text" id="alias" class="form-control" value=""/>
+                </label>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#fallback_fields" aria-expanded="false" aria-controls="other_fields">
+                  Fallback Behavior
+                </a>
+              </h3>
+            </div>
+            <div id="fallback_fields" class="collapse">
+              <div class="panel-body">
+              </div>
+            </div>
+          </div> -->
+
+          <!-- <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#dl_fields" aria-expanded="false" aria-controls="other_fields">
+                  Deep Linking
+                </a>
+              </h3>
+            </div>
+            <div id="dl_fields" class="collapse">
+              <div class="panel-body">
+              </div>
+            </div>
+          </div> -->
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#og_fields" aria-expanded="false" aria-controls="other_fields">
+                  Open Graph Information
+                </a>
+              </h3>
+            </div>
+            <div id="og_fields" class="collapse">
+              <div class="panel-body">
+                <label>OG Title (Optional):
+                  <p>Specifies a title to show if the link is posted on social media.</p>
+                  <input type="text" id="og_title" class="form-control" value=""/>
+                </label>
+                <label>OG Description (Optional):
+                  <p>Specifies a description to show if the link is posted on social media.</p>
+                  <input type="text" id="og_description" class="form-control" value=""/>
+                </label>
+                <label>OG Image URL (Optional):
+                  <p>Specifies an image to show if the link is posted on social media.</p>
+                  <input type="text" id="og_image" class="form-control" value=""/>
+                </label>
+                <!-- Image Upload -->
+                <label>OG Video (Optional):
+                  <p>Specifies a video to show if the link is posted on social media.</p>
+                  <input type="text" id="og_video" class="form-control" value=""/>
+                </label>
+                <label>OG URL (Optional):
+                  <p>Specifies a url to serve as the canonical identifier of the og info.</p>
+                  <input type="text" id="og_url" class="form-control" value=""/>
+                </label>
+                <label>OG Type (Optional):
+                  <p>Specifies a type of og content (ie article, book, etc.).</p>
+                  <input type="text" id="og_type" class="form-control" value=""/>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#other_fields" aria-expanded="false" aria-controls="other_fields">
+                  Other Fields
+                </a>
+              </h3>
+            </div>
+            <div id="other_fields" class="collapse">
+              <div class="panel-body" id="extra_param">
+                <button class="btn btn-info add-field-btn" onclick="addField(this)">Add Domestic Link Parameter</button>
+              </div>
+            </div>
+          </div> -->
+
+          <button class="btn btn-info" onclick="createLink()">Create Link</button>
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <input type="text" id="final_url" class="form-control" value="Final Link Goes Here" readonly />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
