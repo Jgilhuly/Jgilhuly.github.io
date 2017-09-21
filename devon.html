@@ -29,38 +29,11 @@
 
 
 <script type="text/javascript">
-  document.getElementById('test-cha').addEventListener('click', function (href, el) {
-    console.log('clicked: ' + href);
-    // => /foo/bar
-  });
-
-
   // This is already present but has been included to show placement
   (function(b,r,a,n,c,h,_,s,d,k){if(!b[n]||!b[n]._q){for(;s<_.length;)c(h,_[s++]);d=r.createElement(a);d.async=1;d.src="https://cdn.branch.io/branch-latest.min.js";k=r.getElementsByTagName(a)[0];k.parentNode.insertBefore(d,k);b[n]=h}})(window,document,"script","branch",function(b,r){b[r]=function(){b._q.push([r,arguments])}},{_q:[],_v:1},"addListener applyCode banner closeBanner creditHistory credits data deepview deepviewCta first getCode init link logout redeem referrals removeListener sendSMS setBranchViewData setIdentity track validateCode".split(" "), 0);
-  branch.init('key_live_bbxmRKxFcO0JOsmiUoWPEhghFze0AIt7');
-  // End of already present code
+  branch.init('key_live_hkDytPACtipny3N9XmnbZlapBDdj4WIL');
 
-  // This call will grab the referring link
-  branch.deepview(
-      {
-        // Place any link parameters here and they will override values in the referring link
-        // Ex. "$canonical_url": "https://build.com"
-        "$ios_url" : "http://itunes.apple.com/us/app/build-shop-home-improvement-project-advice/id1053662668?mt=8",
-        "$android_url" : "http://play.google.com/store/apps/details?id=com.buildapp"
-      },
-      {
-          make_new_link: false, // preserves the referring link information
-          open_app: false // set to true to automatically try and artificially click the link when the page loads (recommended to stay false)
-      },
-      function(err) {
-          console.log(err || 'no error');
-      }
-  );
 
-  // At any point later in the code, use the method branch.deepviewCta() to click the link
-  // In this case, you'll place branch.deepviewCta() behind a footer button
+
 </script>
-
-<button onClick="branch.deepviewCta()">DeepviewCta</button>
-
 </html>
