@@ -1,0 +1,32 @@
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- local version
+        <script type="text/javascript" src="../../src/js/lib/base.js"></script>
+        <script type="text/javascript" src="../../src/js/host/host.js"></script>
+        <script type="text/javascript" src="../../src/js/lib/boot.js"></script>
+    -->
+
+    <script type="text/javascript">
+	    function posMessageCallback(id, msgName, data){
+		    if(msgName == "error"){
+			    var log = document.getElementById("logger");
+			    var msg = ["error in ad ", id];
+			    if(data && data.errors){
+				    msg.push(data.errors);
+			    }
+			    msg.push("<br/>");
+			    log.innerHTML += msg.join("");
+		    }
+	    }
+    </script>
+</head>
+<body>
+  <div id="billboardAdDiv"></div>
+  <iframe src="https://jgilhuly.github.io/iframe.html">
+  </iframe>
+</body>
+</html>

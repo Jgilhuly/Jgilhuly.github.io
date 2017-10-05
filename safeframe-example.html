@@ -1,0 +1,76 @@
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!--
+INCLUDES OF THE SAFEFRAMES FRAMEWORK
+These script files should be hosted on your CDN from a different
+top level domain from the host site.
+-->
+    <!-- local version
+        <script type="text/javascript" src="../../src/js/lib/base.js"></script>
+        <script type="text/javascript" src="../../src/js/host/host.js"></script>
+        <script type="text/javascript" src="../../src/js/lib/boot.js"></script>
+    -->
+
+    <script type="text/javascript"
+            src="https://s3-us-west-2.amazonaws.com/safeframe/refimpl/1-0-3/js/lib/base.js"></script>
+    <script type="text/javascript"
+            src="https://s3-us-west-2.amazonaws.com/safeframe/refimpl/1-0-3/js/host/host.js"></script>
+    <script type="text/javascript"
+            src="https://s3-us-west-2.amazonaws.com/safeframe/refimpl/1-0-3/js/lib/boot.js"></script>
+
+
+    <script type='text/x-safeframe' class='sf_data'>
+	{
+		"id": "billboardAd",
+		"src": "https://jgilhuly.github.io/iframe.html",
+
+		"conf":
+		{
+			"w":		600,
+			"h":		700,
+			"dest":	"billboardAdDiv",
+			"supports" : {
+				"exp-push" : "1",
+				"read-cookie" : "1",
+				"write-cookie" : "1"
+			}
+
+		}
+	}
+</script>
+
+    <script type="text/javascript">
+	    function posMessageCallback(id, msgName, data){
+		    if(msgName == "error"){
+			    var log = document.getElementById("logger");
+			    var msg = ["error in ad ", id];
+			    if(data && data.errors){
+				    msg.push(data.errors);
+			    }
+			    msg.push("<br/>");
+			    log.innerHTML += msg.join("");
+		    }
+	    }
+
+	    /**
+	     * Initialize a new SafeFrames publisher configuration
+	     */
+	    (function() {
+		    var conf	= new $sf.host.Config({
+			    // Should be absolute path to render file hosted on CDN "../../src/html/r.html",
+			    // "http://s3-us-west-2.amazonaws.com/safeframe/refimpl/1-0-3/html/r.html",
+			    renderFile:	"https://jgilhuly.github.io/iframe.html",
+			    onPosMsg: posMessageCallback,
+			    positions: {}
+		    });
+
+	    })();
+
+
+    </script></head>
+<body><div id="billboardAdDiv"></div></body>
+</html>
