@@ -1,0 +1,50 @@
+{
+  "name": "noodlejs",
+  "version": "0.3.2",
+  "description": "noodle is a proxy server which serves for cross domain data extraction from web documents for any client.",
+  "main": "./lib/noodle",
+  "bin": {
+    "noodle": "./bin/noodle-server"
+  },
+  "dependencies": {
+    "connect": "~2.3.5",
+    "connect-ratelimit": "0.0.5",
+    "JSONSelect": "0.4.0",
+    "feedparser": "0.10.7",
+    "moment": "1.7.2",
+    "cheerio": "0.10.1",
+    "request": "2.11.4",
+    "q": "0.8.9",
+    "xml2json": "^0.5.1",
+    "underscore": "1.4.2",
+    "mocha": "1.7.4",
+    "chai": "1.4.2",
+    "colors": "0.6.0-1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "bin/noodle-server"
+  },
+  "engines": {
+    "node": "0.6.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dharmafly/noodle.git"
+  },
+  "keywords": [
+    "scraper",
+    "proxy",
+    "cross-domain",
+    "cross domain",
+    "selectors",
+    "JSONSelect",
+    "json",
+    "html",
+    "web service",
+    "rate limit"
+  ],
+  "author": "Dharmafly",
+  "license": "BSD"
+}

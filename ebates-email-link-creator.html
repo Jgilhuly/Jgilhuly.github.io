@@ -1,0 +1,234 @@
+
+<!--
+TO DO
+- Add "Share with Org" link that uses deep link data to pre-populate Branch Domain and ESP
+- Add sample .csv input and output files
+ -->
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>The Ebates Branch Links for Email Generator</title>
+	<link rel="icon" href="https://branch.io/img/press/kit/badge-black.png" />
+	<link rel="stylesheet" href="styles/ebates.css" />
+
+	<!-- jQuery Library via Google CDN -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+	<!-- Import clipboard.js -->
+	<script src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
+
+	<!-- Import Papa Parse -->
+	<script src="resources/js_libraries/PapaParse-4.3.2/papaparse.min.js"></script>
+
+	<!-- Import FileSaver.js -->
+	<script src="resources/js_libraries/FileSaver.js-master/FileSaver.min.js"></script>
+
+	<!-- Import Branch Web SDK and initialize -->
+	<script type="text/javascript">
+		(function(b,r,a,n,c,h,_,s,d,k){if(!b[n]||!b[n]._q){for(;s<_.length;)c(h,_[s++]);d=r.createElement(a);d.async=1;d.src="https://cdn.branch.io/branch-latest.min.js";k=r.getElementsByTagName(a)[0];k.parentNode.insertBefore(d,k);b[n]=h}})(window,document,"script","branch",function(b,r){b[r]=function(){b._q.push([r,arguments])}},{_q:[],_v:1},"addListener applyCode autoAppIndex banner closeBanner closeJourney creditHistory credits data deepview deepviewCta first getCode init link logout redeem referrals removeListener sendSMS setBranchViewData setIdentity track validateCode trackCommerceEvent".split(" "), 0);
+
+		branch.init('key_live_ikAUgIWmYsmBorf7wt98bbelqyozvurA', function(err, data) {});
+	</script>
+
+	<!-- Script to generate 3P link based on user inputs -->
+	<script>
+		function generate3PLink() {
+			var domain = 'go.ebat.es/imsk';
+			var ESPProviderCode = 'e_ep';
+			var original_url = window.document.getElementById("originalUrl").value;
+			var deeplink_path = window.document.getElementById("deeplinkPath").value;
+			var output = '';
+
+			if (original_url == '') {
+				output = 'Please enter a destination URL.'
+				window.document.getElementById("originalUrl").focus();
+			} else if (deeplink_path == '') {
+				output = 'Please enter a deeplink path.'
+				window.document.getElementById("deeplinkPath").focus();
+			} else {
+				output = get3PLink(domain, original_url, deeplink_path, ESPProviderCode);
+
+				branch.track(
+					"Built Link",
+					{
+						"client"			 : "Ebates",
+						"link_created" : output,
+						"branch_domain": domain,
+						"esp"          : ESPProviderCode,
+						"original_url" : original_url,
+						"deeplink_path" : deeplink_path,
+					},
+					function(err) {
+						console.log(err);
+					}
+				);
+			}
+
+			window.document.getElementById("generated3PLink").value = output;
+		}
+
+		function get3PLink(domain, original_url, deeplink_path, ESPProviderCode) {
+			var eeid = original_url.substring(original_url.indexOf('eeid=') + 5, original_url.indexOf('eeid=') + 10);
+
+			if (original_url.indexOf('&AutoLoginID=${Profile.AUTOLOGIN_ID}') != -1) {
+				original_url = original_url.substring(0, original_url.indexOf('&AutoLoginID=${Profile.AUTOLOGIN_ID}'));
+			}
+
+			var encodedOriginalURL = encodeURIComponent(original_url) + '%26AutoLoginID%3D${Profile.AUTOLOGIN_ID}';
+			var encodedDeeplinkPath = deeplink_path + encodeURIComponent('?eeid=' + eeid + '&token=${Profile.AUTOLOGIN_ID}');
+
+			var branch_url = 'https://' + domain + '/3p?$3p=' + ESPProviderCode + '&$eeid=' + eeid +'&$deeplink_path=' + encodedDeeplinkPath + '&$original_url=' + encodedOriginalURL;
+
+			return branch_url;
+		}
+
+		function parseFile() {
+			var domain = 'go.ebat.es/imsk';
+			var ESPProviderCode = 'e_ep';
+			var selectedFile = document.getElementById('files').files[0];
+
+			var csv_array = 'destination,3p_link\n';
+
+			// Make sure we have everything
+			if (selectedFile == null) {
+				alert("Please upload a file");
+				return;
+			} else {
+				Papa.parse(selectedFile, {
+					header: true,
+
+					step: function(row) {
+						original_url = row.data[0]["destination_url"];
+						deeplink_path = row.data[0]["deeplink_path"];
+						csv_array += (original_url + ',' + get3PLink(domain, original_url, deeplink_path, ESPProviderCode) + '\n');
+						console.log(row.data.length);
+					},
+					complete: function(results) {
+						var blob = new Blob([csv_array], {type: "text/csv;charset=utf-8"});
+						saveAs(blob, "BranchLinks.csv");
+					}
+				});
+			}
+		}
+
+		function toggleView() {
+			$(".toggle").toggle();
+		}
+	</script>
+</head>
+
+<body class="container">
+	<!-- Initialize clipboard.js -->
+	<script>(function(){new Clipboard('#copy-button');})();</script>
+
+	<div>
+		<img src="https://branch.io/img/press/kit/badge-black.png" style="width:100px;">
+		<img src="resources/images/ebates.svg" style="width:100px;">
+		<h1 style="display:inline;">The Ebates Branch Links for Email Generator</h1>
+	</div>
+	<br />
+	<button class="form-control toggle" style="float:none; background-color:#d3d3d3;" onclick="toggleView()">I want to upload a CSV of links</button>
+	<button class="form-control toggle" style="float:none; background-color:#d3d3d3; display:none;" onclick="toggleView()">I want to generate one-off links</button>
+
+	<!-- Description for one-off link creation -->
+	<section class="container toggle" id="description_oneoff">
+		<h3>One-Off Link Generator</h3>
+		<h3>How to use this tool</h3>
+		<p><ol>
+			<li>Enter the final destination URL where you're trying to send your users. </li>
+			<li>Enter the deep link path to send users to in app. </li>
+			<li>Enter the eeid. </li>
+		</ol></p>
+		<br />
+	</section>
+
+	<!-- Description for CSV upload -->
+	<section class="container toggle" id="description_csv" style="display:none">
+		<h3>CSV Link Generator</h3>
+		<h3>How to use this tool</h3>
+		<p><ol>
+			<li>Upload a CSV file consisting of 2 columns: "destination_url" and "deeplink_path".
+			<li>3P Link Generator will translate these into Branch email links and output a .csv file with columns "destination_url,3p_link"</li>
+		</ol></p>
+		<br />
+	</section>
+
+	<section class="container" id="link-creation">
+		<!-- Table for user input -->
+		<table>
+			<tbody>
+        <tr class="toggle">
+            <td><label style="margin-right: 10px">Destination Web URL</label></td>
+            <td><input class="form-control" style="width:500px" id="originalUrl" type="text" placeholder=""/></td>
+            <td><div class="help-tip"><p>This is the destination URL where you'd like the clicker to end up.</p></div></td>
+        </tr>
+				<tr class="toggle">
+            <td><label style="margin-right: 10px">Deep Link Path</label></td>
+            <td><input class="form-control" style="width:500px" id="deeplinkPath" type="text" placeholder=""/></td>
+            <td><div class="help-tip"><p>This is the path given delivered to the app so it can deep link users correctly.</p></div></td>
+        </tr>
+				<tr class="toggle" style="display:none;">
+					<td><label style="margin-right: 10px">File Upload</label></td>
+					<td><input  type="file" id="files"></td>
+				</tr>
+
+      </tbody>
+		</table>
+		<br/>
+		<!-- <h3 class="toggle">Add Query parameters</h3> -->
+
+		<!-- Deep linking parameters table -->
+		<!-- <table id="query_params" class="toggle">
+			<tr id="row-1">
+          <td><label style="margin-right: 10px">Query Param 1</label></td>
+          <td><input class="form-control" style="width:500px" id="query-key-1" type="text" placeholder="key 1"/></td>
+          <td><input class="form-control" style="width:500px" id="query-value-1" type="text" placeholder="value 1"/></td>
+      </tr>
+      <tr id="row-2">
+          <td><label style="margin-right: 10px">Query Param 2</label></td>
+          <td><input class="form-control" style="width:500px" id="query-key-2" type="text" placeholder="key 2"/></td>
+          <td><input class="form-control" style="width:500px" id="query-value-2" type="text" placeholder="value 2"/></td>
+      </tr>
+      <tr id="row-3">
+          <td><label style="margin-right: 10px">Query Param 3</label></td>
+          <td><input class="form-control" style="width:500px" id="query-key-3" type="text" placeholder="key 3"/></td>
+          <td><input class="form-control" style="width:500px" id="query-value-3" type="text" placeholder="value 3"/></td>
+      </tr>
+      <tr id="row-4">
+          <td><label style="margin-right: 10px">Query Param 4</label></td>
+          <td><input class="form-control" style="width:500px" id="query-key-4" type="text" placeholder="key 4"/></td>
+          <td><input class="form-control" style="width:500px" id="query-value-4" type="text" placeholder="value 4"/></td>
+      </tr>
+		</table>
+		<br/>
+		<button class="btn toggle" id="add-query-button" style="background-color:#d3d3d3; display:inline;" onclick="addQuerylinkParam()">Add Query Param</button>
+		<button class="btn toggle" id="remove-query-button" style="background-color:#d3d3d3; display:inline;"onclick="removeQuerylinkParam()">Remove Query Param</button>
+	</section> -->
+
+	<section>
+		<br>
+		<br>
+		<div class="text-center"><button class="form-control toggle" style="float:none; background-color:#d3d3d3;" onclick="generate3PLink()">Create Email Link</button></div>
+		<div class="text-center"><button class="form-control toggle" style="float:none; background-color:#d3d3d3; display:none;" onclick="parseFile()">Process CSV</button></div>
+		<br>
+		<br>
+	</section>
+
+	<section class="container toggle" id="linkOutput">
+		<h3>Generated Email Link
+		<button class="btn" id="copy-button" style="background-color:#d3d3d3; display:inline;" data-clipboard-target="#generated3PLink">Copy Link</button>
+		</h3>
+		<textarea class="form-control" style="height:100px; margin-bottom:5%;" id="generated3PLink" type="text"></textarea>
+	</section>
+</body>
+</html>
