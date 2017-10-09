@@ -1,10 +1,3 @@
-
-<!--
-TO DO
-- Add "Share with Org" link that uses deep link data to pre-populate Branch Domain and ESP
-- Add sample .csv input and output files
- -->
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,8 +26,8 @@ TO DO
 	<!-- Import FileSaver.js -->
 	<script src="resources/js_libraries/FileSaver.js-master/FileSaver.min.js"></script>
 
-	<!-- Import Noodle.js -->
-	<script src="resources/js_libraries/noodle-master/"></script>
+	<!-- Import Bluebird.js -->
+	<script src="resources/js_libraries/bluebird.min.js"></script>
 
 	<!-- Import Branch Web SDK and initialize -->
 	<script type="text/javascript">
@@ -50,6 +43,7 @@ TO DO
 			var ESPProviderCode = 'e_ep';
 			var original_url = window.document.getElementById("originalUrl").value;
 			var deeplink_path = window.document.getElementById("deeplinkPath").value;
+			var web_only = window.document.getElementById("webOnly").checked;
 			var output = '';
 
 			if (original_url == '') {
@@ -59,7 +53,7 @@ TO DO
 				output = 'Please enter a deeplink path.'
 				window.document.getElementById("deeplinkPath").focus();
 			} else {
-				output = get3PLink(domain, original_url, deeplink_path, ESPProviderCode);
+				output = get3PLink(domain, original_url, deeplink_path, ESPProviderCode, web_only);
 
 				branch.track(
 					"Built Link",
@@ -80,7 +74,7 @@ TO DO
 			window.document.getElementById("generated3PLink").value = output;
 		}
 
-		function get3PLink(domain, original_url, deeplink_path, ESPProviderCode) {
+		function get3PLink(domain, original_url, deeplink_path, ESPProviderCode, web_only) {
 			var eeid = original_url.substring(original_url.indexOf('eeid=') + 5, original_url.indexOf('eeid=') + 10);
 
 			if (original_url.indexOf('&AutoLoginID=${Profile.AUTOLOGIN_ID}') != -1) {
@@ -89,8 +83,9 @@ TO DO
 
 			var encodedOriginalURL = encodeURIComponent(original_url) + '%26AutoLoginID%3D${Profile.AUTOLOGIN_ID}';
 			var encodedDeeplinkPath = deeplink_path + encodeURIComponent('?eeid=' + eeid + '&token=${Profile.AUTOLOGIN_ID}');
+			var webOnly = web_only && web_only == 'TRUE' ? '&$web_only=true' : '';
 
-			var branch_url = 'https://' + domain + '/3p?$3p=' + ESPProviderCode + '&$eeid=' + eeid +'&$deeplink_path=' + encodedDeeplinkPath + '&$original_url=' + encodedOriginalURL;
+			var branch_url = 'https://' + domain + '/3p?$3p=' + ESPProviderCode + '&$eeid=' + eeid + webOnly +'&$deeplink_path=' + encodedDeeplinkPath + '&$original_url=' + encodedOriginalURL;
 
 			return branch_url;
 		}
@@ -107,34 +102,95 @@ TO DO
 				alert("Please upload a file");
 				return;
 			} else {
+				var length = 0;
 				Papa.parse(selectedFile, {
 					header: true,
 
 					step: function(row) {
+						length++;
 						original_url = row.data[0]["destination_url"];
-						deeplink_path = row.data[0]["deeplink_path"];
-						csv_array += (original_url + ',' + get3PLink(domain, original_url, deeplink_path, ESPProviderCode) + '\n');
-						console.log(row.data.length);
+						web_only = row.data[0]["web_only"];
+						if (row.data[0]["deeplink_path"] != null) {
+							deeplink_path = row.data[0]["deeplink_path"];
+							csv_array += (original_url + ',' + get3PLink(domain, original_url, deeplink_path, ESPProviderCode, web_only) + '\n');
+						} else {
+							original_url = stripAutoLogin(original_url);
+							console.log(original_url);
+							deeplink_path = updateDeeplinkPathField(false, original_url);
+							console.log("dlp: " + deeplink_path);
+							P.resolve(deeplink_path).then(function(result) {
+								console.log("result: " + result);
+								csv_array += (original_url + ',' + get3PLink(domain, original_url, result, ESPProviderCode, web_only) + '\n');
+							});
+						}
 					},
 					complete: function(results) {
-						var blob = new Blob([csv_array], {type: "text/csv;charset=utf-8"});
-						saveAs(blob, "BranchLinks.csv");
+						console.log(length);
+						setTimeout(function() {
+							var blob = new Blob([csv_array], {type: "text/csv;charset=utf-8"});
+							saveAs(blob, "BranchLinks.csv");
+						}, 1000 * length);
 					}
 				});
 			}
+		}
+
+		function stripAutoLogin(url) {
+			var i = url.indexOf("%26AutoLoginID%3D${Profile.AUTOLOGIN_ID}");
+			var j = url.indexOf("&AutoLoginID=${Profile.AUTOLOGIN_ID}");
+
+			if (i != -1) {
+				url = url.substring(0, i);
+			}
+
+			if (j != -1) {
+				url = url.substring(0, j);
+			}
+
+			return url;
 		}
 
 		function toggleView() {
 			$(".toggle").toggle();
 		}
 
-		// function scrapeURL() {
-		// 	$.ajax({
-		// 	  url: "test.html",
-		// 	}).done(function() {
-		// 	  $( this ).addClass( "done" );
-		// 	});
-		// }
+		function scrapeURL(url) {
+			var url = "https://allorigins.us/get?url=" + encodeURIComponent(url) + "&callback=?";
+			return $.get(url, function(response) {});
+		}
+
+		function updateDeeplinkPathField(display, urlIn) {
+			if (display) {
+				var original_url = window.document.getElementById("originalUrl").value;
+				var deeplink_path = window.document.getElementById("deeplinkPath");
+				deeplink_path.readOnly = true;
+			}
+
+			var url = urlIn != null ? urlIn : original_url;
+
+			console.log("url: " + url);
+
+			return P.props(scrapeURL(url)).then(function(response) {
+				var scrapedDeeplinkPath = "";
+				var metaTags = $(response.contents).find('meta property').prevObject;
+				var i;
+				for (i = 1; i < metaTags.length; i += 2 ) {
+					if (metaTags[i].nodeName != "#text") {
+						if (metaTags[i].getAttribute("property") == "al:ios:url") {
+							scrapedDeeplinkPath = metaTags[i].content.indexOf("ebates://") != -1 ? metaTags[i].content.substring(9) : metaTags[i].content;
+						}
+					}
+				}
+				console.log("sdlp: " + scrapedDeeplinkPath);
+
+				if (display) {
+					deeplink_path.value = scrapedDeeplinkPath != "" ? scrapedDeeplinkPath : "Couldn't grab deep link path from the URL. ";
+					deeplink_path.readOnly = false;
+				}
+
+				return scrapedDeeplinkPath;
+			}).error(function(err) { console.log(err); });
+		}
 	</script>
 </head>
 
@@ -157,8 +213,8 @@ TO DO
 		<h3>How to use this tool</h3>
 		<p><ol>
 			<li>Enter the final destination URL where you're trying to send your users. </li>
-			<li>Enter the deep link path to send users to in app. </li>
-			<li>Enter the eeid. </li>
+			<li>The link creator will attempt to grab the deep link path from that URL. If no deep link path is present on that page, enter the desired path manually. </li>
+			<li>Click Create Email Link. </li>
 		</ol></p>
 		<br />
 	</section>
@@ -168,7 +224,7 @@ TO DO
 		<h3>CSV Link Generator</h3>
 		<h3>How to use this tool</h3>
 		<p><ol>
-			<li>Upload a CSV file consisting of 2 columns: "destination_url" and "deeplink_path".
+			<li>Upload a CSV file consisting of 3 columns: "destination_url", "deeplink_path", and "web_only".
 			<li>3P Link Generator will translate these into Branch email links and output a .csv file with columns "destination_url,3p_link"</li>
 		</ol></p>
 		<br />
@@ -180,7 +236,7 @@ TO DO
 			<tbody>
         <tr class="toggle">
             <td><label style="margin-right: 10px">Destination Web URL</label></td>
-            <td><input class="form-control" style="width:500px" id="originalUrl" type="text" placeholder=""/></td>
+            <td><input class="form-control" onchange="updateDeeplinkPathField(true)" style="width:500px" id="originalUrl" type="text" placeholder=""/></td>
             <td><div class="help-tip"><p>This is the destination URL where you'd like the clicker to end up.</p></div></td>
         </tr>
 				<tr class="toggle">
@@ -188,6 +244,11 @@ TO DO
             <td><input class="form-control" style="width:500px" id="deeplinkPath" type="text" placeholder=""/></td>
             <td><div class="help-tip"><p>This is the path given delivered to the app so it can deep link users correctly.</p></div></td>
         </tr>
+				<tr class="toggle">
+						<td><label style="margin-right: 10px">Web Only</label></td>
+						<td><input class="form-control" style="width:500px" id="webOnly" type="checkbox" placeholder=""/></td>
+						<td><div class="help-tip"><p>Check this box to make the resulting link never open the app, and always open mobile web.</p></div></td>
+				</tr>
 				<tr class="toggle" style="display:none;">
 					<td><label style="margin-right: 10px">File Upload</label></td>
 					<td><input  type="file" id="files"></td>
@@ -223,8 +284,8 @@ TO DO
 		</table>
 		<br/>
 		<button class="btn toggle" id="add-query-button" style="background-color:#d3d3d3; display:inline;" onclick="addQuerylinkParam()">Add Query Param</button>
-		<button class="btn toggle" id="remove-query-button" style="background-color:#d3d3d3; display:inline;"onclick="removeQuerylinkParam()">Remove Query Param</button>
-	</section> -->
+		<button class="btn toggle" id="remove-query-button" style="background-color:#d3d3d3; display:inline;"onclick="removeQuerylinkParam()">Remove Query Param</button>  -->
+	</section>
 
 	<section>
 		<br>
