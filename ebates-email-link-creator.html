@@ -44,6 +44,7 @@
 			var original_url = window.document.getElementById("originalUrl").value;
 			var deeplink_path = window.document.getElementById("deeplinkPath").value;
 			var web_only = window.document.getElementById("webOnly").checked;
+			web_only = web_only == true ? "TRUE" : "FALSE";
 			var output = '';
 
 			if (original_url == '') {
@@ -115,17 +116,13 @@
 							csv_array += (original_url + ',' + get3PLink(domain, original_url, deeplink_path, ESPProviderCode, web_only) + '\n');
 						} else {
 							original_url = stripAutoLogin(original_url);
-							console.log(original_url);
 							deeplink_path = updateDeeplinkPathField(false, original_url);
-							console.log("dlp: " + deeplink_path);
 							P.resolve(deeplink_path).then(function(result) {
-								console.log("result: " + result);
 								csv_array += (original_url + ',' + get3PLink(domain, original_url, result, ESPProviderCode, web_only) + '\n');
 							});
 						}
 					},
 					complete: function(results) {
-						console.log(length);
 						setTimeout(function() {
 							var blob = new Blob([csv_array], {type: "text/csv;charset=utf-8"});
 							saveAs(blob, "BranchLinks.csv");
@@ -167,8 +164,7 @@
 			}
 
 			var url = urlIn != null ? urlIn : original_url;
-
-			console.log("url: " + url);
+			url = stripAutoLogin(url);
 
 			return P.props(scrapeURL(url)).then(function(response) {
 				var scrapedDeeplinkPath = "";
@@ -181,7 +177,6 @@
 						}
 					}
 				}
-				console.log("sdlp: " + scrapedDeeplinkPath);
 
 				if (display) {
 					deeplink_path.value = scrapedDeeplinkPath != "" ? scrapedDeeplinkPath : "Couldn't grab deep link path from the URL. ";
