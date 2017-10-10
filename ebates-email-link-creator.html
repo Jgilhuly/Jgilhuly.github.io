@@ -110,7 +110,10 @@
 					step: function(row) {
 						length++;
 						original_url = row.data[0]["destination_url"];
-						web_only = row.data[0]["web_only"];
+						var web_only = row.data[0]["web_only"];
+						if (web_only == 'FALSE') {
+							web_only = false;
+						}
 						if (row.data[0]["deeplink_path"] != null) {
 							deeplink_path = row.data[0]["deeplink_path"];
 							csv_array += (original_url + ',' + get3PLink(domain, original_url, deeplink_path, ESPProviderCode, web_only) + '\n');
