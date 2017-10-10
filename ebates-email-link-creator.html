@@ -83,7 +83,7 @@
 			}
 
 			var encodedOriginalURL = encodeURIComponent(original_url) + '%26AutoLoginID%3D${Profile.AUTOLOGIN_ID}';
-			var encodedDeeplinkPath = deeplink_path + encodeURIComponent('?eeid=' + eeid + '&token=${Profile.AUTOLOGIN_ID}');
+			var encodedDeeplinkPath = deeplink_path + encodeURIComponent('?eeid=' + eeid + '&token=') + '${Profile.AUTOLOGIN_ID}';
 			var webOnly = web_only && web_only == 'TRUE' ? '&$web_only=true' : '';
 
 			var branch_url = 'https://' + domain + '/3p?$3p=' + ESPProviderCode + '&$eeid=' + eeid + webOnly +'&$deeplink_path=' + encodedDeeplinkPath + '&$original_url=' + encodedOriginalURL;
@@ -200,7 +200,7 @@
 	</div>
 	<br />
 	<button class="form-control toggle" style="float:none; background-color:#d3d3d3;" onclick="toggleView()">Switch to CSV upload mode</button>
-	<button class="form-control toggle" style="float:none; background-color:#d3d3d3; display:none;" onclick="toggleView()">Switch to CSV upload modeSwitch to one-off link mode</button>
+	<button class="form-control toggle" style="float:none; background-color:#d3d3d3; display:none;" onclick="toggleView()">Switch to one-off link mode</button>
 
 	<!-- Description for one-off link creation -->
 	<section class="container toggle" id="description_oneoff">
