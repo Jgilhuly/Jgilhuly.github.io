@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:700,300" rel="stylesheet" type="text/css">
+    <style>
+        body {
+            margin: 0;
+            word-wrap: break-word;
+        }
+        /* ============ Portrait ============ */
+        .main-image {
+            width: 125px;
+            height: 125px;
+            margin: 20vh auto 0 auto;
+
+                {{#if app.og_image_url}}
+                background-image: url({{app.og_image_url}});
+                {{/if}}
+
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: bottom center;
+        }
+        #content-container {
+            box-sizing:border-box;
+            padding: 24px;
+            margin:0 24px 0 24px;
+            background-color: #ffffff;
+        }
+        .app-title {
+            font-size: 14px;
+            text-align: center;
+            padding-bottom: 11px;
+            text-transform: uppercase;
+        }
+        .input-wrapper {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width:100%;
+          	padding-bottom: 50px;
+            background-color: white;
+            -webkit-box-shadow: 0px -20px 20px -8px rgba(255,255,255,1);
+            -moz-box-shadow: 0px -20px 20px -8px rgba(255,255,255,1);
+            box-shadow: 0px -20px 20px -8px rgba(255,255,255,1);
+        }
+        .input-container {
+            width: 100%;
+            padding:0 24px;
+            text-align:center;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        .form-get-the-app {
+            text-align:center;
+            padding-top: 10px;
+        }
+        .form-get-the-app > input {
+            margin-right: 10px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            background-color: #FFFFFF;
+            border: 1px solid #979797;
+            border-radius: 2px;
+            font-size: 60px;
+            color: #CECECE;
+            line-height: 24px;
+            padding-left: 20px;
+        }
+        .cta-button {
+            display: block;
+            height: 62px;
+            line-height:62px;
+            background-color: #06122F;
+            border-radius: 2px;
+            font-size: 20px;
+            padding:0 20px;
+            margin: 0 20px;
+            color: #FFFFFF;
+            text-align: center;
+            text-decoration: none;
+        }
+        /* No data (portrait) */
+        @media only screen and (orientation: portrait) {
+            .card--no-data .main-image {
+
+                {{#if app.og_image_url}}
+                background-image: url({{app.og_image_url}});
+                {{/if}}
+                {{#else}}
+                background-image: url("http://s3-us-west-1.amazonaws.com/branch-assets/b_stripes-small.png");
+                background-size: auto;
+                background-position: top center;
+                background-repeat: repeat;
+                height: 125px;
+                {{/else}}
+            }
+        }
+        /* ============ Landscape ============ */
+        @media only screen and (orientation: landscape){
+            .main-image {
+                margin: 30px auto 0 auto;
+            }
+            #content-container {
+              padding: 10px 24px;
+            }
+            .input-wrapper {
+              padding-bottom: 20px;
+            }
+            .input-container {
+              width: 50%;
+              margin: 0 auto;
+            }
+            .form-get-the-app {
+                padding-top:8px;
+            }
+            .cta-button {
+                height: 44px;
+                line-height: 44px;
+            }
+        }
+        /* Reusables */
+        .text-bold {
+            font-family: "Open Sans", Helvetica, serif;
+            font-weight: 700
+        }
+        .text-light {
+            font-family: "Open Sans", Helvetica, serif;
+            font-weight: 400;
+        }
+
+    </style>
+</head>
+<body>
+
+    <iframe src='https://ad.doubleclick.net/ddm/s2s/appactivity/src=6637276;cat=<#if user_data.os=="IOS">act-ios</#if><#if user_data.os=="ANDROID">act-and</#if>;type=sales;ord=${ (id)! }' style="width:0; height:0; border:0; border:none"></iframe>
+
+    <div class="card {{#if no_data}}card--no-data {{/if}}center">
+        <div class="main-image"></div>
+        <div id="content-container">
+            <div class="app-title text-bold">T Mobile</div>
+        </div>
+        <div class="input-wrapper">
+    			<div class="input-container">
+    				<div class="form-get-the-app">
+    					<a href="{{link_data.mobile_web_url}}" class="cta-button text-light cta-button--no-app-icon">View on Web</a>
+    				</div>
+            <div class="form-get-the-app">
+                <a href="{{link_data.deep_link_uri}}" class="cta-button text-light cta-button--no-app-icon">View in App</a>
+            </div>
+            <div class="form-get-the-app">
+                <a href="http://itunes.apple.com/us/app/t-mobile/id561625752?mt=8" class="cta-button text-light cta-button--no-app-icon">Get the App</a>
+            </div>
+    			</div>
+        </div>
+    </div>
+</body>
+</html>
