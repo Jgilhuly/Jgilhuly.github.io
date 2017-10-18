@@ -7,7 +7,7 @@
     branch.init('key_live_fgtTc91nFdH5rvTKT3ms4gbdqqaRmDAz', function(err, data) {
       console.log("branch data: " + JSON.stringify(data));
       document.getElementById('branchData').innerHTML = JSON.stringify(data);
-      document.getElementById('nextSiteWithIdButton').href = "https://jgilhuly.github.io/referring2.html?_branch_match_id" + getParameterByName("_branch_match_id");
+      document.getElementById('nextSiteWithIdButton').href = "https://jgilhuly.github.io/referring2.html?_branch_match_id=" + getParameterByName("_branch_match_id");
     });
 
     branch.deepview({
