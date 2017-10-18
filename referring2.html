@@ -6,13 +6,13 @@
 
     branch.init('key_live_fgtTc91nFdH5rvTKT3ms4gbdqqaRmDAz', function(err, data) {
       console.log("branch data: " + JSON.stringify(data));
-      document.getElementById('branchData').value = data;
+      document.getElementById('branchData').innerHTML = data;
     });
 
     branch.deepview({
         channel: 'referring2',
         data: {
-            '$deeplink_path': 'item_id=12345'
+            'site': 'referring2'
         },
         feature: 'dashboard',
         tags: [ 'referring2' ],
