@@ -6,7 +6,7 @@
 
     branch.init('key_live_fgtTc91nFdH5rvTKT3ms4gbdqqaRmDAz', function(err, data) {
       console.log("branch data: " + JSON.stringify(data));
-      document.getElementById('branchData').innerHTML = data;
+      document.getElementById('branchData').innerHTML = JSON.stringify(data);
     });
 
     branch.deepview({
@@ -37,7 +37,7 @@
   <h1>Referring Page 1<h1>
   <p id="branchData">Branch data goes here.</p>
   <button id="deeplinkButton" onclick="deeplink()">Deeplink Me!</button>
-  <button id="nextSiteButton" href="https://jgilhuly.github.io/referring2.html">Deeplink Me!</button>
+  <button id="nextSiteButton" href="https://jgilhuly.github.io/referring2.html">Next Site!</button>
 
 </body>
 </html>
