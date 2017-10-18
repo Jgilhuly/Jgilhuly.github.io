@@ -7,7 +7,7 @@
     branch.init('key_live_fgtTc91nFdH5rvTKT3ms4gbdqqaRmDAz', function(err, data) {
       console.log("branch data: " + JSON.stringify(data));
       document.getElementById('branchData').innerHTML = JSON.stringify(data);
-      document.getElementById('nextSiteWithIdButton').href = "https://jgilhuly.github.io/referring2.html?" + data.__branch_flow_id;
+      document.getElementById('nextSiteWithIdButton').href = "https://jgilhuly.github.io/referring2.html?" + getParameterByName("_branch_match_id");
     });
 
     branch.deepview({
@@ -28,6 +28,16 @@
     function deeplink() {
       console.log("deepviewCta");
       branch.deepviewCta();
+    }
+
+    function getParameterByName(name, url) {
+      if (!url) url = window.location.href;
+      name = name.replace(/[\[\]]/g, "\\$&");
+      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+          results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
   </script>
 
