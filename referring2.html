@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script>
+    (function(b,r,a,n,c,h,_,s,d,k){if(!b[n]||!b[n]._q){for(;s<_.length;)c(h,_[s++]);d=r.createElement(a);d.async=1;d.src="https://cdn.branch.io/branch-latest.min.js";k=r.getElementsByTagName(a)[0];k.parentNode.insertBefore(d,k);b[n]=h}})(window,document,"script","branch",function(b,r){b[r]=function(){b._q.push([r,arguments])}},{_q:[],_v:1},"addListener applyCode autoAppIndex banner closeBanner closeJourney creditHistory credits data deepview deepviewCta first getCode init link logout redeem referrals removeListener sendSMS setBranchViewData setIdentity track validateCode trackCommerceEvent".split(" "), 0);
+
+    branch.init('key_live_fgtTc91nFdH5rvTKT3ms4gbdqqaRmDAz', function(err, data) {
+      console.log("branch data: " + JSON.stringify(data));
+      document.getElementById('branchData').value = data;
+    });
+
+    branch.deepview({
+        channel: 'referring2',
+        data: {
+            '$deeplink_path': 'item_id=12345'
+        },
+        feature: 'dashboard',
+        tags: [ 'referring2' ],
+    },
+    {
+        make_new_link: false
+    },
+    function(err) {
+        console.log(err || 'no error');
+    });
+
+    function deeplink() {
+      console.log("deepviewCta");
+      branch.deepviewCta();
+    }
+  </script>
+
+</head>
+
+<body>
+
+  <h1>Referring Page 2<h1>
+  <p id="branchData">Branch data goes here.</p>
+  <button id="deeplinkButton" onclick="deeplink()">Deeplink Me!</button>
+
+</body>
+</html>
