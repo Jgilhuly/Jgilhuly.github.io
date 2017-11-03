@@ -8,30 +8,30 @@
     console.log('err from Branch', err);
 
     document.getElementById("text").innerHTML = JSON.stringify(data);
-  });
 
-  var commerce_data = {
-      "revenue": 50.0,
-      "currency": "USD",
-      "transaction_id": "foo-transaction-id",
-      "shipping": 0.0,
-      "tax": 5.0,
-      "affiliation": "foo-affiliation",
-      "products": [
-           { "sku": "foo-sku-1", "name": "foo-item-1", "price": 45.00, "quantity": 1, "brand": "foo-brand",
-             "category": "Electronics", "variant": "foo-variant-1"},
-           { "sku": "foo-sku-2", "price": 2.50, "quantity": 2}
-       ],
-  };
+    var commerce_data = {
+        "revenue": 50.0,
+        "currency": "USD",
+        "transaction_id": "foo-transaction-id",
+        "shipping": 0.0,
+        "tax": 5.0,
+        "affiliation": "foo-affiliation",
+        "products": [
+             { "sku": "foo-sku-1", "name": "foo-item-1", "price": 45.00, "quantity": 1, "brand": "foo-brand",
+               "category": "Electronics", "variant": "foo-variant-1"},
+             { "sku": "foo-sku-2", "price": 2.50, "quantity": 2}
+         ],
+    };
 
-  var metadata =  { "foo": "bar" };
+    var metadata =  { "foo": "bar" };
 
-  branch.trackCommerceEvent('purchase', commerce_data, metadata, function(err) {
-      if(err) {
-           throw err;
-      } else {
-      document.getElementById("result").innerHTML = "success";
-      }
+    branch.trackCommerceEvent('purchase', commerce_data, metadata, function(err) {
+        if(err) {
+             throw err;
+        } else {
+        document.getElementById("result").innerHTML = "success";
+        }
+    });
   });
 
   </script>
