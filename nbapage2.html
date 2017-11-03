@@ -11,21 +11,10 @@
 
     var commerce_data = {
         "revenue": 50.0,
-        "currency": "USD",
-        "transaction_id": "foo-transaction-id",
-        "shipping": 0.0,
-        "tax": 5.0,
-        "affiliation": "foo-affiliation",
-        "products": [
-             { "sku": "foo-sku-1", "name": "foo-item-1", "price": 45.00, "quantity": 1, "brand": "foo-brand",
-               "category": "Electronics", "variant": "foo-variant-1"},
-             { "sku": "foo-sku-2", "price": 2.50, "quantity": 2}
-         ],
+        "currency": "GBP",
     };
 
-    var metadata =  { "foo": "bar" };
-
-    branch.trackCommerceEvent('purchase', commerce_data, metadata, function(err) {
+    branch.trackCommerceEvent('purchase', commerce_data, {}, function(err) {
         if(err) {
              throw err;
         } else {
