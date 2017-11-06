@@ -8,8 +8,8 @@
     <meta name="description" content="Branch Demo Page">
     <meta name="author" content="Mike Kwon">
     <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
-    <link rel="stylesheet" href="/style.css">    
-    <link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./css/font-awesome/css/font-awesome.min.css">
     <link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href="//fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
 
@@ -30,7 +30,7 @@
 
         console.log(data.referring_link);
         if(!data.referring_link){
-        // .setBranchViewData overrides banner text & image on page load (SBVD can override Branch metatags, including $canonical_url)    
+        // .setBranchViewData overrides banner text & image on page load (SBVD can override Branch metatags, including $canonical_url)
             branch.setBranchViewData({
                 data:{
                     '$journeys_icon_image_url':'http://www.roamchicago.com/roam/grubhub.jpg',
@@ -39,7 +39,7 @@
                 }
             });
         }
-    
+
         console.log(data);
         console.log(JSON.parse(err.message));
     });
@@ -124,7 +124,7 @@
         </div>
     </header>
 
-    
+
     <!-- Portfolio Grid Section -->
     <section id="portfolio">
         <div class="container">
@@ -174,7 +174,7 @@
     </section>
 
 
-    
+
     <!-- Contact Section -->
 <section id="contact">
 	<div class="container">
@@ -198,7 +198,7 @@
 	</div>
 </section>
 
-    
+
 
         <!-- Footer -->
     <footer class="text-center">
@@ -232,7 +232,7 @@
 
     <!-- Branch javascript -->
     <script>
-    
+
     // Branch listener object that retrieves banner link data and prints it to console
     var listener = function(event, data) {
         console.log(event);
@@ -249,7 +249,7 @@
     branch.addListener("willCloseJourney", listener);
     branch.addListener("didCloseJourney", listener);
     branch.addListener("didCallJourneyClose", listener);
-    
+
 
     // function to manually launch journey and change banner link data (will NOT launch if banner's dismissal period active)
     var launchCount = 1;
@@ -299,14 +299,14 @@
 
     </script>
 
-    <script src="/js/jquery-1.11.0.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/jquery.easing.min.js"></script>
-    <script src="/js/classie.js"></script>
-    <script src="/js/cbpAnimatedHeader.js"></script>
-    <script src="/js/jqBootstrapValidation.js"></script>
-    <script src="/js/contact_me_static.js"></script>
-    <script src="/js/freelancer.js"></script>
+    <script src="./js/jquery-1.11.0.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/jquery.easing.min.js"></script>
+    <script src="./js/classie.js"></script>
+    <script src="./js/cbpAnimatedHeader.js"></script>
+    <script src="./js/jqBootstrapValidation.js"></script>
+    <script src="./js/contact_me_static.js"></script>
+    <script src="./js/freelancer.js"></script>
 
     </body>
 </html>
