@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Branch Demo Page</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Branch Demo Page">
+    <meta name="author" content="John Gilhuly">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+    <link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- Branch metatags... when metatags overlap, the latest tag's value is used -->
+    <meta name="branch:deeplink:productId" content="For duplicate tags, the tag listed first will be overwritten" />
+    <meta name="branch:deeplink:productId" content="For duplicate tags, the tag listed later takes precedence" />
+    <meta name="branch:deeplink:$ios_deeplink_path" content="branch tags do not take priority over others" />
+    <meta name="twitter:app:url:iphone" content="this is a Twitter tag that's used for $ios_deeplink_path. Since it's listed later than Branch's $ios_deeplink_path tag, this value is used by Branch's scraper">
+    <!-- <meta name="branch:deeplink:$canonical_url" content="Branch metatags can overwrite $canonical_url" /> -->
+
+    <!-- Branch Web SDK -->
+    <script type="text/javascript">
+
+    (function(b,r,a,n,c,h,_,s,d,k){if(!b[n]||!b[n]._q){for(;s<_.length;)c(h,_[s++]);d=r.createElement(a);d.async=1;d.src="https://cdn.branch.io/branch-latest.min.js";k=r.getElementsByTagName(a)[0];k.parentNode.insertBefore(d,k);b[n]=h}})(window,document,"script","branch",function(b,r){b[r]=function(){b._q.push([r,arguments])}},{_q:[],_v:1},"addListener applyCode autoAppIndex banner closeBanner closeJourney creditHistory credits data deepview deepviewCta first getCode init link logout redeem referrals removeListener sendSMS setBranchViewData setIdentity track validateCode trackCommerceEvent".split(" "), 0);
+
+    // .init call to launch banner
+    branch.init('key_live_pbtE4dcavETgqI5C3M8n0eabADiL8rYZ', function(err, data) {
+
+        console.log(data.referring_link);
+        if(!data.referring_link){
+        // .setBranchViewData overrides banner text & image on page load (SBVD can override Branch metatags, including $canonical_url)
+            branch.setBranchViewData({
+                data:{
+                    '$journeys_icon_image_url':'http://android4fun.net/wp-content/uploads/2017/05/Voltron-Stickers.png',
+                    '$journeys_title':'Title was reset on load',
+                    '$journeys_description':'Description reset on load via JS'
+                }
+            });
+        }
+
+        console.log(data);
+        console.log(JSON.parse(err.message));
+    });
+  </script>
+
+
+  <!-- <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+  <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />
+  <meta name="keywords" content="">
+  <meta name="description" content="Huge Savings on over 500,000 Home Improvement products, Knowledgeable Customer Service 7 Days a Week, and FREE shipping offers on Faucets, Lighting, Door Hardware, Venting, Appliances, and much more.">
+  <meta property="og:title" content="Build.com Smarter Home Improvement - Plumbing, Lighting, HVAC, Door Hardware &amp; More">
+  <meta property="og:url" content="https://www.build.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="http://www.build.com/themes/build-tablet/build/images/logo.png">
+  <meta property="og:site_name" content="Build.com">
+  <meta property="og:description" content="Huge Savings on over 500,000 Home Improvement products, Knowledgeable Customer Service 7 Days a Week, and FREE shipping offers on Faucets, Lighting, Door Hardware, Venting, Appliances, and much more.">
+  <meta property="fb:admins" content="100000842928032">
+  <meta property="fb:app_id" content="128282730539227">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui">
+  <meta name="theme-color" content="#63666a"> -->
+
+  <!-- Google Tag Manager -->
+  <!-- <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-T88HJP6');</script> -->
+  <!-- End Google Tag Manager -->
+
+</head>
+
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T88HJP6"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
+  <!-- End Google Tag Manager (noscript) -->
+</body>
+
+</html>
