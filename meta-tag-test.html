@@ -2,14 +2,48 @@
 <html>
 
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Branch Demo Page</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Branch Demo Page">
+    <meta name="author" content="John Gilhuly">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+    <link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
 
-  <meta name="branch:deeplink:productId" content="For duplicate tags, the tag listed later takes precedence">
+    <!-- Branch metatags... when metatags overlap, the latest tag's value is used -->
+    <meta name="branch:deeplink:productId" content="For duplicate tags, the tag listed first will be overwritten" />
+    <meta name="branch:deeplink:productId" content="For duplicate tags, the tag listed later takes precedence" />
+    <meta name="branch:deeplink:$ios_deeplink_path" content="branch tags do not take priority over others" />
+    <meta name="twitter:app:url:iphone" content="this is a Twitter tag that's used for $ios_deeplink_path. Since it's listed later than Branch's $ios_deeplink_path tag, this value is used by Branch's scraper">
+    <!-- <meta name="branch:deeplink:$canonical_url" content="Branch metatags can overwrite $canonical_url" /> -->
 
-  <script>
-    // load Branch
+    <!-- Branch Web SDK -->
+    <script type="text/javascript">
+
     (function(b,r,a,n,c,h,_,s,d,k){if(!b[n]||!b[n]._q){for(;s<_.length;)c(h,_[s++]);d=r.createElement(a);d.async=1;d.src="https://cdn.branch.io/branch-latest.min.js";k=r.getElementsByTagName(a)[0];k.parentNode.insertBefore(d,k);b[n]=h}})(window,document,"script","branch",function(b,r){b[r]=function(){b._q.push([r,arguments])}},{_q:[],_v:1},"addListener applyCode autoAppIndex banner closeBanner closeJourney creditHistory credits data deepview deepviewCta first getCode init link logout redeem referrals removeListener sendSMS setBranchViewData setIdentity track validateCode trackCommerceEvent".split(" "), 0);
-    // init Branch
-    branch.init('key_live_pbtE4dcavETgqI5C3M8n0eabADiL8rYZ');
+
+    // .init call to launch banner
+    branch.init('key_live_pbtE4dcavETgqI5C3M8n0eabADiL8rYZ', function(err, data) {
+
+        console.log(data.referring_link);
+        if(!data.referring_link){
+        // .setBranchViewData overrides banner text & image on page load (SBVD can override Branch metatags, including $canonical_url)
+            branch.setBranchViewData({
+                data:{
+                    '$journeys_icon_image_url':'http://android4fun.net/wp-content/uploads/2017/05/Voltron-Stickers.png',
+                    '$journeys_title':'Title was reset on load',
+                    '$journeys_description':'Description reset on load via JS'
+                }
+            });
+        }
+
+        console.log(data);
+        console.log(JSON.parse(err.message));
+    });
   </script>
 
 
