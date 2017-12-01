@@ -16,6 +16,7 @@ branch.setBranchViewData({
 
 <script>
 var listener = function(event) {
+  console.log('firing');
     var journeysBanner = document.getElementById('branch-banner-iframe');
 
     if (!journeysBanner || !journeysBanner.style) { // don't run if the journey doesn't exist
