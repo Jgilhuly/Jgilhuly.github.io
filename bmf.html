@@ -13,6 +13,25 @@ branch.setBranchViewData({
   }
 });
 </script>
+
+<script>
+var listener = function(event) {
+    var journeysBanner = document.getElementById('branch-banner-iframe');
+
+    if (!journeysBanner || !journeysBanner.style) { // don't run if the journey doesn't exist
+      return;
+    }
+
+    var topPosition = journeysBanner.style.top;
+    var position = window.getComputedStyle(journeysBanner).getPropertyValue('position');
+    var bannerHeight = window.getComputedStyle(journeysBanner).getPropertyValue('height');
+
+    if (topPosition === '0px' && position == 'fixed') { // if its a top, fixed, full-page journey
+      journeysBanner.style.height = '100%'; // shift the banner upward by the height
+    }
+  }
+  branch.addListener('didShowJourney', listener); // fires as soon as a journey is being shown
+</script>
 </head>
 
 <body>
