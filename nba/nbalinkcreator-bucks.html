@@ -178,6 +178,7 @@
         //International Key
         branch.init('key_live_ddEpNB63kFwdMG424MWxhbmirAlMX5V0');
 
+        var marketingTitle = document.getElementById('marketing_title').value;
         var teamName = document.getElementById('campaign').value;
         var linkAlias = document.getElementById('alias').value;
         var fallbackInternational = document.getElementById('fallback_international').value;
@@ -202,7 +203,8 @@
           data: {
           "$one_time_use": false,
           "section_id": sectionId,
-          "content_id": contentId
+          "content_id": contentId,
+          "$marketing_title": marketingTitle
           }
         };
 
@@ -243,6 +245,7 @@
                 "$one_time_use": false,
                 "deeplink": deeplinkValue,
                 "tricode": tricodeMap[teamName],
+                "$marketing_title": marketingTitle
                 }
             };
 
@@ -367,6 +370,10 @@
             </div>
             <div id="basic_fields" class="collapse show">
               <div class="panel-body">
+                  <label>Link Title (Required):
+                    <p>Name of the link on the Branch Quick Links dashboard page.</p>
+                    <input type="text" id="marketing_title" class="form-control" value=""/>
+                  </label>
                   <label>Team Name:
                     <p>Which team is this link associated with?</p>
                     <input type="text" id="campaign" class="form-control" value="bucks" readonly/>
