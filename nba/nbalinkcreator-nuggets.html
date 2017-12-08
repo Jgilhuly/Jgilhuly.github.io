@@ -156,6 +156,8 @@
        "warriors": "GSW", "wizards": "WAS"};
 
        var defaultCanonical = "https://nba.com";
+       var defaultFallback = "http://www.nba.com/leaguepass/pricing?aff=nuggets&cid=Leaguepass:teams:site:nuggets";
+       var defaultFallbackInt = "http://www.nba.com/leaguepass?aff=nuggets&cid=Leaguepass:teams:site:nuggets";
        var domFieldCount = 0;
        var intFieldCount = 0;
 
@@ -223,6 +225,7 @@
           internationalLinkData.data["$fallback_url"] = fallbackInternational;
           internationalLinkData.data["$canonical_url"] = fallbackInternational;
         } else {
+          internationalLinkData.data["$fallback_url"] = defaultFallbackInt;
           internationalLinkData.data["$canonical_url"] = defaultCanonical;
         }
 
@@ -294,7 +297,8 @@
                 "$one_time_use": false,
                 "deeplink": deeplinkValue,
                 "tricode": tricodeMap[teamName],
-                "$canonical_url": defaultCanonical
+                "$canonical_url": defaultCanonical,
+                "$fallback_url": defaultFallback
                 }
               }
 
