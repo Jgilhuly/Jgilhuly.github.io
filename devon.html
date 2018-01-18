@@ -80,14 +80,8 @@
 
   var metadata =  { "foo": "bar" };
 
-  branch.trackCommerceEvent('purchase', commerce_data, metadata, function(err) {
-      if(err) {
-           throw err;
-      }
-  });
-
   branch.sendSMS(
-      '6504642194',
+      '16504642194',
       {
           tags: ['tag1', 'tag2'],
           channel: 'facebook',
