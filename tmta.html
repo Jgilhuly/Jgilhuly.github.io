@@ -1,0 +1,37 @@
+<html>
+
+<head>
+  <script type="text/javascript">
+    // This is already present but has been included to show placement
+    (function(b,r,a,n,c,h,_,s,d,k){if(!b[n]||!b[n]._q){for(;s<_.length;)c(h,_[s++]);d=r.createElement(a);d.async=1;d.src="https://cdn.branch.io/branch-latest.min.js";k=r.getElementsByTagName(a)[0];k.parentNode.insertBefore(d,k);b[n]=h}})(window,document,"script","branch",function(b,r){b[r]=function(){b._q.push([r,arguments])}},{_q:[],_v:1},"addListener applyCode banner closeBanner creditHistory credits data deepview deepviewCta first getCode init link logout redeem referrals removeListener sendSMS setBranchViewData setIdentity track validateCode".split(" "), 0);
+
+    branch.init('key_live_pbtE4dcavETgqI5C3M8n0eabADiL8rYZ', function(err, data){
+      console.log('data from Branch', data);
+      console.log('err from Branch', err);
+    });
+
+    branch.sendSMS('6504642194',
+    {
+        tags: ['tag1', 'tag2'],
+        channel: 'facebook',
+        feature: 'dashboard',
+        stage: 'new user',
+        data: {
+            mydata: 'something',
+            foo: 'bar',
+            '$desktop_url': 'http://myappwebsite.com',
+            '$ios_url': 'http://myappwebsite.com/ios',
+            '$ipad_url': 'http://myappwebsite.com/ipad',
+            '$android_url': 'http://myappwebsite.com/android',
+            '$og_app_id': '12345',
+            '$og_title': 'My App',
+            '$og_description': 'My app\'s description.',
+            '$og_image_url': 'http://myappwebsite.com/image.png'
+        }
+    },
+    { make_new_link: true }, // Default: false. If set to true, sendSMS will generate a new link even if one already exists.
+    function(err) { console.log(err); })
+  </script>
+</head>
+
+</html>
