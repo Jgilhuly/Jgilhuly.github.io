@@ -49,6 +49,10 @@
 
 <a href="https://83rn.app.link/rD8Uf3qikH">DoubleClick Test</a>
 
+<a href="reddit:///r/Bestof2017">Reddit Fallback Test URI</a>
+<a href="https://reddit.app.link/more">Reddit Fallback Test Link</a>
+
+
 <script type="text/javascript">
   // This is already present but has been included to show placement
   (function(b,r,a,n,c,h,_,s,d,k){if(!b[n]||!b[n]._q){for(;s<_.length;)c(h,_[s++]);d=r.createElement(a);d.async=1;d.src="https://cdn.branch.io/branch-latest.min.js";k=r.getElementsByTagName(a)[0];k.parentNode.insertBefore(d,k);b[n]=h}})(window,document,"script","branch",function(b,r){b[r]=function(){b._q.push([r,arguments])}},{_q:[],_v:1},"addListener applyCode banner closeBanner creditHistory credits data deepview deepviewCta first getCode init link logout redeem referrals removeListener sendSMS setBranchViewData setIdentity track validateCode".split(" "), 0);
@@ -80,21 +84,21 @@
 
   var metadata =  { "foo": "bar" };
 
-  branch.sendSMS(
-      '16504642194',
-      {
-          tags: ['tag1', 'tag2'],
-          channel: 'facebook',
-          feature: 'dashboard',
-          stage: 'new user',
-          data: {
-              mydata: 'something',
-              foo: 'bar',
-          }
-      },
-      { make_new_link: true }, // Default: false. If set to true, sendSMS will generate a new link even if one already exists.
-      function(err) { console.log(err); }
-  );
+  // branch.sendSMS(
+  //     '16504642194',
+  //     {
+  //         tags: ['tag1', 'tag2'],
+  //         channel: 'facebook',
+  //         feature: 'dashboard',
+  //         stage: 'new user',
+  //         data: {
+  //             mydata: 'something',
+  //             foo: 'bar',
+  //         }
+  //     },
+  //     { make_new_link: true }, // Default: false. If set to true, sendSMS will generate a new link even if one already exists.
+  //     function(err) { console.log(err); }
+  // );
 
 
 
