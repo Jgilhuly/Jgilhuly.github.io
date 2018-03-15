@@ -84,6 +84,11 @@
     console.log('data from Branch', data);
     console.log('err from Branch', err);
   });
+
+  branch.setBranchViewData({
+    '$uri_redirect_mode': 2
+  });
+
   var commerce_data = {
       "revenue": 50.0,
       "currency": "USD",
