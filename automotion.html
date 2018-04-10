@@ -1,0 +1,163 @@
+<html>
+<head>
+  <script>
+        (function(b,r,a,n,c,h,_,s,d,k){if(!b[n]||!b[n]._q){for(;s<_.length;)c(h,_[s++]);d=r.createElement(a);d.async=1;d.src="https://cdn.branch.io/branch-latest.min.js";k=r.getElementsByTagName(a)[0];k.parentNode.insertBefore(d,k);b[n]=h}})(window,document,"script","branch",function(b,r){b[r]=function(){b._q.push([r,arguments])}},{_q:[],_v:1},"addListener applyCode banner closeBanner creditHistory credits data deepview deepviewCta first getCode init link logout redeem referrals removeListener sendSMS setBranchViewData setIdentity track validateCode".split(" "), 0);
+        branch.init('key_live_ibBrdAODrab67hQN8eBC7gdbvwbEh6GZ' , { 'no_journeys': true });
+        branch.deepview(
+          {
+            data: {
+              'account_id': 'fb856a6e-6fac-497c-887b-bef7db1eabcb',
+              'account_token': 'ae6de05e-5a06-4c02-82d2-25bfe3b9ec4d',
+              '$uri_redirect_mode': 1
+            }
+          }
+        );
+
+  AutomotionBanner = {
+
+    _platform: null,
+
+    ready: function (fn) {
+      if (document.readyState != 'loading') {
+        fn();
+      } else {
+        document.addEventListener('DOMContentLoaded', fn);
+      }
+    },
+
+    getPlatform: function () {
+      if (!this._platform) {
+        if (navigator.userAgent.match(/MyDealerApp/i) != null) {
+          this._platform = 'webview';
+        } else if (navigator.userAgent.match(/iPhone|iPod|iPad/i) != null) {
+          this._platform = 'ios';
+        } else if (navigator.userAgent.match(/Android/i) != null) {
+          this._platform = 'android';
+        }
+      }
+      return this._platform;
+    },
+
+    getCookie: function (pName) {
+      var nameEQ = pName + '=';
+      var ca = document.cookie.split(';');
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ')c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+      }
+      return null;
+    },
+
+    setCookie: function (pName, pValue, pDays) {
+      var expires;
+      if (pDays) {
+        var date = new Date();
+        date.setTime(date.getTime() + (pDays * 24 * 60 * 60 * 1000));
+        expires = '; expires=' + date.toGMTString();
+      } else {
+        expires = '';
+      }
+      document.cookie = pName + '=' + pValue + expires + '; path=/';
+    },
+
+    display: function () {
+
+      function close(event){
+        var banner = document.getElementById('automotion-banner');
+        banner.setAttribute('class', '');
+        document.removeEventListener('orientationchange', scrollToTop, false);
+        AB.setCookie('hideappalert', 'true', 365);
+        window.setTimeout(function(){
+          banner.style.display = 'none';
+        }, 500);
+      }
+
+      function stopPropagation(e) {
+        e.stopPropagation()
+      }
+
+      function disableTouchMove(e) {
+        e.preventDefault()
+      }
+
+      function scrollToTop() {
+        document.body.scrollTop = 0;
+        window.setTimeout(function () {
+          document.body.scrollTop = 0;
+        }, 200);
+        window.setTimeout(function () {
+          document.body.scrollTop = 0;
+        }, 400);
+      }
+
+      if (!window.AutoMotionSplashDisplayed) {
+        window.AutoMotionSplashDisplayed = true;
+
+        var enabledPlatforms = ['ios', 'android'],
+          wrapper = document.createElement("div"),
+          AB = this;
+
+        var fontFamily = 'font-family:HelveticaNeue-Light,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;';
+  var fontFamilyMedium = 'font-family:HelveticaNeue,"Helvetica Neue", Helvetica,Arial,"Lucida Grande",sans-serif;';
+  var template =
+      // CSS inserted in style tag along with HTML
+      '<style> ' +
+        '#automotion-banner{ position:fixed; bottom:0; left:0; right:0; z-index:2147483647; background:#f9f9f9; font-weight:300;-webkit-transform:translateY(200px);transform:translateY(200px);-webkit-transition:-webkit-transform .3s;transition:transform .3s; }' +
+        '#automotion-banner.automotion-banner-open{-webkit-transform:translateY(0);transform:translateY(0)}' +
+        '#automotion-banner-app-link { display: block; text-decoration: none;}' +
+        '.automotion-banner-welcome { padding: 4px 10px 8px; text-align: center; font-size: 26px; line-height: 26px; letter-spacing: 1.5px; ' + fontFamily + ' background: #666; color: #fff; }' +
+        '.automotion-banner-logo-and-message { position: relative; display: inline-block; max-width: 65%; min-height: 70px; padding: 10px 0 0 80px; vertical-align: middle; text-align: left; box-sizing: border-box; }' +
+        '.automotion-banner-message { margin-top: 8px; line-height: 13px; ' + fontFamily + ' font-size: 15px; font-weight: bold; text-decoration: none; color: #000 !important; }' +
+        '.automotion-banner-message-secondary { ' + fontFamily + ' font-size: 11px; font-weight: normal; text-decoration: none; color: #777 !important; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }' +
+        '.automotion-banner-logo {position: absolute; left: 20px; top: 8px; height:52px; width:52px; vertical-align:middle}' +
+        '.automotion-banner-gear {height: 31px; float: right; padding: 0 10px 0 0;}' +
+        '@media only screen and (max-width: 320px){.automotion-banner-welcome{font-size: 22px;}}'+
+        '.automotion-banner-rating {position: relative; top: -2px; height:10px; width:43px; }' +
+        '.automotion-banner-app-button {position: absolute; right: 16px; bottom: 17px; text-align:center; height: 35px; padding: 0 11px; vertical-align:middle; -webkit-border-radius:10px; border-radius:10px; line-height:35px; font-size:15px; letter-spacing: 1px; background:#115AFB; color:#fff;' + fontFamilyMedium + '}' +
+        '#automotion-banner-close-button {position: absolute; left: 0; top: 68px; height: 20px; width: 20px; line-height: 20px; text-align:center;  '+ fontFamily + ' font-size: 16px; color: #777}' +
+      '</style>' +
+
+      // Actual HTML elements
+      '<div id="automotion-banner">' +
+        '<a id="automotion-banner-app-link" href="https://3swn.app.link/eaQP6ng9rF">' +
+          '<div class="automotion-banner-welcome">' +
+            'schedule service here!' +
+            '<img class="automotion-banner-gear" src="https://www.automotiontv.com/app/appjs_banner/v3/gear@2x.png">' +
+          '</div>' +
+          '<div class="automotion-banner-logo-and-message">' +
+            '<div class="automotion-banner-message">AutoMotion</div>' +
+            '<div class="automotion-banner-message-secondary">Panama City Toyota</div>' +
+            '<img class="automotion-banner-logo" src="https://www.automotiontv.com/app/appjs_banner/v3/logo-automotion.png">' +
+            '<img class="automotion-banner-rating" src="https://www.automotiontv.com/app/appjs_banner/v3/stars.png">' +
+          '</div>' +
+          '<div class="automotion-banner-app-button">GET APP</div>' +
+        '</a>' +
+        '<a id="automotion-banner-close-button">&#215;</a>' +
+      '</div>';
+
+
+        if (AB.getCookie("hideappalert") || enabledPlatforms.indexOf(AB.getPlatform()) === -1) {
+          return;
+        }
+
+        AB.ready(function () {
+          document.body.appendChild(wrapper), wrapper.insertAdjacentHTML("afterend", template),
+            document.getElementById("automotion-banner-close-button").addEventListener("click", close, false);
+          var banner = document.getElementById("automotion-banner");
+          banner.addEventListener("touchmove", disableTouchMove, false), banner.addEventListener("click", stopPropagation, false), window.setTimeout(
+            function () {
+              banner.setAttribute("class", "automotion-banner-open")
+            }, 100)
+        }), document.addEventListener("orientationchange", scrollToTop, false);
+      }
+    },
+
+    init: function () {
+      this.display();
+    }
+  }, AutomotionBanner.init();
+
+  </script>
+</head>
+</html>
