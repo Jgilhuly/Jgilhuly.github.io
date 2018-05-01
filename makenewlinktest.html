@@ -12,6 +12,8 @@
       document.getElementById('data').innerHTML = JSON.stringify(data);
 
       if (data) {
+        document.getElementById('check').innerHTML = "true";
+
         data['$ios_url'] = 'https://itunes.apple.com/us/app/earnin-get-paid-today/id723815926?mt=8';
         data['$android_url'] = 'https://play.google.com/store/apps/details?id=com.activehours&hl=en_US';
         linkData = data;
@@ -38,5 +40,6 @@
 <body>
   <a href="" class="deepLink">Link 4</a>
   <p id="data">Data</p>
+  <p id="check">false</p>
 </body>
 </html>
