@@ -6,8 +6,10 @@
     branch.init('key_live_hkDytPACtipny3N9XmnbZlapBDdj4WIL', function(err, data) {
       var linkData = {};
       var linkOptions = {
-        make_new_link: true // don't create a new deep link if one already exists (e.g. _branch_match_id is in the address bar)
+        make_new_link: true
       };
+
+      document.getElementById('data').innerHTML = JSON.stringify(data);
 
       if (data) {
         data['$ios_url'] = 'https://itunes.apple.com/us/app/earnin-get-paid-today/id723815926?mt=8';
@@ -34,6 +36,7 @@
   </script>
 </head>
 <body>
-  <a href="" class="deepLink">Link 3</a>
+  <a href="" class="deepLink">Link 4</a>
+  <p id="data">Data</p>
 </body>
 </html>
