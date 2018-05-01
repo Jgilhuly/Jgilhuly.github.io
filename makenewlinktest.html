@@ -2,30 +2,36 @@
 <head>
   <script>
     function(b,r,a,n,c,h,_,s,d,k){if(!b[n]||!b[n]._q){for(;s<_.length;)c(h,_[s++]);d=r.createElement(a);d.async=1;d.src="https://cdn.branch.io/branch-latest.min.js";k=r.getElementsByTagName(a)[0];k.parentNode.insertBefore(d,k);b[n]=h}})(window,document,"script","branch",function(b,r){b[r]=function(){b._q.push([r,arguments])}},{_q:[],_v:1},"addListener applyCode banner closeBanner creditHistory credits data deepview deepviewCta first getCode init link logout redeem referrals removeListener sendSMS setBranchViewData setIdentity track validateCode".split(" "), 0);
-    branch.init('key_live_hkDytPACtipny3N9XmnbZlapBDdj4WIL');
+    branch.init('key_live_hkDytPACtipny3N9XmnbZlapBDdj4WIL', function(err, data) {
+      var linkData = {};
+      var linkOptions = {
+        make_new_link: true // don't create a new deep link if one already exists (e.g. _branch_match_id is in the address bar)
+      };
 
-    var linkData = {
-      campaign: 'content 123',
-      channel: 'landing',
-      feature: 'dashboard',
-      stage: 'new user',
-      tags: ['tag1', 'tag2', 'tag3'],
-      alias: ''
-    };
+      if (data) {
+        data['$ios_url'] = 'https://itunes.apple.com/us/app/earnin-get-paid-today/id723815926?mt=8';
+        data['$android_url'] = 'https://play.google.com/store/apps/details?id=com.activehours&hl=en_US';
+        linkData = data;
+      } else {
+        linkData = {
+          campaign: 'content 123',
+          channel: 'landing',
+          feature: 'dashboard',
+          stage: 'new user',
+          tags: ['tag1', 'tag2', 'tag3'],
+          // alias: '' -> removed this, as an empty alias will just be ignored by the branch.link call
+        };
+      }
 
-    var linkOptions = {
-      make_new_link: false // don't create a new deep link if one already exists (e.g. _branch_match_id is in the address bar)
-    };
-
-    branch.link(linkData,
-      linkOptions,
-      function (err, link) {
-          var deepLinks = document.getElementsByClassName("deepLink");
-          for (var i = 0; i < deepLinks.length; i++) {
-              deepLinks[i].setAttribute("href", link);
-          }
+      branch.link(linkData,
+        linkOptions,
+        function (err, link) {
+            var deepLinks = document.getElementsByClassName("deepLink");
+            for (var i = 0; i < deepLinks.length; i++) {
+                deepLinks[i].setAttribute("href", link);
+            }
+      });
     });
-
   </script>
 </head>
 <body>
