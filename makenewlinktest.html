@@ -11,7 +11,7 @@
 
       document.getElementById('data').innerHTML = JSON.stringify(data);
 
-      if (data) {
+      if (data["+clicked_branch_link"]) {
         document.getElementById('check').innerHTML = "true";
 
         data['$ios_url'] = 'https://itunes.apple.com/us/app/earnin-get-paid-today/id723815926?mt=8';
@@ -28,6 +28,8 @@
         };
       }
 
+      document.getElementById('new data').innerHTML = JSON.stringify(linkData);
+
       branch.link(linkData,
         linkOptions,
         function (err, link) {
@@ -41,5 +43,7 @@
   <a href="" class="deepLink">Link 4</a>
   <p id="data">Data</p>
   <p id="check">false</p>
+
+  <p id="new data">Nothing</p>
 </body>
 </html>
