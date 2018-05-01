@@ -11,7 +11,7 @@
 
       document.getElementById('data').innerHTML = JSON.stringify(data);
 
-      if (data["+clicked_branch_link"]) {
+      if (data["data_parsed"]["+clicked_branch_link"]) {
         document.getElementById('check').innerHTML = "true";
 
         data['$ios_url'] = 'https://itunes.apple.com/us/app/earnin-get-paid-today/id723815926?mt=8';
