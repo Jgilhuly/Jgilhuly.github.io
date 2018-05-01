@@ -27,14 +27,12 @@
         linkOptions,
         function (err, link) {
             var deepLinks = document.getElementsByClassName("deepLink");
-            for (var i = 0; i < deepLinks.length; i++) {
-                deepLinks[i].setAttribute("href", link);
-            }
+            deepLinks[0].href = link;
       });
     });
   </script>
 </head>
 <body>
-  <a href="" class="deepLink">Link 2</a>
+  <a href="" class="deepLink">Link 3</a>
 </body>
 </html>
