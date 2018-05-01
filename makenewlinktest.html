@@ -10,13 +10,14 @@
       };
 
       document.getElementById('data').innerHTML = JSON.stringify(data);
+      console.log(data["data_parsed"]["+clicked_branch_link"]);
 
       if (data["data_parsed"]["+clicked_branch_link"]) {
         document.getElementById('check').innerHTML = "true";
 
-        data['$ios_url'] = 'https://itunes.apple.com/us/app/earnin-get-paid-today/id723815926?mt=8';
-        data['$android_url'] = 'https://play.google.com/store/apps/details?id=com.activehours&hl=en_US';
-        linkData = data;
+        data["data_parsed"]['$ios_url'] = 'https://itunes.apple.com/us/app/earnin-get-paid-today/id723815926?mt=8';
+        data["data_parsed"]['$android_url'] = 'https://play.google.com/store/apps/details?id=com.activehours&hl=en_US';
+        linkData = data["data_parsed"];
       } else {
         linkData = {
           campaign: 'content 123',
