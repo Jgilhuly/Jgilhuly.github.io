@@ -3,18 +3,13 @@
   <script>
     (function(b,r,a,n,c,h,_,s,d,k){if(!b[n]||!b[n]._q){for(;s<_.length;)c(h,_[s++]);d=r.createElement(a);d.async=1;d.src="https://cdn.branch.io/branch-latest.min.js";k=r.getElementsByTagName(a)[0];k.parentNode.insertBefore(d,k);b[n]=h}})(window,document,"script","branch",function(b,r){b[r]=function(){b._q.push([r,arguments])}},{_q:[],_v:1},"addListener applyCode autoAppIndex banner closeBanner closeJourney creditHistory credits data deepview deepviewCta first getCode init link logout redeem referrals removeListener sendSMS setBranchViewData setIdentity track validateCode trackCommerceEvent".split(" "), 0);
     // init Branch
-    branch.init('key_live_hkDytPACtipny3N9XmnbZlapBDdj4WIL', function(err, data) {
+    branch.init('YOUR_KEY_HERE', function(err, data) {
       var linkData = {};
       var linkOptions = {
         make_new_link: true
       };
 
-      document.getElementById('data').innerHTML = JSON.stringify(data);
-      console.log(data["data_parsed"]["+clicked_branch_link"]);
-
       if (data["data_parsed"]["+clicked_branch_link"]) {
-        document.getElementById('check').innerHTML = "true";
-
         data["data_parsed"]['$ios_url'] = 'https://itunes.apple.com/us/app/earnin-get-paid-today/id723815926?mt=8';
         data["data_parsed"]['$android_url'] = 'https://play.google.com/store/apps/details?id=com.activehours&hl=en_US';
         linkData = data["data_parsed"];
@@ -29,22 +24,18 @@
         };
       }
 
-      document.getElementById('new data').innerHTML = JSON.stringify(linkData);
-
       branch.link(linkData,
         linkOptions,
         function (err, link) {
             var deepLinks = document.getElementsByClassName("deepLink");
-            deepLinks[0].href = link;
+            for (var i = 0; i < deepLinks.length; i++) {
+                deepLinks[i].setAttribute("href", link);
+            }
       });
     });
   </script>
 </head>
 <body>
   <a href="" class="deepLink">Link 4</a>
-  <p id="data">Data</p>
-  <p id="check">false</p>
-
-  <p id="new data">Nothing</p>
 </body>
 </html>
