@@ -1,13 +1,16 @@
 <html>
 
 <head>
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: blob:; child-src *; connect-src 'self' https: ws://localhost.airbnb.com:8888 wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' 'nonce-123456' a0.muscache.com cdn.siftscience.com ss.musthird.com t1.musthird.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com a.cdn.intentmedia.net maps.googleapis.com ajax.googleapis.com *.g.doubleclick.net www.google.com www.gstatic.com app.link cdn.branch.io jgilhuly.github.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com *.gbc.criteo.net ethn.io s.yimg.jp api.geetest.com webpack.localhost.airbnb.com blob: webapi.amap.com restapi.amap.com *.inspectlet.com 'sha256-zND1XZk+UGBZgw2vsN94f0JltwefFfx4ZTOo8T7hKxE=' 'unsafe-inline' 'sha256-VjgI+lsDZsfgpvHSfXTuwEyvgtv9HRUUBMH8oPuoB2g=' 'sha256-D9Mz5Ys1Opv52C2fjJU4eS9qDZpG9+Ywz5rQPUyxngQ='; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=mc_index&controller=magic_carpet_landing_page&report_only=false&req_uuid=14a52ce5-301e-43fa-84ec-a7478dc993c7&version=Unknown">
-  <script type="text/javascript" nonce='123456'>
+  <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: blob:; child-src *; connect-src 'self' https: ws://localhost.airbnb.com:8888 wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' 'nonce-123456' a0.muscache.com cdn.siftscience.com ss.musthird.com t1.musthird.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com a.cdn.intentmedia.net maps.googleapis.com ajax.googleapis.com *.g.doubleclick.net www.google.com www.gstatic.com app.link cdn.branch.io jgilhuly.github.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com *.gbc.criteo.net ethn.io s.yimg.jp api.geetest.com webpack.localhost.airbnb.com blob: webapi.amap.com restapi.amap.com *.inspectlet.com 'sha256-zND1XZk+UGBZgw2vsN94f0JltwefFfx4ZTOo8T7hKxE=' 'unsafe-inline' 'sha256-VjgI+lsDZsfgpvHSfXTuwEyvgtv9HRUUBMH8oPuoB2g=' 'sha256-D9Mz5Ys1Opv52C2fjJU4eS9qDZpG9+Ywz5rQPUyxngQ='; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=mc_index&controller=magic_carpet_landing_page&report_only=false&req_uuid=14a52ce5-301e-43fa-84ec-a7478dc993c7&version=Unknown"> -->
+
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' script-src 'self' 'unsafe-eval' 'unsafe-inline' 'nonce-12345'">
+
+  <script type="text/javascript" nonce='12345'>
 
     (function(b,r,a,n,c,h,_,s,d,k){if(!b[n]||!b[n]._q){for(;s<_.length;)c(h,_[s++]);d=r.createElement(a);d.async=1;d.src="https://jgilhuly.github.io/build-updated.min.js";k=r.getElementsByTagName(a)[0];k.parentNode.insertBefore(d,k);b[n]=h}})(window,document,"script","branch",function(b,r){b[r]=function(){b._q.push([r,arguments])}},{_q:[],_v:1},"addListener applyCode banner closeBanner creditHistory credits data deepview deepviewCta first getCode init link logout redeem referrals removeListener sendSMS setBranchViewData setIdentity track validateCode".split(" "), 0);
     var branchKey = 'key_live_pbtE4dcavETgqI5C3M8n0eabADiL8rYZ';
     window.branch.init(branchKey, {
-      'nonce': '123456',
+      'nonce': '12345',
     }, (err) => {
       console.log(err);
     });
@@ -15,7 +18,7 @@
     window.branch.setBranchViewData({
       data: {
         '$deeplink_path': '',
-        '$fallback_url': '',
+        '$fallback_url': 'airbnb.com',
       }
     })
   </script>
