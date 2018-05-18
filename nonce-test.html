@@ -41,11 +41,73 @@
     function(err) {
         console.log(err || 'no error');
     }
+
+    var commerce_data = {
+      "revenue": 50.0,
+      "currency": "USD",
+      "transaction_id": "foo-transaction-id",
+      "shipping": 0.0,
+      "tax": 5.0,
+      "affiliation": "foo-affiliation",
+      "products": [
+           { "sku": "foo-sku-1", "name": "foo-item-1", "price": 45.00, "quantity": 1, "brand": "foo-brand",
+             "category": "Electronics", "variant": "foo-variant-1"},
+           { "sku": "foo-sku-2", "price": 2.50, "quantity": 2}
+       ],
+  };
+
+  var metadata =  { "foo": "bar" };
+
+  branch.trackCommerceEvent('purchase', commerce_data, metadata, function(err) {
+      if(err) {
+           throw err;
+      }
+  });
 );
+
+function showRetroBanner() {
+  branch.banner({
+    icon: 'http://icons.iconarchive.com/icons/wineass/ios7-redesign/512/Appstore-icon.png',
+    title: 'Branch Demo App',
+    description: 'The Branch demo app!',
+    rating: 5,                              // Displays a star rating out of 5. Supports half stars through increments of .5
+    reviewCount: 1500,                      // Amount of reviews your app has received next to the star rating
+    openAppButtonText: 'Open',              // Text to show on button if the user has the app installed
+    downloadAppButtonText: 'Download',      // Text to show on button if the user does not have the app installed
+    sendLinkText: 'Send Link',              // Text to show on desktop button to allow users to text themselves the app
+    phonePreviewText: '+44 9999-9999',      // The default phone placeholder is a US format number, localize the placeholder number with a custom placeholder with this option
+    showiOS: true,                          // Should the banner be shown on iOS devices (both iPhones and iPads)?
+    showiPad: true,                         // Should the banner be shown on iPads (this overrides showiOS)?
+    showAndroid: true,                      // Should the banner be shown on Android devices?
+    showBlackberry: true,                   // Should the banner be shown on Blackberry devices?
+    showWindowsPhone: true,                 // Should the banner be shown on Windows Phone devices?
+    showKindle: true,                       // Should the banner be shown on Kindle devices?
+    showDesktop: true,                      // Should the banner be shown on desktop devices?
+    iframe: true,                           // Show banner in an iframe, recomended to isolate Branch banner CSS
+    disableHide: false,                     // Should the user have the ability to hide the banner? (show's X on left side)
+    forgetHide: false,                      // Should we show the banner after the user closes it? Can be set to true, or an integer to show again after X days
+    respectDNT: false,                      // Should we skip showing the banner when a user's settings show 'Do Not Track'?
+    mobileSticky: false,                    // Determines whether the mobile banner will be set `position: fixed;` (sticky) or `position: absolute;`, defaults to false *this property only applies when the banner position is 'top'
+    desktopSticky: true,                    // Determines whether the desktop banner will be set `position: fixed;` (sticky) or `position: absolute;`, defaults to true *this property only applies when the banner position is 'top'
+    make_new_link: false,                   // Should the banner create a new link, even if a link already exists?
+    open_app: false,                        // Should the banner try to open the app passively (without the user actively clicking) on load?
+
+}, {
+    tags: ['tag1', 'tag2'],
+    feature: 'dashboard',
+    stage: 'new user',
+    data: {
+        mydata: 'something',
+        foo: 'bar',
+        '$deeplink_path': 'open/item/1234'
+    }
+});
+}
   </script>
 </head>
 
 <body>
+  <button onclick="showRetroBanner()">Click Me</button>
   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vulputate massa magna, vitae consequat lorem finibus a. Nulla eleifend quam a leo molestie, vitae tristique arcu faucibus. Pellentesque enim turpis, mattis ut metus a, consequat pharetra nulla. Vivamus elementum lorem sit amet porttitor aliquam. Pellentesque ornare ligula urna, vitae hendrerit nunc euismod vel. Integer id augue enim. Nunc sit amet arcu massa. Cras sem nulla, malesuada a metus eget, porttitor rhoncus magna. Phasellus pretium dolor sit amet consequat porttitor. Aliquam in purus ut sapien efficitur dignissim. Vivamus quis porta ex. Integer justo erat, cursus a accumsan non, laoreet ut sem. Cras a malesuada ante.
   Mauris in quam vestibulum, tincidunt dolor vitae, laoreet quam. Integer rhoncus sodales massa, vel consectetur sapien faucibus id. Donec convallis hendrerit velit, sodales volutpat lacus sodales vitae. Phasellus lobortis nec ligula id elementum. Ut euismod eros et ultricies pulvinar. Suspendisse vitae fringilla nulla. Nulla augue felis, dignissim et vestibulum quis, rhoncus nec turpis. Aenean sit amet semper mauris, eget porta lorem. Curabitur congue mattis nisi, ut placerat arcu dignissim at. Nunc neque elit, pharetra quis arcu egestas, posuere pulvinar tellus. Fusce a efficitur tellus, et egestas erat. Duis gravida eu nisl non posuere. Mauris vitae tincidunt sapien. Duis velit turpis, pulvinar id pulvinar a, varius id nunc.
   Mauris nisl mi, suscipit dictum enim eu, commodo venenatis nisl. Maecenas vitae ex sem. Maecenas accumsan luctus sapien, non ornare diam placerat et. Maecenas pulvinar posuere ligula sit amet tempor. Vivamus massa felis, ultrices eu bibendum nec, tristique et elit. Maecenas eu arcu quam. Proin dignissim sagittis risus, a sagittis orci rutrum ac. Mauris ultrices sit amet ante eu sollicitudin. Donec id leo interdum, aliquam nisl in, dapibus sapien. Ut vitae nibh erat. Proin faucibus porta nibh luctus venenatis. Nullam vitae pretium augue, ut efficitur eros. Vestibulum eu auctor quam. Nam eget nunc vel quam dignissim tincidunt.
