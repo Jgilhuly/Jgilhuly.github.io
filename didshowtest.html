@@ -18,10 +18,16 @@
       }
     });
 
-    function listener() {
-      console.log('didShowJourney');
+    function checkIfJourneyIsShowing() {
+      var e = document.getElementById("branch-banner-iframe")
+      var s = window.getComputedStyle(e)
+      if (s.getPropertyValue('position') == 'static') {
+        console.log('Journey is blocked by CSP');
+      } else {
+        console.log('Journey is showing correctly');
+      }
     }
-    branch.addListener('didShowJourney', listener);
+    branch.addListener('didShowJourney', checkIfJourneyIsShowing);
   </script>
 </head>
 
