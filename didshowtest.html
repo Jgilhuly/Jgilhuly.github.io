@@ -17,6 +17,11 @@
         'campaign': 'did-show-test'
       }
     });
+
+    function listener() {
+      console.log('didShowJourney');
+    }
+    branch.addListener('didShowJourney', listener);
   </script>
 </head>
 
