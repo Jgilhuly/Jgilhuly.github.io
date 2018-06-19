@@ -1,0 +1,22 @@
+curl -X POST -H "Content-Type: application/json" -d '{
+  "branch_key":"key_live_lliWxiC8xFlV1hNhLeKuSpkeuyioNgiy",
+  "branch_secret":"secret_live_AqXS5YqIdk38pOZIRNNWaDCktbZJsYWG",
+  "start_date": "2018-05-29",
+  "end_date": "2018-06-04",
+  "data_source": "eo_install",
+  "dimensions": [
+    "last_attributed_touch_data_tilde_ad_id",
+    "timestamp",
+    "name"
+  ],
+  "filters": {
+    "last_attributed_touch_data_tilde_feature": [
+      "paid advertising"
+    ],
+    "last_attributed_touch_data_tilde_advertising_partner_name": [
+      "Facebook"
+    ]
+  },
+  "aggregation": "total_count",
+  "granularity": "day"
+}' "http://api.branch.io/v1/query/analytics"
