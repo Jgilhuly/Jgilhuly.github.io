@@ -1,5 +1,0 @@
-,id,timestamp,last_attributed_touch_data_tilde_feature,last_attributed_touch_type,last_attributed_touch_timestamp,last_attributed_touch_data_tilde_campaign_id,last_attributed_touch_data_tilde_creative_id,last_attributed_touch_data_tilde_ad_set_id,last_attributed_touch_data_tilde_keyword_id,event_data_transaction_id,event_data_revenue,event_data_currency,custom_data
-0,535252469576805745,1528852359396,,CLICK,1528851546000.0,,,,,,,USD,"{""MonsterName"":""Sully91""}"
-1,wVbDkN6YHN,1528871085317,,,,,,,,,1.0,USD,"{""ip"":""96.9.86.165""}"
-2,535330981150911805,1528871078263,,,,,,,,,,USD,"{""MonsterName"":""Ben""}"
-3,UkCLUr38IN,1528931492529,,,,,,,,,1.0,USD,"{""ip"":""4.15.122.138""}"
