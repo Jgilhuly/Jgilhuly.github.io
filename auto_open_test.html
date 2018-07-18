@@ -8,11 +8,30 @@
       'open_app': true,
       // '$uri_redirect_mode': '2'
     });
-    window.branch.setBranchViewData({
-      data: {
-        'campaign': 'did-show-test'
-      }
-    });
+    // window.branch.setBranchViewData({
+    //   data: {
+    //     'campaign': 'did-show-test'
+    //   }
+    // });
+
+    window.branch.deepview({
+        channel: 'facebook',
+        data: {
+            mydata: 'content of my data',
+            foo: 'bar',
+            '$deeplink_path': 'item_id=12345'
+        },
+        feature: 'dashboard',
+        stage: 'new user',
+        tags: [ 'tag1', 'tag2' ],
+    },
+    {
+        make_new_link: true,
+        open_app: true
+    },
+    function(err) {
+        console.log(err || 'no error');
+    })
   </script>
 </head>
 
