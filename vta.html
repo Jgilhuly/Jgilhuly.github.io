@@ -6,7 +6,7 @@
       branch.init('key_live_ohD9TJIYeRhw2yLt77lRThkoAzbak5KV', function(err, data) {
         console.log(err, data);
         if (err == null) {
-          document.getElementById("init_status").innerHTML = data;
+          document.getElementById("init_status").innerHTML = JSON.stringify(data);
         } else {
           document.getElementById("init_status").innerHTML = err;
         }
