@@ -1,0 +1,17 @@
+<html>
+  <head>
+    <script>
+      function windowLocation() {
+        console.log('window location changing');
+        var url = "https://groupon.app.link/yEj0ySSheO/?$deeplink_path=%2Fdispatch%2F*%2Fsearch%3Fq%3Dpizza%26address%3DChicago%26division%3Dchicago%26locale%3Den_US%26lat%3D41.88%26lng%3D-87.624%26query%3Dpizza%26address%3DChicago%26division%3Dchicago%26locale%3Den_US%26lat%3D41.88%26lng%3D-87.624%26bcookie%3Dbee0139f-ac4b-eb1b-3b5e-5756a5e4fda1";
+        console.log(url);
+        window.location = url;
+      }
+    </script>
+  </head>
+  <body>
+    <div id="link" onclick="windowLocation()">
+      <p>click me</p>
+    </div>
+  </body>
+</html>
