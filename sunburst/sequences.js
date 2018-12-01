@@ -49,9 +49,14 @@ function loadFile() {
 }
 
 function parseFile(){
+  clearChart();
   var csv = d3.csv.parseRows(reader.result);
   var json = buildHierarchy(csv);
   createVisualization(json);
+}
+
+function clearChart() {
+  document.getElementById('chart').innerHtml = '<div id="explanation" style="visibility: hidden;"><span id="percentage"></span><br/>of users complete this step.</div>'
 }
 
 // Use d3.text and d3.csv.parseRows so that we do not need to have a header
