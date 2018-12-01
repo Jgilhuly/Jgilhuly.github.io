@@ -37,6 +37,23 @@ var arc = d3.svg.arc()
     .innerRadius(function(d) { return Math.sqrt(d.y); })
     .outerRadius(function(d) { return Math.sqrt(d.y + d.dy); });
 
+/*------ Method for reading uploaded csv file ------*/
+var reader = new FileReader();
+
+function loadFile() {
+  var file = document.querySelector('input[type=file]').files[0];
+  reader.addEventListener("load", parseFile, false);
+  if (file) {
+    reader.readAsText(file);
+  }
+}
+
+function parseFile(){
+  var csv = d3.csv.parseRows(reader.result);
+  var json = buildHierarchy(csv);
+  createVisualization(json);
+}
+
 // Use d3.text and d3.csv.parseRows so that we do not need to have a header
 // row, and can receive the csv as an array of arrays.
 d3.text("visit-sequences.csv", function(text) {
