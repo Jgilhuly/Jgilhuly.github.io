@@ -1,8 +1,43 @@
 <html>
 <head>
+  <meta name="viewport" content="width=device-width">
   <script>
+
+    baseOptions = {
+        title: '',
+        description: "Find information faster with the RealSelf app.",
+        openAppButtonText: 'View',
+        downloadAppButtonText: 'View',
+        showiOS: true,
+        showAndroid: false,
+        showDesktop: true,
+        mobileSticky: true,
+        forgetHide: 2
+    }
+
+    options = baseOptions;
+    var data = {
+        channel: 'RealSelf.com',
+        feature: 'Feature',
+        data: {
+            '$deeplink_path': 'Path',
+            'utm_source' : 'RealSelf.com',
+            'utm_medium' : 'Referral',
+            'utm_campaign' : 'Campaign'
+        }
+    };
+
     (function(b,r,a,n,c,h,_,s,d,k){if(!b[n]||!b[n]._q){for(;s<_.length;)c(h,_[s++]);d=r.createElement(a);d.async=1;d.src="https://cdn.branch.io/branch-latest.min.js";k=r.getElementsByTagName(a)[0];k.parentNode.insertBefore(d,k);b[n]=h}})(window,document,"script","branch",function(b,r){b[r]=function(){b._q.push([r,arguments])}},{_q:[],_v:1},"addListener applyCode autoAppIndex banner closeBanner closeJourney creditHistory credits data deepview deepviewCta first getCode init link logout redeem referrals removeListener sendSMS setBranchViewData setIdentity track validateCode trackCommerceEvent".split(" "), 0);
-    branch.init('key_live_kfgQwCBVjYGGWgaQHy3grgbnCukLGsY5');
+    branch.init('key_live_kfgQwCBVjYGGWgaQHy3grgbnCukLGsY5',{
+        metadata : {
+            'signed_in' : false
+        }
+    });
+
+    // branch.banner(options, data);
+    if (window.console) {
+        console.log('Loaded Branch smart banner with options:', options, 'and data:', data);
+    }
   </script>
 </head>
 </html>
