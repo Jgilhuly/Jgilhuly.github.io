@@ -1,0 +1,21 @@
+<html>
+  <script>
+    function trackPurchaseEvent() {
+      var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+          // Windows Phone must come first because its UA also contains "Android"
+        if (!(/windows phone/i.test(userAgent)) && (/android/i.test(userAgent))) {
+            Android.trackPurchaseEvent();
+        }
+        // iOS detection
+        else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+            try {
+                webkit.messageHandlers.trackPurchaseEvent.postMessage({});
+            } catch(err) {
+                alert(err);
+            }
+        }
+    }
+
+    trackPurchaseEvent();
+  </script>
+</html>
