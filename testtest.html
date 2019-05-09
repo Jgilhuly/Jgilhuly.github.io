@@ -7,9 +7,8 @@
         console.log(data);
         var linkData = {};
         var linkOptions = {
-              make_new_link: true
-          }
-        });
+            make_new_link: true;
+        }
 
         if (data["data_parsed"]["+clicked_branch_link"]) {
             data["data_parsed"]['$ios_url'] = 'https://itunes.apple.com/app/id942568673';
@@ -17,9 +16,6 @@
             data["data_parsed"]['$desktop_url'] = 'https://hover.to/signup/';
             linkData = data["data_parsed"];
             console.log("1");
-            console.log(data["data_parsed"]);
-            console.log(data);
-            console.log(linkData);
         } else {
             linkData = {
             campaign: 'organic',
@@ -27,6 +23,8 @@
             // alias: '' -> removed this, as an empty alias will just be ignored by the branch.link call
             };
         }
+
+        console.log(linkData);
 
         branch.link(linkData,
             linkOptions,
@@ -37,6 +35,7 @@
                     deepLinks[i].setAttribute("href", link);
                 }
               });
+        });
 
 </script>
 </html>
