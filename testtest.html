@@ -15,7 +15,9 @@
             data["data_parsed"]['$android_url'] = 'http://play.google.com/store/apps/details?id=to.hover.android.app';
             data["data_parsed"]['$desktop_url'] = 'https://hover.to/signup/';
             linkData = data["data_parsed"];
+            console.log("1");
         } else {
+            console.log("2");
             linkData = {
             campaign: 'organic',
             data: { "$desktop_url": "https://hover.to/signup/" }
@@ -26,12 +28,13 @@
         branch.link(linkData,
             linkOptions,
             function (err, link) {
+              console.log(link);
                 var deepLinks = document.getElementsByClassName("deepLink");
                 for (var i = 0; i < deepLinks.length; i++) {
                     deepLinks[i].setAttribute("href", link);
                 }
         });
         });
-    
+
 </script>
 </html>
