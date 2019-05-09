@@ -4,22 +4,35 @@
       var userAgent = navigator.userAgent || navigator.vendor || window.opera;
           // Windows Phone must come first because its UA also contains "Android"
         if (!(/windows phone/i.test(userAgent)) && (/android/i.test(userAgent))) {
-            alert("Android Detected");
+            // alert("Android Detected");
+            document.getElementById("platform").text = "Android Detected";
             Android.trackPurchaseEvent();
+            // alert("Android Tracked Successfully");
+            document.getElementById("err_message").text = "Android Tracked Successfully";
         }
         // iOS detection
         else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-            alert("iOS Detected");
+            // alert("iOS Detected");
+            document.getElementById("platform").text = "iOS Detected";
             try {
                 webkit.messageHandlers.trackPurchaseEvent.postMessage({});
+                // alert("iOS Tracked Successfully");
+                document.getElementById("err_message").text = "iOS Tracked Successfully";
             } catch(err) {
-                alert(err);
+    //             alert(err);
+                document.getElementById("err_message").text = err;
             }
         } else {
-          alert("No platform detected, user agent: " + userAgent);
+          document.getElementById("platform").text = "No platform detected, user agent: " + userAgent;
+          // alert("No platform detected, user agent: " + userAgent);
         }
     }
 
     trackPurchaseEvent();
   </script>
+
+  <body>
+    <p id="platform"></p>
+    <p id="err_message"></p>
+  </body>
 </html>
