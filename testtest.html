@@ -4,7 +4,6 @@
         (function(b,r,a,n,c,h,_,s,d,k){if(!b[n]||!b[n]._q){for(;s<_.length;)c(h,_[s++]);d=r.createElement(a);d.async=1;d.src="https://cdn.branch.io/branch-latest.min.js";k=r.getElementsByTagName(a)[0];k.parentNode.insertBefore(d,k);b[n]=h}})(window,document,"script","branch",function(b,r){b[r]=function(){b._q.push([r,arguments])}},{_q:[],_v:1},"addListener applyCode autoAppIndex banner closeBanner closeJourney creditHistory credits data deepview deepviewCta first getCode init link logout redeem referrals removeListener sendSMS setBranchViewData setIdentity track validateCode trackCommerceEvent".split(" "), 0);
         // init Branch
         branch.init('key_live_pbAISnrI97MiqSQYxTHgajidACmklesf', function(err, data) {
-        console.log(data);
         var linkData = {};
         var linkOptions = {
             make_new_link: true
@@ -15,7 +14,6 @@
             data["data"]['$android_url'] = 'http://play.google.com/store/apps/details?id=to.hover.android.app';
             data["data"]['$desktop_url'] = 'https://hover.to/signup/';
             linkData = data;
-            console.log("1");
         } else {
             linkData = {
             campaign: 'organic',
@@ -24,12 +22,9 @@
             };
         }
 
-        console.log(linkData);
-
         branch.link(linkData,
             linkOptions,
             function (err, link) {
-              console.log(link);
                 var deepLinks = document.getElementsByClassName("deepLink");
                 for (var i = 0; i < deepLinks.length; i++) {
                     deepLinks[i].setAttribute("href", link);
