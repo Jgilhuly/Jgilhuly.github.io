@@ -5,7 +5,7 @@
     // init Branch
     branch.init('key_live_chyxR8sQGM9AEuhYZBE4PbngtvaSUG1K', function(err, data) {
       if (data != null && data != "") {
-        document.getElementById('referring_link_data').text = JSON.stringify(data);
+        document.getElementById('referring_link_data').innerHTML = JSON.stringify(data);
 
         var branchJourneysData = {
           data: {
