@@ -1,73 +1,12 @@
 <html>
 
 <head>
+  <meta name="viewport" content="width=device-width">
   <script>
 // load Branch
 (function(b,r,a,n,c,h,_,s,d,k){if(!b[n]||!b[n]._q){for(;s<_.length;)c(h,_[s++]);d=r.createElement(a);d.async=1;d.src="https://cdn.branch.io/branch-latest.min.js";k=r.getElementsByTagName(a)[0];k.parentNode.insertBefore(d,k);b[n]=h}})(window,document,"script","branch",function(b,r){b[r]=function(){b._q.push([r,arguments])}},{_q:[],_v:1},"addListener applyCode autoAppIndex banner closeBanner closeJourney creditHistory credits data deepview deepviewCta first getCode init link logout redeem referrals removeListener sendSMS setBranchViewData setIdentity track validateCode trackCommerceEvent".split(" "), 0);
 // init Branch
 branch.init('key_live_pbtE4dcavETgqI5C3M8n0eabADiL8rYZ');
-
-// branch.setBranchViewData({
-//   data: {
-//     "ios_url": "https://google.com"
-//   }
-// });
-</script>
-
-<style>
-  /*.branch-banner-no-scroll {
-         overflow: hidden;
-         position:fixed;
-         top:0;
-         bottom: 0;
-     }*/
-</style>
-
-<script>
-// var listener = function(event) {
-//   console.log('firing');
-//     var journeysBanner = document.getElementById('branch-banner-iframe');
-//
-//     if (!journeysBanner || !journeysBanner.style) { // don't run if the journey doesn't exist
-//       return;
-//     }
-//
-//     var topPosition = journeysBanner.style.top;
-//     var position = window.getComputedStyle(journeysBanner).getPropertyValue('position');
-//     var bannerHeight = window.getComputedStyle(journeysBanner).getPropertyValue('height');
-//
-//     if (topPosition === '0px' && position == 'fixed') { // if its a top, fixed, full-page journey
-//       journeysBanner.style.height = '100%'; // shift the banner upward by the height
-//     }
-//   }
-//   branch.addListener('didShowJourney', listener); // fires as soon as a journey is being shown
-//   window.onscroll = listener;
-</script>
-
-<script>
-  // var listener2 = function(event, data) {
-  //     // if(data["journey_link_data"]["data"]["inline"] == "true"){
-  //       var nav = document.getElementsByClassName("branch-journeys-top")[0].parentNode;
-  //       var tMargin = window.getComputedStyle(nav).marginTop;
-  //       var initialMargin = parseInt(tMargin, 10);
-  //
-  //       if( initialMargin > 0 ){
-  //         window.onscroll = function (e){
-  //           var scrollTop = window.pageYOffset || (document.documentElement || document.body.parentNode || document.body).scrollTop
-  //           var setZero = true;
-  //           if( scrollTop <= initialMargin) {
-  //             nav.style.marginTop = (initialMargin - scrollTop)+"px";
-  //             setZero = true;
-  //           } else if(setZero){
-  //             nav.style.marginTop = "0px";
-  //             setZero = false;
-  //           }
-  //         }
-  //       }
-  //     // }
-  //   }
-  //   // Listen for journey events
-  //   branch.addListener('didShowJourney', listener2);
 </script>
 </head>
 
