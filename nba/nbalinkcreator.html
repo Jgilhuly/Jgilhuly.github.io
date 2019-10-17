@@ -181,6 +181,7 @@
         var marketingTitle = document.getElementById('marketing_title').value;
         var teamName = document.getElementById('team_name_selector').value;
         var linkAlias = document.getElementById('alias').value;
+        var postDate = document.getElementById('date').value;
         var fallbackInternationalWeb = document.getElementById('fallback_international_web').value;
         var fallbackInternationalIos = document.getElementById('fallback_international_ios').value;
         var fallbackInternationalAndroid = document.getElementById('fallback_international_android').value;
@@ -196,6 +197,12 @@
         var ogUrl = document.getElementById('og_url').value;
         var ogVideo = document.getElementById('og_video').value;
         var ogType = document.getElementById('og_type').value;
+        var campaign = document.getElementById('campaign').value;
+        var content = document.getElementById('content_selector').value;
+        var media = document.getElementById('media_selector').value;
+        var time = document.getElementById('time_selector').value;
+        var hashtags = document.getElementById('hashtags').value;
+        var player = document.getElementById('playerName').value;
 
         var internationalLinkData = {
           tags: [],
@@ -206,7 +213,12 @@
           "$one_time_use": false,
           "section_id": sectionId,
           "content_id": contentId,
-          "$marketing_title": marketingTitle
+          "$marketing_title": marketingTitle,
+          "content": content,
+          "media": media,
+          "hashtags": hashtags,
+          "player_name": player,
+          "team_campaign": campaign
           }
         };
 
@@ -255,7 +267,13 @@
                 "$one_time_use": false,
                 "deeplink": deeplinkValue,
                 "tricode": tricodeMap[teamName],
-                "$marketing_title": marketingTitle
+                "$marketing_title": marketingTitle,
+                "post_date": postDate,
+                "content": content,
+                "media": media,
+                "hashtags": hashtags,
+                "player_name": player,
+                "team_campaign": campaign
                 }
             };
 
@@ -421,6 +439,34 @@
                       <option value="warriors">Warriors</option>
                     </select>
                   </label>
+                  <label>Content (Required):
+                    <p>What type of content is this link associated with?</p>
+                    <select class="form-control custom-select" id="content_selector">
+                      <option value="player">Player</option>
+                      <option label="gameday">Gameday</option>
+                      <option value="league_pass">League Pass</option>
+                      <option label="interview">Interview</option>
+                      <option label="draft">Draft</option>
+                      <option label="other">[Other]</option>
+                    </select>
+                  </label>
+                  <label>Media (Required):
+                    <p>What media type is this link associated with?</p>
+                    <select class="form-control custom-select" id="media_selector">
+                      <option value="image">Image</option>
+                      <option label="video">Video</option>
+                    </select>
+                  </label>
+                  <label>Time (Required):
+                    <p>What part of the seaason is this link associated with?</p>
+                    <select class="form-control custom-select" id="time_selector">
+                      <option value="off_season">Off Season</option>
+                      <option label="preseason">Preseason</option>
+                      <option value="regular_season">Regular Season</option>
+                      <option label="playoffs">Playoffs</option>
+                      <option label="finals">Finals</option>
+                    </select>
+                  </label>
                   <label>Channel (Optional):
                     <p>Where will this be used/posted?</p>
                     <input type="text" id="channel" class="form-control" value=""/>
@@ -430,6 +476,24 @@
                     we would create the following link: "https://nba.app.link/test_alias".
                     <b>Note: link aliases may not be reused</b></p>
                     <input type="text" id="alias" class="form-control" value=""/>
+                  </label>
+                  <label>Date (Optional):
+                    <p>The date will be appended to the link to help distiguish between posts. Please format: <b>ddmmyy</b>. For example, April 10, 2018 would be <b>041018</b>.</p>
+                    <input type="text" id="date" class="form-control" value=""/>
+                  </label>
+                  <!-- <div class="playerNameBox"> -->
+                    <label>Player Name (Optional):
+                      <p>The name of the player in the player post.</p>
+                      <input type="text" id="playerName" class="form-control" value=""/>
+                    </label>
+                  <!-- </div> -->
+                  <label>Campaign (Optional):
+                    <p>The Social or marketing campaign name.</p>
+                    <input type="text" id="campaign" class="form-control" value=""/>
+                  </label>
+                  <label>Hashtags (Optional):
+                    <p>Team hashtag(s) associated with the post.</p>
+                    <input type="text" id="hashtags" class="form-control" value=""/>
                   </label>
               </div>
             </div>
