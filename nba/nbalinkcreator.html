@@ -181,7 +181,9 @@
         var marketingTitle = document.getElementById('marketing_title').value;
         var teamName = document.getElementById('team_name_selector').value;
         var linkAlias = document.getElementById('alias').value;
-        var fallbackInternational = document.getElementById('fallback_international').value;
+        var fallbackInternationalWeb = document.getElementById('fallback_international_web').value;
+        var fallbackInternationalIos = document.getElementById('fallback_international_ios').value;
+        var fallbackInternationalAndroid = document.getElementById('fallback_international_android').value;
         var fallbackUS = document.getElementById('fallback_us').value;
         var channel = document.getElementById('channel').value;
         var deeplinkValue = document.getElementById('deeplink_value').value;
@@ -219,11 +221,19 @@
           }
         }
 
-        if (fallbackInternational !== null && fallbackInternational != "") {
-          internationalLinkData.data["$fallback_url"] = fallbackInternational;
-          internationalLinkData.data["$canonical_url"] = fallbackInternational;
+        if (fallbackInternationalWeb !== null && fallbackInternationalWeb != "") {
+          internationalLinkData.data["$desktop_url"] = fallbackInternationalWeb;
+          internationalLinkData.data["$canonical_url"] = fallbackInternationalWeb;
         } else {
           internationalLinkData.data["$canonical_url"] = defaultCanonical;
+        }
+
+        if (fallbackInternationalIos !== null && fallbackInternationalIos != "") {
+          internationalLinkData.data["$ios_url"] = fallbackInternationalIos;
+        }
+
+        if (fallbackInternationalAndroid !== null && fallbackInternationalAndroid != "") {
+          internationalLinkData.data["$android_url"] = fallbackInternationalAndroid;
         }
 
         // Create International Link
@@ -440,10 +450,20 @@
                   is specified, user will be taken to the App/Play Store on iOS/Android, or https://nba.com on desktop.</p>
                   <input type="text" id="fallback_us" class="form-control" value=""/>
                 </label>
-                <label>International Web URL (Optional):
-                  <p>If the link is clicked outside of the US by a user without the app, where should that user go? If no value
-                  is specified, user will be taken to the App/Play Store on iOS/Android, or https://nba.com on desktop.</p>
-                  <input type="text" id="fallback_international" class="form-control" value=""/>
+                <label>International Desktop Web URL (Optional):
+                  <p>If the link is clicked outside of the US on a Desktop device, where should that user go? If no value
+                  is specified, user will be taken to https://nba.com on desktop.</p>
+                  <input type="text" id="fallback_international_web" class="form-control" value=""/>
+                </label>
+                <label>International iOS URL (Optional):
+                  <p>If the link is clicked outside of the US on mobile by a user without the app, where should that user go? If no value
+                  is specified, user will be taken to the App Store.</p>
+                  <input type="text" id="fallback_international_ios" class="form-control" value=""/>
+                </label>
+                <label>International Android URL (Optional):
+                  <p>If the link is clicked outside of the US on mobile by a user without the app, where should that user go? If no value
+                  is specified, user will be taken to the Play Store.</p>
+                  <input type="text" id="fallback_international_android" class="form-control" value=""/>
                 </label>
               </div>
             </div>
