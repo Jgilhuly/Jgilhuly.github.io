@@ -151,7 +151,7 @@
 
     <script>
       var tricodeMap = {"blazers": "POR", "bucks": "MIL", "bulls": "CHI", "cavaliers": "CLE", "celtics": "BOS", "clippers": "LAC", "grizzlies": "MEM", "hawks": "ATL",
-      "heat": "MIA", "hornets": "CHA", "jazz": "UTA", "kings": "SAC", "knicks": "NYK", "lakers": "LAL", "magic": "ORL", "mavericks": "DAL", "nets": "BKN", "nuggets": "DEN",
+      "heat": "MIA", "hornets": "CHA", "jazz": "UTA", "kings": "SAC", "knicks": "NYK", "lakers": "LAL", "nba": "NBA", "magic": "ORL", "mavericks": "DAL", "nets": "BKN", "nuggets": "DEN",
       "pacers": "IND", "pelicans": "NOP", "pistons": "DET", "raptors": "TOR", "rockets": "HOU", "sixers": "PHI", "spurs": "SAS", "suns": "PHX", "thunder": "OKC", "timberwolves": "MIN",
        "warriors": "GSW", "wizards": "WAS"};
 
@@ -203,6 +203,10 @@
         var time = document.getElementById('time_selector').value;
         var hashtags = document.getElementById('hashtags').value;
         var player = document.getElementById('playerName').value;
+
+        if ( (fallbackUS == null || fallbackUS == "") & tricodeMap[teamName] != "nba"){
+          fallbackUS = "https://www.nba.com/" + teamName.toLowerCase() + "/leaguepass/pricing";
+        }
 
         var internationalLinkData = {
           tags: [],
@@ -405,6 +409,7 @@
                   <label>Team Name:
                     <p>Which team is this link associated with?</p>
                     <select class="form-control custom-select" id="team_name_selector">
+                      <option value="nba">NBA</option>
                       <optgroup label="East"></optgroup>
                       <option value="bucks">Bucks</option>
                       <option value="bulls">Bulls</option>
