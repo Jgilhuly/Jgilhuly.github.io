@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<!--
+OVERVIEW
+This will cover the best practices and limitations for creating custom message templates and give you the ability to create messages on your own.
+
+JAVASCRIPT
+External scripts are not recommended because they will not be available if the device is offline. Scripts should be defined in the document using the appropriate <script> tags and we recommend minifying the source to reduce the total size of the document to save on disk space and download time.
+
+CSS
+External style sheets are not recommended because they will not be available if the device is offline. Styles should be defined in the document using the appropriate <style> tags and we recommend minifying the source to reduce the total size of the document to save on disk space and download time. The CSS below is not minified to preserve readability.
+
+IMAGES
+Images that are expected to be displayed within the message should be defined in a custom meta tag(name=ADBMessageAssets). This helps ensure a good experience for users that are presented with the message even when offline or with a slow connection. It enables each device to cache the images ahead of time to support a good experience. Serving images through a CDN is recommended.
+<meta name="ADBMessageAssets" content='[
+	[ "http://foo.bar/baz.jpg", "fallback.jpg" ],
+	[ "http://foo.bar/nofallback.jpg" ]
+]' />
+The original image url should be defined 1st followed by an optional mapping to a local image reference.
+
+CLICK/TOUCH HANDLING
+Your custom HTML page must contain one or both of the following types of links:
+Click-Through
+adbinapp://confirm/?url=http://www.yoursite.com
+This will close the message and redirect to the URL parameter.
+Cancel
+adbinapp://cancel
+This will close the message.
+
+PREVIEW WINDOW
+The preview window within Adobe Mobile Services is not a device simulator. There are inconsistencies between the preview window and the devices that the message will be displayed on. It's possible that the preview window will fail to display the message properly, but work as designed on devices. We recommend testing the in app message directly on the targeted devices.
+-->
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+	<meta name=ADBMessageAssets content='[
+		[ "https://d1v1v6qmrpqka4.cloudfront.net/mobile-content/PSX/IOS/Cross_generic.png" ]
+		[ "https://d1v1v6qmrpqka4.cloudfront.net/mobile-content/PSX/IOS/Image_Collage.jpg" ]
+	]' />
+	<title></title>
+<script>
+	function initialize()
+	{
+		var language = window.navigator.userLanguage || window.navigator.language;
+		language = language.toLowerCase();
+		var lan_prefix = language.substring(0,2);
+
+
+		//handle Chinese
+		if (lan_prefix == "zh")
+		{
+			if(language == "zh-cn")
+ 				lan_prefix = "zhhans";
+ 			else
+ 				lan_prefix = "zhhant";
+ 		}
+
+		var background_image = "https://adobe-growth.netlify.com/photoshop/hero.jpg";
+		var title_long = "Take Photoshop to new places. Create with the power of Photoshop on the iPad.";
+		var title_short = "Seamlessly move between devices with Photoshop on the iPad";
+		var modal_message_one = "<strong>Work anywhere:</strong> Your files are automatically saved to Adobe's cloud as you work."
+		var modal_message_two = "<strong>Compositing:</strong> Combine digital elements using sophisticated selections, masks and brushes.";
+		var modal_message_three = "<strong>Retouching:</strong> Edit and enhance images with features such as spot healing and clone stamp.";
+		var modal_message_four = "<strong>Layers:</strong> Create with as many layers as you do on desktop using both a compact and a detailed view.";
+		var modal_message_mobile = "With the new Photoshop on the iPad, you can save your work to Adobe’s cloud automatically, and switch between desktop and tablet quickly and easily. It's the new way to unlock your creativity, now available on the App Store.";
+		var single_line_message = "<strong>and so much more</strong>";
+		var primary_btn_url_desktop = "https://adobephotoshop.app.link/T7UNtCsJd1?~channel=PSX";
+		var primary_btn_url_mobile = "https://adobephotoshop.app.link/P7UNtCsJd1?~channel=PSX";
+		var secondary_btn_url = "adbinapp://cancel";
+		var primary_btn_desktop = "Try Photoshop";
+		var primary_btn_mobile = "Learn More";
+		var secondary_btn = "Dismiss";
+
+		// settings
+		var weight = '500';
+		var h1size = '23px';
+		var maxWidth = '450px';
+		var h1margin = '15px';
+		var copy = '12px';
+
+
+		// var bottomText = 'An Adobe ID is needed to generate private download link';
+
+		if (lan_prefix == "en")
+		{
+			;
+		}
+
+		else if(lan_prefix == "cs")
+		{
+			background_image = "https://adobe-growth.netlify.com/photoshop/hero.jpg";
+			title_long = "Retouch your photos wherever you are with the power of Photoshop on iPad.";
+			title_short = "Retouch your photos across devices with Photoshop on the iPad";
+			modal_message_one = "<strong>Work anywhere:</strong> Your files are automatically saved to Adobe's cloud as you work."
+			modal_message_two = "<strong>Compositing:</strong> Combine digital elements using sophisticated selections, masks, and brushes.";
+			modal_message_three = "<strong>Retouching:</strong> Edit and enhance images with features such as spot healing and clone stamp.";
+			modal_message_four = "<strong>Layers:</strong> Create with as many layers as you do on desktop using both a compact and a detailed view.";
+			modal_message_mobile = "Tap into the power of Photoshop on the go, and save your documents on the cloud automatically, while you work. Photoshop on the iPad is the new way to unlock your creativity. Now available in the App Store.";
+			single_line_message = "<strong>and so much more</strong>";
+			primary_btn_url_desktop = "https://google.com/desktop";
+			primary_btn_url_mobile = "https://google.com/mobile";
+			secondary_btn_url = "adbinapp://cancel";
+			primary_btn_desktop = "Try Photoshop";
+			primary_btn_mobile = "Try Photoshop";
+			secondary_btn = "Dismiss";
+		}
+		else if(lan_prefix == "da")
+		{
+			background_image = "https://adobe-growth.netlify.com/photoshop/hero.jpg";
+			title_long = "Retouch your photos wherever you are with the power of Photoshop on iPad.";
+			title_short = "Retouch your photos across devices with Photoshop on the iPad";
+			modal_message_one = "<strong>Work anywhere:</strong> Your files are automatically saved to Adobe's cloud as you work."
+			modal_message_two = "<strong>Compositing:</strong> Combine digital elements using sophisticated selections, masks, and brushes.";
+			modal_message_three = "<strong>Retouching:</strong> Edit and enhance images with features such as spot healing and clone stamp.";
+			modal_message_four = "<strong>Layers:</strong> Create with as many layers as you do on desktop using both a compact and a detailed view.";
+			modal_message_mobile = "Tap into the power of Photoshop on the go, and save your documents on the cloud automatically, while you work. Photoshop on the iPad is the new way to unlock your creativity. Now available in the App Store.";
+			single_line_message = "<strong>and so much more</strong>";
+			primary_btn_url_desktop = "https://google.com/desktop";
+			primary_btn_url_mobile = "https://google.com/mobile";
+			secondary_btn_url = "adbinapp://cancel";
+			primary_btn_desktop = "Try Photoshop";
+			primary_btn_mobile = "Try Photoshop";
+			secondary_btn = "Dismiss";
+		}
+		else if(lan_prefix == "de")
+		{
+			background_image = "https://adobe-growth.netlify.com/photoshop/hero.jpg";
+			title_long = "Photoshop to go: Nutze die volle Power von Photoshop auf deinem iPad.";
+			title_short = "Wechsle mit Photoshop auf dem iPad zwischen deinen Geräten.";
+			modal_message_one = "<strong>Überall arbeiten:</strong> Deine Dateien werden automatisch in der Cloud gespeichert."
+			modal_message_two = "<strong>Retuschieren:</strong> Mit Tools wie Bereichsreparatur-Pinsel und Kopierstempel lassen sich deine Bilder bearbeiten.";
+			modal_message_three = "<strong>Kompositionen:</strong> Kombiniere Elemente. Wähle dabei genau den Bereich aus, auf den es dir ankommt, und arbeite mit Masken und Pinseln.";
+			modal_message_four = "<strong>Ebenen:</strong> Erstelle genauso viele Ebenen wie mit Photoshop auf dem Desktop. Wechsle dabei zwischen Kompakt- und Detailansicht.";
+			modal_message_mobile = "Mit Photoshop auf deinem iPad kannst du deine Dateien in der Cloud speichern und jederzeit zwischen Desktop und Tablet wechseln. Entdecke die neuen Möglichkeiten der kreativen Arbeit. Jetzt im App Store erhältlich.";
+			single_line_message = "<strong>Jetzt entdecken</strong>";
+			primary_btn_url_desktop = "https://adobephotoshop.app.link/W7UNtCsJd1?~channel=PSX";
+			primary_btn_url_mobile = "https://adobephotoshop.app.link/S7UNtCsJd1?~channel=PSX";
+			secondary_btn_url = "adbinapp://cancel";
+			primary_btn_desktop = "Photoshop kostenlos testen";
+			primary_btn_mobile = "Weitere Infos";
+			secondary_btn = "Schließen";
+		}
+		else if(lan_prefix == "el")
+		{
+			background_image = "https://adobe-growth.netlify.com/photoshop/hero.jpg";
+			title_long = "Retouch your photos wherever you are with the power of Photoshop on iPad.";
+			title_short = "Retouch your photos across devices with Photoshop on the iPad";
+			modal_message_one = "<strong>Work anywhere:</strong> Your files are automatically saved to Adobe's cloud as you work."
+			modal_message_two = "<strong>Compositing:</strong> Combine digital elements using sophisticated selections, masks, and brushes.";
+			modal_message_three = "<strong>Retouching:</strong> Edit and enhance images with features such as spot healing and clone stamp.";
+			modal_message_four = "<strong>Layers:</strong> Create with as many layers as you do on desktop using both a compact and a detailed view.";
+			modal_message_mobile = "Tap into the power of Photoshop on the go, and save your documents on the cloud automatically, while you work. Photoshop on the iPad is the new way to unlock your creativity. Now available in the App Store.";
+			single_line_message = "<strong>and so much more</strong>";
+			primary_btn_url_desktop = "https://google.com/desktop";
+			primary_btn_url_mobile = "https://google.com/mobile";
+			secondary_btn_url = "adbinapp://cancel";
+			primary_btn_desktop = "Try Photoshop";
+			primary_btn_mobile = "Try Photoshop";
+			secondary_btn = "Dismiss";
+		}
+		else if(lan_prefix == "es")
+		{
+			background_image = "https://adobe-growth.netlify.com/photoshop/hero.jpg";
+			title_long = "Retouch your photos wherever you are with the power of Photoshop on iPad.";
+			title_short = "Retouch your photos across devices with Photoshop on the iPad";
+			modal_message_one = "<strong>Work anywhere:</strong> Your files are automatically saved to Adobe's cloud as you work."
+			modal_message_two = "<strong>Compositing:</strong> Combine digital elements using sophisticated selections, masks, and brushes.";
+			modal_message_three = "<strong>Retouching:</strong> Edit and enhance images with features such as spot healing and clone stamp.";
+			modal_message_four = "<strong>Layers:</strong> Create with as many layers as you do on desktop using both a compact and a detailed view.";
+			modal_message_mobile = "Tap into the power of Photoshop on the go, and save your documents on the cloud automatically, while you work. Photoshop on the iPad is the new way to unlock your creativity. Now available in the App Store.";
+			single_line_message = "<strong>and so much more</strong>";
+			primary_btn_url_desktop = "https://google.com/desktop";
+			primary_btn_url_mobile = "https://google.com/mobile";
+			secondary_btn_url = "adbinapp://cancel";
+			primary_btn_desktop = "Try Photoshop";
+			primary_btn_mobile = "Try Photoshop";
+			secondary_btn = "Dismiss";
+		}
+		else if(lan_prefix == "fi")
+		{
+			background_image = "https://adobe-growth.netlify.com/photoshop/hero.jpg";
+			title_long = "Retouch your photos wherever you are with the power of Photoshop on iPad.";
+			title_short = "Retouch your photos across devices with Photoshop on the iPad";
+			modal_message_one = "<strong>Work anywhere:</strong> Your files are automatically saved to Adobe's cloud as you work."
+			modal_message_two = "<strong>Compositing:</strong> Combine digital elements using sophisticated selections, masks, and brushes.";
+			modal_message_three = "<strong>Retouching:</strong> Edit and enhance images with features such as spot healing and clone stamp.";
+			modal_message_four = "<strong>Layers:</strong> Create with as many layers as you do on desktop using both a compact and a detailed view.";
+			modal_message_mobile = "Tap into the power of Photoshop on the go, and save your documents on the cloud automatically, while you work. Photoshop on the iPad is the new way to unlock your creativity. Now available in the App Store.";
+			single_line_message = "<strong>and so much more</strong>";
+			primary_btn_url_desktop = "https://google.com/desktop";
+			primary_btn_url_mobile = "https://google.com/mobile";
+			secondary_btn_url = "adbinapp://cancel";
+			primary_btn_desktop = "Try Photoshop";
+			primary_btn_mobile = "Try Photoshop";
+			secondary_btn = "Dismiss";
+		}
+		else if(lan_prefix == "fr")
+		{
+			background_image = "https://adobe-growth.netlify.com/photoshop/hero.jpg";
+			title_long = "Allez plus loin avec Photoshop. Exploitez la puissance de Photoshop sur iPad.";
+			title_short = "Passez aisément d'un appareil à l'autre avec Photoshop sur iPad";
+			modal_message_one = "<strong>Travaillez où bon vous semble:</strong> vos fichiers sont enregistrés au fil de votre travail dans le cloud d'Adobe."
+			modal_message_two = "<strong>Composition:</strong> combinez différents éléments numériques à l'aide de sélections, de masques et de pinceaux élaborés. ";
+			modal_message_three = "<strong>Retouche:</strong> retouchez et améliorez vos images avec des fonctionnalités comme le correcteur localisé et le tampon de duplication. ";
+			modal_message_four = "<strong>Calques:</strong> utilisez autant de calques que vous le feriez sur votre ordinateur grâce aux vues compacte et détaillée. ";
+			modal_message_mobile = "La nouvelle application Photoshop sur iPad enregistre automatiquement votre travail dans le cloud d'Adobe et assure le passage aisé entre l'ordinateur et la tablette et inversement. Le nouveau mode d'expression de votre créativité vous attend sur l'App Store";
+			single_line_message = "<strong>Et bien plus encore.</strong>";
+			primary_btn_url_desktop = "https://adobephotoshop.app.link/U7UNtCsJd1?~channel=PSX";
+			primary_btn_url_mobile = "https://adobephotoshop.app.link/R7UNtCsJd1?~channel=PSX";
+			secondary_btn_url = "adbinapp://cancel";
+			primary_btn_desktop = "Tester Photoshop";
+			primary_btn_mobile = "En savoir plus";
+			secondary_btn = "Ignorer";
+		}
+		else if(lan_prefix == "id")
+		{
+			background_image = "https://adobe-growth.netlify.com/photoshop/hero.jpg";
+			title_long = "Retouch your photos wherever you are with the power of Photoshop on iPad.";
+			title_short = "Retouch your photos across devices with Photoshop on the iPad";
+			modal_message_one = "<strong>Work anywhere:</strong> Your files are automatically saved to Adobe's cloud as you work."
+			modal_message_two = "<strong>Compositing:</strong> Combine digital elements using sophisticated selections, masks, and brushes.";
+			modal_message_three = "<strong>Retouching:</strong> Edit and enhance images with features such as spot healing and clone stamp.";
+			modal_message_four = "<strong>Layers:</strong> Create with as many layers as you do on desktop using both a compact and a detailed view.";
+			modal_message_mobile = "Tap into the power of Photoshop on the go, and save your documents on the cloud automatically, while you work. Photoshop on the iPad is the new way to unlock your creativity. Now available in the App Store.";
+			single_line_message = "<strong>and so much more</strong>";
+			primary_btn_url_desktop = "https://google.com/desktop";
+			primary_btn_url_mobile = "https://google.com/mobile";
+			secondary_btn_url = "adbinapp://cancel";
+			primary_btn_desktop = "Try Photoshop";
+			primary_btn_mobile = "Try Photoshop";
+			secondary_btn = "Dismiss";
+		}
+		else if(lan_prefix == "it")
+		{
+			background_image = "https://adobe-growth.netlify.com/photoshop/hero.jpg";
+			title_long = "Retouch your photos wherever you are with the power of Photoshop on iPad.";
+			title_short = "Retouch your photos across devices with Photoshop on the iPad";
+			modal_message_one = "<strong>Work anywhere:</strong> Your files are automatically saved to Adobe's cloud as you work."
+			modal_message_two = "<strong>Compositing:</strong> Combine digital elements using sophisticated selections, masks, and brushes.";
+			modal_message_three = "<strong>Retouching:</strong> Edit and enhance images with features such as spot healing and clone stamp.";
+			modal_message_four = "<strong>Layers:</strong> Create with as many layers as you do on desktop using both a compact and a detailed view.";
+			modal_message_mobile = "Tap into the power of Photoshop on the go, and save your documents on the cloud automatically, while you work. Photoshop on the iPad is the new way to unlock your creativity. Now available in the App Store.";
+			single_line_message = "<strong>and so much more</strong>";
+			primary_btn_url_desktop = "https://google.com/desktop";
+			primary_btn_url_mobile = "https://google.com/mobile";
+			secondary_btn_url = "adbinapp://cancel";
+			primary_btn_desktop = "Try Photoshop";
+			primary_btn_mobile = "Try Photoshop";
+			secondary_btn = "Dismiss";
+		}
+		else if(lan_prefix == "ja")
+		{
+			background_image = "https://adobe-growth.netlify.com/photoshop/hero.jpg";
+			title_long = "Retouch your photos wherever you are with the power of Photoshop on iPad.";
+			title_short = "Retouch your photos across devices with Photoshop on the iPad";
+			modal_message_one = "<strong>Work anywhere:</strong> Your files are automatically saved to Adobe's cloud as you work."
+			modal_message_two = "<strong>Compositing:</strong> Combine digital elements using sophisticated selections, masks, and brushes.";
+			modal_message_three = "<strong>Retouching:</strong> Edit and enhance images with features such as spot healing and clone stamp.";
+			modal_message_four = "<strong>Layers:</strong> Create with as many layers as you do on desktop using both a compact and a detailed view.";
+			modal_message_mobile = "Tap into the power of Photoshop on the go, and save your documents on the cloud automatically, while you work. Photoshop on the iPad is the new way to unlock your creativity. Now available in the App Store.";
+			single_line_message = "<strong>and so much more</strong>";
+			primary_btn_url_desktop = "https://google.com/desktop";
+			primary_btn_url_mobile = "https://google.com/mobile";
+			secondary_btn_url = "adbinapp://cancel";
+			primary_btn_desktop = "Try Photoshop";
+			primary_btn_mobile = "Try Photoshop";
+			secondary_btn = "Dismiss";
+		}
+		else if(lan_prefix == "jp")
+		{
+			background_image = "https://adobe-growth.netlify.com/photoshop/hero.jpg";
+			title_long = "レベルアップした新しいPhotoshopで デザインはもっと自由になる";
+			title_short = "Photoshop iPad版ならデバイスをシームレスに切り替え可能";
+			modal_message_one = "<strong>どこでも作業可能: </strong>作業中のファイルは自動的にアドビのクラウドストレージに保存されます。"
+			modal_message_two = "<strong>レタッチ: </strong>画像の編集や加工には、スポット修復ツールやコピースタンプなどの機能を使用できます。";
+			modal_message_three = "<strong>レイヤー: </strong>デスクトップと同じようにレイヤーの数を必要なだけ増やしても、コンパクト表示と詳細表示を切り替えながら作業できます。";
+			modal_message_four = "<strong>合成: </strong>精密な範囲選択や、マスクとブラシを使用することにより、デジタル要素を組み合わせることができます。";
+			modal_message_mobile = "新登場のPhotoshop iPad版なら、作業内容をアドビのクラウドに自動保存でき、デスクトップとタブレットをすばやく簡単に切り替えることができます。 クリエイティビティを解き放つ最新のアプリをApp Storeから入手可能です。";
+			single_line_message = "<strong>他にも数多くの強化機能があります。</strong>";
+			primary_btn_url_desktop = "https://adobephotoshop.app.link/V7UNtCsJd1?~channel=PSX";
+			primary_btn_url_mobile = "https://adobephotoshop.app.link/Q7UNtCsJd1?~channel=PSX";
+			secondary_btn_url = "adbinapp://cancel";
+			primary_btn_desktop = "Photoshopを体験";
+			primary_btn_mobile = "詳細を見る";
+			secondary_btn = "閉じる";
+		}
+		else if(lan_prefix == "ko")
+		{
+			background_image = "https://adobe-growth.netlify.com/photoshop/hero.jpg";
+			title_long = "Retouch your photos wherever you are with the power of Photoshop on iPad.";
+			title_short = "Retouch your photos across devices with Photoshop on the iPad";
+			modal_message_one = "<strong>Work anywhere:</strong> Your files are automatically saved to Adobe's cloud as you work."
+			modal_message_two = "<strong>Compositing:</strong> Combine digital elements using sophisticated selections, masks, and brushes.";
+			modal_message_three = "<strong>Retouching:</strong> Edit and enhance images with features such as spot healing and clone stamp.";
+			modal_message_four = "<strong>Layers:</strong> Create with as many layers as you do on desktop using both a compact and a detailed view.";
+			modal_message_mobile = "Tap into the power of Photoshop on the go, and save your documents on the cloud automatically, while you work. Photoshop on the iPad is the new way to unlock your creativity. Now available in the App Store.";
+			single_line_message = "<strong>and so much more</strong>";
+			primary_btn_url_desktop = "https://google.com/desktop";
+			primary_btn_url_mobile = "https://google.com/mobile";
+			secondary_btn_url = "adbinapp://cancel";
+			primary_btn_desktop = "Try Photoshop";
+			primary_btn_mobile = "Try Photoshop";
+			secondary_btn = "Dismiss";
+		}
+		else if(lan_prefix == "ms")
+		{
+			background_image = "https://adobe-growth.netlify.com/photoshop/hero.jpg";
+			title_long = "Retouch your photos wherever you are with the power of Photoshop on iPad.";
+			title_short = "Retouch your photos across devices with Photoshop on the iPad";
+			modal_message_one = "<strong>Work anywhere:</strong> Your files are automatically saved to Adobe's cloud as you work."
+			modal_message_two = "<strong>Compositing:</strong> Combine digital elements using sophisticated selections, masks, and brushes.";
+			modal_message_three = "<strong>Retouching:</strong> Edit and enhance images with features such as spot healing and clone stamp.";
+			modal_message_four = "<strong>Layers:</strong> Create with as many layers as you do on desktop using both a compact and a detailed view.";
+			modal_message_mobile = "Tap into the power of Photoshop on the go, and save your documents on the cloud automatically, while you work. Photoshop on the iPad is the new way to unlock your creativity. Now available in the App Store.";
+			single_line_message = "<strong>and so much more</strong>";
+			primary_btn_url_desktop = "https://google.com/desktop";
+			primary_btn_url_mobile = "https://google.com/mobile";
+			secondary_btn_url = "adbinapp://cancel";
+			primary_btn_desktop = "Try Photoshop";
+			primary_btn_mobile = "Try Photoshop";
+			secondary_btn = "Dismiss";
+		}
+		else if(lan_prefix == "nb")
+		{
+			background_image = "https://adobe-growth.netlify.com/photoshop/hero.jpg";
+			title_long = "Retouch your photos wherever you are with the power of Photoshop on iPad.";
+			title_short = "Retouch your photos across devices with Photoshop on the iPad";
+			modal_message_one = "<strong>Work anywhere:</strong> Your files are automatically saved to Adobe's cloud as you work."
+			modal_message_two = "<strong>Compositing:</strong> Combine digital elements using sophisticated selections, masks, and brushes.";
+			modal_message_three = "<strong>Retouching:</strong> Edit and enhance images with features such as spot healing and clone stamp.";
+			modal_message_four = "<strong>Layers:</strong> Create with as many layers as you do on desktop using both a compact and a detailed view.";
+			modal_message_mobile = "Tap into the power of Photoshop on the go, and save your documents on the cloud automatically, while you work. Photoshop on the iPad is the new way to unlock your creativity. Now available in the App Store.";
+			single_line_message = "<strong>and so much more</strong>";
+			primary_btn_url_desktop = "https://google.com/desktop";
+			primary_btn_url_mobile = "https://google.com/mobile";
+			secondary_btn_url = "adbinapp://cancel";
+			primary_btn_desktop = "Try Photoshop";
+			primary_btn_mobile = "Try Photoshop";
+			secondary_btn = "Dismiss";
+		}
+		else if(lan_prefix == "nl")
+		{
+			background_image = "https://adobe-growth.netlify.com/photoshop/hero.jpg";
+			title_long = "Retouch your photos wherever you are with the power of Photoshop on iPad.";
+			title_short = "Retouch your photos across devices with Photoshop on the iPad";
+			modal_message_one = "<strong>Work anywhere:</strong> Your files are automatically saved to Adobe's cloud as you work."
+			modal_message_two = "<strong>Compositing:</strong> Combine digital elements using sophisticated selections, masks, and brushes.";
+			modal_message_three = "<strong>Retouching:</strong> Edit and enhance images with features such as spot healing and clone stamp.";
+			modal_message_four = "<strong>Layers:</strong> Create with as many layers as you do on desktop using both a compact and a detailed view.";
+			modal_message_mobile = "Tap into the power of Photoshop on the go, and save your documents on the cloud automatically, while you work. Photoshop on the iPad is the new way to unlock your creativity. Now available in the App Store.";
+			single_line_message = "<strong>and so much more</strong>";
+			primary_btn_url_desktop = "https://google.com/desktop";
+			primary_btn_url_mobile = "https://google.com/mobile";
+			secondary_btn_url = "adbinapp://cancel";
+			primary_btn_desktop = "Try Photoshop";
+			primary_btn_mobile = "Try Photoshop";
+			secondary_btn = "Dismiss";
+		}
+		else if(lan_prefix == "pl")
+		{
+			background_image = "https://adobe-growth.netlify.com/photoshop/hero.jpg";
+			title_long = "Retouch your photos wherever you are with the power of Photoshop on iPad.";
+			title_short = "Retouch your photos across devices with Photoshop on the iPad";
+			modal_message_one = "<strong>Work anywhere:</strong> Your files are automatically saved to Adobe's cloud as you work."
+			modal_message_two = "<strong>Compositing:</strong> Combine digital elements using sophisticated selections, masks, and brushes.";
+			modal_message_three = "<strong>Retouching:</strong> Edit and enhance images with features such as spot healing and clone stamp.";
+			modal_message_four = "<strong>Layers:</strong> Create with as many layers as you do on desktop using both a compact and a detailed view.";
+			modal_message_mobile = "Tap into the power of Photoshop on the go, and save your documents on the cloud automatically, while you work. Photoshop on the iPad is the new way to unlock your creativity. Now available in the App Store.";
+			single_line_message = "<strong>and so much more</strong>";
+			primary_btn_url_desktop = "https://google.com/desktop";
+			primary_btn_url_mobile = "https://google.com/mobile";
+			secondary_btn_url = "adbinapp://cancel";
+			primary_btn_desktop = "Try Photoshop";
+			primary_btn_mobile = "Try Photoshop";
+			secondary_btn = "Dismiss";
+		}
+		else if(lan_prefix == "pt")
+		{
+			background_image = "https://adobe-growth.netlify.com/photoshop/hero.jpg";
+			title_long = "Retouch your photos wherever you are with the power of Photoshop on iPad.";
+			title_short = "Retouch your photos across devices with Photoshop on the iPad";
+			modal_message_one = "<strong>Work anywhere:</strong> Your files are automatically saved to Adobe's cloud as you work."
+			modal_message_two = "<strong>Compositing:</strong> Combine digital elements using sophisticated selections, masks, and brushes.";
+			modal_message_three = "<strong>Retouching:</strong> Edit and enhance images with features such as spot healing and clone stamp.";
+			modal_message_four = "<strong>Layers:</strong> Create with as many layers as you do on desktop using both a compact and a detailed view.";
+			modal_message_mobile = "Tap into the power of Photoshop on the go, and save your documents on the cloud automatically, while you work. Photoshop on the iPad is the new way to unlock your creativity. Now available in the App Store.";
+			single_line_message = "<strong>and so much more</strong>";
+			primary_btn_url_desktop = "https://google.com/desktop";
+			primary_btn_url_mobile = "https://google.com/mobile";
+			secondary_btn_url = "adbinapp://cancel";
+			primary_btn_desktop = "Try Photoshop";
+			primary_btn_mobile = "Try Photoshop";
+			secondary_btn = "Dismiss";
+		}
+		else if(lan_prefix == "ro")
+		{
+			background_image = "https://adobe-growth.netlify.com/photoshop/hero.jpg";
+			title_long = "Retouch your photos wherever you are with the power of Photoshop on iPad.";
+			title_short = "Retouch your photos across devices with Photoshop on the iPad";
+			modal_message_one = "<strong>Work anywhere:</strong> Your files are automatically saved to Adobe's cloud as you work."
+			modal_message_two = "<strong>Compositing:</strong> Combine digital elements using sophisticated selections, masks, and brushes.";
+			modal_message_three = "<strong>Retouching:</strong> Edit and enhance images with features such as spot healing and clone stamp.";
+			modal_message_four = "<strong>Layers:</strong> Create with as many layers as you do on desktop using both a compact and a detailed view.";
+			modal_message_mobile = "Tap into the power of Photoshop on the go, and save your documents on the cloud automatically, while you work. Photoshop on the iPad is the new way to unlock your creativity. Now available in the App Store.";
+			single_line_message = "<strong>and so much more</strong>";
+			primary_btn_url_desktop = "https://google.com/desktop";
+			primary_btn_url_mobile = "https://google.com/mobile";
+			secondary_btn_url = "adbinapp://cancel";
+			primary_btn_desktop = "Try Photoshop";
+			primary_btn_mobile = "Try Photoshop";
+			secondary_btn = "Dismiss";
+		}
+		else if(lan_prefix == "ru")
+		{
+			background_image = "https://adobe-growth.netlify.com/photoshop/hero.jpg";
+			title_long = "Retouch your photos wherever you are with the power of Photoshop on iPad.";
+			title_short = "Retouch your photos across devices with Photoshop on the iPad";
+			modal_message_one = "<strong>Work anywhere:</strong> Your files are automatically saved to Adobe's cloud as you work."
+			modal_message_two = "<strong>Compositing:</strong> Combine digital elements using sophisticated selections, masks, and brushes.";
+			modal_message_three = "<strong>Retouching:</strong> Edit and enhance images with features such as spot healing and clone stamp.";
+			modal_message_four = "<strong>Layers:</strong> Create with as many layers as you do on desktop using both a compact and a detailed view.";
+			modal_message_mobile = "Tap into the power of Photoshop on the go, and save your documents on the cloud automatically, while you work. Photoshop on the iPad is the new way to unlock your creativity. Now available in the App Store.";
+			single_line_message = "<strong>and so much more</strong>";
+			primary_btn_url_desktop = "https://google.com/desktop";
+			primary_btn_url_mobile = "https://google.com/mobile";
+			secondary_btn_url = "adbinapp://cancel";
+			primary_btn_desktop = "Try Photoshop";
+			primary_btn_mobile = "Try Photoshop";
+			secondary_btn = "Dismiss";
+		}
+		else if(lan_prefix == "sv")
+		{
+			background_image = "https://adobe-growth.netlify.com/photoshop/hero.jpg";
+			title_long = "Retouch your photos wherever you are with the power of Photoshop on iPad.";
+			title_short = "Retouch your photos across devices with Photoshop on the iPad";
+			modal_message_one = "<strong>Work anywhere:</strong> Your files are automatically saved to Adobe's cloud as you work."
+			modal_message_two = "<strong>Compositing:</strong> Combine digital elements using sophisticated selections, masks, and brushes.";
+			modal_message_three = "<strong>Retouching:</strong> Edit and enhance images with features such as spot healing and clone stamp.";
+			modal_message_four = "<strong>Layers:</strong> Create with as many layers as you do on desktop using both a compact and a detailed view.";
+			modal_message_mobile = "Tap into the power of Photoshop on the go, and save your documents on the cloud automatically, while you work. Photoshop on the iPad is the new way to unlock your creativity. Now available in the App Store.";
+			single_line_message = "<strong>and so much more</strong>";
+			primary_btn_url_desktop = "https://google.com/desktop";
+			primary_btn_url_mobile = "https://google.com/mobile";
+			secondary_btn_url = "adbinapp://cancel";
+			primary_btn_desktop = "Try Photoshop";
+			primary_btn_mobile = "Try Photoshop";
+			secondary_btn = "Dismiss";
+		}
+		else if(lan_prefix == "th")
+		{
+			background_image = "https://adobe-growth.netlify.com/photoshop/hero.jpg";
+			title_long = "Retouch your photos wherever you are with the power of Photoshop on iPad.";
+			title_short = "Retouch your photos across devices with Photoshop on the iPad";
+			modal_message_one = "<strong>Work anywhere:</strong> Your files are automatically saved to Adobe's cloud as you work."
+			modal_message_two = "<strong>Compositing:</strong> Combine digital elements using sophisticated selections, masks, and brushes.";
+			modal_message_three = "<strong>Retouching:</strong> Edit and enhance images with features such as spot healing and clone stamp.";
+			modal_message_four = "<strong>Layers:</strong> Create with as many layers as you do on desktop using both a compact and a detailed view.";
+			modal_message_mobile = "Tap into the power of Photoshop on the go, and save your documents on the cloud automatically, while you work. Photoshop on the iPad is the new way to unlock your creativity. Now available in the App Store.";
+			single_line_message = "<strong>and so much more</strong>";
+			primary_btn_url_desktop = "https://google.com/desktop";
+			primary_btn_url_mobile = "https://google.com/mobile";
+			secondary_btn_url = "adbinapp://cancel";
+			primary_btn_desktop = "Try Photoshop";
+			primary_btn_mobile = "Try Photoshop";
+			secondary_btn = "Dismiss";
+		}
+		else if(lan_prefix == "tr")
+		{
+			background_image = "https://adobe-growth.netlify.com/photoshop/hero.jpg";
+			title_long = "Retouch your photos wherever you are with the power of Photoshop on iPad.";
+			title_short = "Retouch your photos across devices with Photoshop on the iPad";
+			modal_message_one = "<strong>Work anywhere:</strong> Your files are automatically saved to Adobe's cloud as you work."
+			modal_message_two = "<strong>Compositing:</strong> Combine digital elements using sophisticated selections, masks, and brushes.";
+			modal_message_three = "<strong>Retouching:</strong> Edit and enhance images with features such as spot healing and clone stamp.";
+			modal_message_four = "<strong>Layers:</strong> Create with as many layers as you do on desktop using both a compact and a detailed view.";
+			modal_message_mobile = "Tap into the power of Photoshop on the go, and save your documents on the cloud automatically, while you work. Photoshop on the iPad is the new way to unlock your creativity. Now available in the App Store.";
+			single_line_message = "<strong>and so much more</strong>";
+			primary_btn_url_desktop = "https://google.com/desktop";
+			primary_btn_url_mobile = "https://google.com/mobile";
+			secondary_btn_url = "adbinapp://cancel";
+			primary_btn_desktop = "Try Photoshop";
+			primary_btn_mobile = "Try Photoshop";
+			secondary_btn = "Dismiss";
+		}
+		else if(lan_prefix == "uk")
+		{
+			background_image = "https://adobe-growth.netlify.com/photoshop/hero.jpg";
+			title_long = "Retouch your photos wherever you are with the power of Photoshop on iPad.";
+			title_short = "Retouch your photos across devices with Photoshop on the iPad";
+			modal_message_one = "<strong>Work anywhere:</strong> Your files are automatically saved to Adobe's cloud as you work."
+			modal_message_two = "<strong>Compositing:</strong> Combine digital elements using sophisticated selections, masks, and brushes.";
+			modal_message_three = "<strong>Retouching:</strong> Edit and enhance images with features such as spot healing and clone stamp.";
+			modal_message_four = "<strong>Layers:</strong> Create with as many layers as you do on desktop using both a compact and a detailed view.";
+			modal_message_mobile = "Tap into the power of Photoshop on the go, and save your documents on the cloud automatically, while you work. Photoshop on the iPad is the new way to unlock your creativity. Now available in the App Store.";
+			single_line_message = "<strong>and so much more</strong>";
+			primary_btn_url_desktop = "https://google.com/desktop";
+			primary_btn_url_mobile = "https://google.com/mobile";
+			secondary_btn_url = "adbinapp://cancel";
+			primary_btn_desktop = "Try Photoshop";
+			primary_btn_mobile = "Try Photoshop";
+			secondary_btn = "Dismiss";
+		}
+		else if(lan_prefix == "vi")
+		{
+			background_image = "https://adobe-growth.netlify.com/photoshop/hero.jpg";
+			title_long = "Retouch your photos wherever you are with the power of Photoshop on iPad.";
+			title_short = "Retouch your photos across devices with Photoshop on the iPad";
+			modal_message_one = "<strong>Work anywhere:</strong> Your files are automatically saved to Adobe's cloud as you work."
+			modal_message_two = "<strong>Compositing:</strong> Combine digital elements using sophisticated selections, masks, and brushes.";
+			modal_message_three = "<strong>Retouching:</strong> Edit and enhance images with features such as spot healing and clone stamp.";
+			modal_message_four = "<strong>Layers:</strong> Create with as many layers as you do on desktop using both a compact and a detailed view.";
+			modal_message_mobile = "Tap into the power of Photoshop on the go, and save your documents on the cloud automatically, while you work. Photoshop on the iPad is the new way to unlock your creativity. Now available in the App Store.";
+			single_line_message = "<strong>and so much more</strong>";
+			primary_btn_url_desktop = "https://google.com/desktop";
+			primary_btn_url_mobile = "https://google.com/mobile";
+			secondary_btn_url = "adbinapp://cancel";
+			primary_btn_desktop = "Try Photoshop";
+			primary_btn_mobile = "Try Photoshop";
+			secondary_btn = "Dismiss";
+		}
+		else if(lan_prefix == "zhhans")
+		{
+			background_image = "https://adobe-growth.netlify.com/photoshop/hero.jpg";
+			title_long = "Retouch your photos wherever you are with the power of Photoshop on iPad.";
+			title_short = "Retouch your photos across devices with Photoshop on the iPad";
+			modal_message_one = "<strong>Work anywhere:</strong> Your files are automatically saved to Adobe's cloud as you work."
+			modal_message_two = "<strong>Compositing:</strong> Combine digital elements using sophisticated selections, masks, and brushes.";
+			modal_message_three = "<strong>Retouching:</strong> Edit and enhance images with features such as spot healing and clone stamp.";
+			modal_message_four = "<strong>Layers:</strong> Create with as many layers as you do on desktop using both a compact and a detailed view.";
+			modal_message_mobile = "Tap into the power of Photoshop on the go, and save your documents on the cloud automatically, while you work. Photoshop on the iPad is the new way to unlock your creativity. Now available in the App Store.";
+			single_line_message = "<strong>and so much more</strong>";
+			primary_btn_url_desktop = "https://google.com/desktop";
+			primary_btn_url_mobile = "https://google.com/mobile";
+			secondary_btn_url = "adbinapp://cancel";
+			primary_btn_desktop = "Try Photoshop";
+			primary_btn_mobile = "Try Photoshop";
+			secondary_btn = "Dismiss";
+		}
+		else if(lan_prefix == "zhhant")
+		{
+			background_image = "https://adobe-growth.netlify.com/photoshop/hero.jpg";
+			title_long = "Retouch your photos wherever you are with the power of Photoshop on iPad.";
+			title_short = "Retouch your photos across devices with Photoshop on the iPad";
+			modal_message_one = "<strong>Work anywhere:</strong> Your files are automatically saved to Adobe's cloud as you work."
+			modal_message_two = "<strong>Compositing:</strong> Combine digital elements using sophisticated selections, masks, and brushes.";
+			modal_message_three = "<strong>Retouching:</strong> Edit and enhance images with features such as spot healing and clone stamp.";
+			modal_message_four = "<strong>Layers:</strong> Create with as many layers as you do on desktop using both a compact and a detailed view.";
+			modal_message_mobile = "Tap into the power of Photoshop on the go, and save your documents on the cloud automatically, while you work. Photoshop on the iPad is the new way to unlock your creativity. Now available in the App Store.";
+			single_line_message = "<strong>and so much more</strong>";
+			primary_btn_url_desktop = "https://google.com/desktop";
+			primary_btn_url_mobile = "https://google.com/mobile";
+			secondary_btn_url = "adbinapp://cancel";
+			primary_btn_desktop = "Try Photoshop";
+			primary_btn_mobile = "Try Photoshop";
+			secondary_btn = "Dismiss";
+		}
+		else if(lan_prefix == "tl")
+		{
+			background_image = "https://adobe-growth.netlify.com/photoshop/hero.jpg";
+			title_long = "Retouch your photos wherever you are with the power of Photoshop on iPad.";
+			title_short = "Retouch your photos across devices with Photoshop on the iPad";
+			modal_message_one = "<strong>Work anywhere:</strong> Your files are automatically saved to Adobe's cloud as you work."
+			modal_message_two = "<strong>Compositing:</strong> Combine digital elements using sophisticated selections, masks, and brushes.";
+			modal_message_three = "<strong>Retouching:</strong> Edit and enhance images with features such as spot healing and clone stamp.";
+			modal_message_four = "<strong>Layers:</strong> Create with as many layers as you do on desktop using both a compact and a detailed view.";
+			modal_message_mobile = "Tap into the power of Photoshop on the go, and save your documents on the cloud automatically, while you work. Photoshop on the iPad is the new way to unlock your creativity. Now available in the App Store.";
+			single_line_message = "<strong>and so much more</strong>";
+			primary_btn_url_desktop = "https://google.com/desktop";
+			primary_btn_url_mobile = "https://google.com/mobile";
+			secondary_btn_url = "adbinapp://cancel";
+			primary_btn_desktop = "Try Photoshop";
+			primary_btn_mobile = "Try Photoshop";
+			secondary_btn = "Dismiss";
+		}
+
+		document.getElementById("modal_title_long").style.fontWeight = weight;
+		document.getElementById("modal_title_long").style.fontSize = h1size;
+		document.getElementById("modal_title_long").style.marginBottom = h1margin;
+    document.getElementById("modal_title_long").style.maxWidth = maxWidth;
+
+
+		// content
+		document.getElementById("modal_title_long").innerHTML = title_long;
+		document.getElementById("modal_title_short").innerHTML = title_short;
+		document.getElementById("modal_msg_one").innerHTML = modal_message_one;
+		document.getElementById("modal_msg_two").innerHTML = modal_message_two;
+		document.getElementById("modal_msg_three").innerHTML = modal_message_three;
+		document.getElementById("modal_msg_four").innerHTML = modal_message_four;
+		document.getElementById("modal_message_mobile").innerHTML = modal_message_mobile;
+		document.getElementById("single_line_message").innerHTML = single_line_message;
+		document.getElementById("primary_btn_desktop").innerHTML = primary_btn_desktop;
+		document.getElementById("primary_btn_desktop").setAttribute("href", primary_btn_url_desktop);
+		document.getElementById("primary_btn_mobile").innerHTML = primary_btn_mobile;
+		document.getElementById("primary_btn_mobile").setAttribute("href", primary_btn_url_mobile);
+		document.getElementById("secondary_btn").innerHTML = secondary_btn;
+		document.getElementById("secondary_btn").setAttribute("href", secondary_btn_url);
+		document.getElementById("modal-background-image").style.backgroundImage = "url("+ background_image +")";
+
+	}
+
+	function protect()
+	{
+		event.stopPropagation();
+	}
+</script>
+	<style>
+		@import url("https://use.typekit.net/aog1oci.css");
+		/* @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300&subset=latin,latin-ext,greek-ext); */
+		html,body { margin:0;padding:0;text-align:center;background:rgba(0,0,0,0.5);width:100%;height:100%; }
+		.full-modal-container { position:absolute;background:#ffffff;width:100%;height:90%;top:0%;left:0%;margin-left:0px;margin-top:0px; }
+		/*.primary-image {width: auto;height: 40vh;}*/
+		.overlap-image {position: absolute; top: 1vh; right: 1vh;}
+		.text { position:absolute;width:100%; }
+			h1 { font-family: 'adobe-clean', 'Source Sans Pro', 'Tahoma', sans-serif !important;font-weight:300;font-size:35px;line-height:1.2em;color:#4c4d4b;display:block;margin:0px auto 15px auto;padding-top:5%; }
+
+
+		/* Custom css */
+		.modal-container {
+			background: white;
+			width: 375px;
+			border-radius: 4px;
+			overflow: hidden;
+			position: absolute;
+			top: 50%; left: 50%;
+			transform: translate(-50%, -50%);
+			user-select:text !important;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+			margin: auto;
+			font-family: 'adobe-clean', 'Source Sans Pro', 'Tahoma', sans-serif !important;
+		}
+
+		.modal-container-hero {
+			height: 192px;
+			width: 100%;
+			background: #eee;
+		}
+
+		.modal-container-copy {
+			width: 90%;
+			max-width: 640px;
+			margin: auto;
+			padding: 40px 0px 0px 0px;
+		}
+
+		.modal-container-copy .modal-title {
+			font-weight: 700 !important;
+			margin: 0;
+			padding-top: 0;
+			padding-bottom: 15px;
+			color: #323232;
+			margin: auto;
+			text-align: left;
+		}
+
+
+		.modal-two-column__item {
+			text-align: left;
+			margin-bottom: 2px;
+		}
+
+		.modal-two-column__msg {
+			font-size: 13px;
+			font-weight: 300;
+			color: #4B4B4B;
+		}
+
+		.modal-two-column__msg p {
+			margin: 0 ;
+			padding: 0;
+		}
+
+		.modal-two-column__msg strong {
+			font-weight: 700;
+		}
+
+		.modal-single-line-blurb {
+			text-align: left;
+			padding-bottom: 4px;
+		}
+
+		.modal-button-group {
+			display: flex;
+			margin: auto;
+			padding: 10px 0px 30px 0px;
+			width: 100%;
+		}
+
+		.modal-cta {
+			text-decoration: none;
+			padding: 10px 28px;
+			display: inline-block;
+			border-radius: 50px;
+			font-weight: 800;
+		}
+
+		.modal-cta-primary {
+			background-color: #1473e6;
+			color: #ffffff;
+			margin-left: 15px;
+			transition: background .13s ease;
+		}
+
+		.modal-cta-primary:hover {
+			background-color: #0d66d0;
+		}
+
+		.modal-cta-secondary {
+			color: #6e6e6e;
+			border: 2px solid #747474;
+			transition: background .13s ease;
+		}
+
+		.modal-cta-secondary:hover {
+			background-color: #6e6e6e;
+			color: white;
+		}
+
+		.modal-desktop-only {
+			display: none;
+		}
+
+		.modal-modal-only {
+			display: inline-block;
+		}
+
+		.modal-button-group-parent {
+			text-align: center;
+		}
+
+		.modal-button-group {
+			display: flex;
+			margin: auto;
+			justify-content: center;
+			padding: 10px 0px 30px 0px;
+		}
+
+		.modal-cta-primary {
+			margin-left: 10px;
+		}
+
+		.modal-cta-secondary {
+			margin-right: 10px;
+		}
+
+
+
+		/* Phones landscape */
+		@media only screen and (max-width:767px) and (orientation:landscape) {
+			.button-modal-container { display:block;margin:0px auto; }
+			h1 { margin:-2px auto 15px auto; }
+		}
+		/* Phones portrait */
+		@media only screen and (max-width:767px) and (orientation:portrait) {
+			.button-modal-container { display:block; }
+			h1 { margin:-1px auto 15px auto; }
+		}
+		/* Phones portrait and landscape */
+		@media only screen and (max-width :767px) {
+			.full-modal-container { width:100%;height:100%;margin-left:0px;margin-top:0px; }
+			.text { top:0%; }
+			.information { display:block;margin:0px auto;width:95%;max-width:465px;min-width:250px;font-size:14px;line-height:18px; }
+			h1 { line-height:26px; font-size: 20px;}
+			.logo { width:20%;max-width:75px;min-width:60px;height:auto; }
+			.primary-image {width: 100%;height: 50vh;}
+		}
+		/* Tablets landscape */
+		@media only screen and (min-width:768px) and (orientation:landscape) {
+			.button-modal-container { display:block;margin:0px auto; }
+			/* a {font-size: 17px;} */
+		}
+		/* Tablets portrait */
+		@media only screen and (min-width:768px) and (orientation:portrait) {
+			.button-modal-container { display:block; }
+
+
+		}
+		/* Tablets portrait and landscape */
+		@media only screen and (min-width:768px) {
+			.text { top:0%; }
+			/* a {	min-width: 45%;  */
+				/*max-width: 100%;*/
+			/* } */
+			/*.primary-image {width: auto; height: 360px;}*/
+			.primary-image {width: auto; height: 60vh;}
+			.full-modal-container {height: 100%;}
+
+
+			/* Custom css */
+
+		.modal-container { width: 705px; }
+		.modal-container-hero {
+			height: 327px;
+		}
+
+		.modal-container-copy .modal-title {
+			padding-bottom: 5px;
+			max-width: 460px;
+			font-size: 23px;
+			margin: auto;
+			text-align: center;
+		}
+
+		.modal-two-column {
+			display: flex;
+			justify-content: space-between;
+			flex-wrap: wrap;
+		}
+
+		.modal-two-column__item {
+			width: 46%;
+			text-align: left;
+		}
+
+		.modal-two-column__msg {
+			font-size: 14px;
+			font-weight: 300;
+			color: #333;
+		}
+
+		.modal-single-line-blurb {
+			text-align: center;
+		}
+
+		.modal-desktop-only {
+			display: inline-block;
+		}
+		.modal-mobile-only {
+			display: none;
+		}
+
+
+
+		}
+	</style>
+
+</head>
+<body onLoad="javascript:initialize();">
+
+	<div class="modal-container">
+		<!-- hero -->
+		<div id="modal-background-image" class="modal-container-hero" style="background-position: center; background-size: cover;"></div>
+
+		<div class="modal-container-copy">
+			<h1 id="modal_title_long" class="modal-title modal-desktop-only"></h1>
+			<h1 id="modal_title_short" class="modal-title modal-mobile-only"></h1>
+
+			<div class="modal-two-column__item modal-mobile-only">
+				<p class="modal-two-column__msg" id="modal_message_mobile"></p>
+			</div>
+
+			<div class="modal-desktop-only">
+				<div class="modal-two-column">
+					<div class="modal-two-column__item">
+						<p class="modal-two-column__msg" id="modal_msg_one"></p>
+					</div>
+					<div class="modal-two-column__item">
+						<p class="modal-two-column__msg" id="modal_msg_two"></p>
+					</div>
+					<div class="modal-two-column__item">
+						<p class="modal-two-column__msg" id="modal_msg_three"></p>
+					</div>
+					<div class="modal-two-column__item">
+						<p class="modal-two-column__msg" id="modal_msg_four"></p>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal-single-line-blurb modal-desktop-only">
+				<p class="modal-two-column__msg" id="single_line_message"></p>
+			</div>
+
+
+			<div class="modal-button-group-parent">
+				<div class="modal-button-group">
+					<a href="" class="modal-cta modal-cta-secondary" id="secondary_btn"></a>
+					<a href="" class="modal-cta modal-cta-primary modal-desktop-only" id="primary_btn_desktop"></a>
+					<a href="" class="modal-cta modal-cta-primary modal-mobile-only" id="primary_btn_mobile"></a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+
+<!-- <div class="full-modal-container" onClick="javascript:protect();">
+    <div class="text">
+            <img src="https://d1v1v6qmrpqka4.cloudfront.net/mobile-content/PSX/IOS/Image_Collage.jpg"  class="primary-image">
+            <a class="overlap-image" style="min-width: 0px; height: 0px;" href="adbinapp://cancel"><img src="https://d1v1v6qmrpqka4.cloudfront.net/mobile-content/PSX/IOS/Cross_generic.png"  alt=""></a>
+        <div class="information">
+	        <h1 id="title"></h1>
+	        <p id="ratingText" style="padding:0px;margin:0px;"></p>
+        </div>
+    </div>
+    <div class="button-modal-container">
+    	<a id="getAccessButton" class="button-primary" href="adbinapp://confirm/?url=com.adobe.photoshopexpress://askForAppStoreRating?trynativedialog=yes&appstoreurl=itms-apps://itunes.apple.com/app/id331975235?action=write-review"></a>
+        <!-- <a id="cancelText" class="button-left" href="adbinapp://cancel"></a> -->
+        <!-- <a id="feedbackText" class="button-right" href="adbinapp://confirm/?url=https://play.google.com/store/apps/details?id=com.adobe.psmobile"></a> -->
+    <!-- <div class="information">
+    	<p id="bottomText" style="padding:16px;margin:0px;"></p>
+    </div>
+    </div>
+</div>-->
+</body>
+</html>
