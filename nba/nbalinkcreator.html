@@ -198,6 +198,9 @@
         var ogVideo = document.getElementById('og_video').value;
         var ogType = document.getElementById('og_type').value;
         var campaign = document.getElementById('campaign').value;
+        var tags = document.getElementById('tags').value;
+        tags = tags.replace(/ /g, '');
+        tags = tags.split(',');
         var content = document.getElementById('content_selector').value;
         var media = document.getElementById('media_selector').value;
         var time = document.getElementById('time_selector').value;
@@ -209,9 +212,9 @@
         }
 
         var internationalLinkData = {
-          tags: [],
+          tags: tags,
           channel: channel,
-          campaign: teamName,
+          campaign: campaign,
           type: 2,
           data: {
           "$one_time_use": false,
@@ -261,10 +264,10 @@
             branch.init('key_live_fgFkpjXwHs405M7eQv9fpbjkBEidTTkL');
 
             var domesticLinkData = {
-                tags: [],
+                tags: tags,
                 channel: channel,
                 alias: linkAlias,
-                campaign: teamName,
+                campaign: campaign,
                 type: 2,
                 data: {
                 "$fallback_url": internationalLink,
@@ -495,6 +498,10 @@
                   <label>Campaign (Optional):
                     <p>The Social or marketing campaign name.</p>
                     <input type="text" id="campaign" class="form-control" value=""/>
+                  </label>
+                  <label>Tags (Optional):
+                    <p>Analytics tags, enter comma-separated values. (eg. tag1,tag2,tag3)</p>
+                    <input type="text" id="tags" class="form-control" value=""/>
                   </label>
                   <label>Hashtags (Optional):
                     <p>Team hashtag(s) associated with the post.</p>
