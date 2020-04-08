@@ -16,7 +16,7 @@
       }
     }, function(err, link) {
         console.log(err, link);
-        var fullLink = 'https://delivers.dtignight.com/abfjsaf?&dvURL=' + URLEncode(link)
+        var fullLink = 'https://delivers.dtignight.com/abfjsaf?&dvURL=' + encodeURI(link)
         branch.setBranchViewData({
           data: {
               '$journeys_cta': fullLink
