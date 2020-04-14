@@ -3,37 +3,31 @@
   <meta name="viewport" content="width=device-width">
   <script>
     (function(b,r,a,n,c,h,_,s,d,k){if(!b[n]||!b[n]._q){for(;s<_.length;)c(h,_[s++]);d=r.createElement(a);d.async=1;d.src="https://cdn.branch.io/branch-latest.min.js";k=r.getElementsByTagName(a)[0];k.parentNode.insertBefore(d,k);b[n]=h}})(window,document,"script","branch",function(b,r){b[r]=function(){b._q.push([r,arguments])}},{_q:[],_v:1},"addListener applyCode autoAppIndex banner closeBanner closeJourney creditHistory credits data deepview deepviewCta first getCode init link logout redeem referrals removeListener sendSMS setBranchViewData setIdentity track validateCode trackCommerceEvent".split(" "), 0);
-    branch.init('key_live_kkPJT9dIycNI92REY9JwDglbAwi618f2'); // this key corresponds to the Digital Turbine Journeys Test dashboard
+    var options = { no_journeys: true };
+    branch.init('key_live_kkPJT9dIycNI92REY9JwDglbAwi618f2', options); // this key corresponds to the Digital Turbine Journeys Test dashboard
 
-    branch.setBranchViewData({
-        data: {
-            '$journeys_cta': 'https://example.com/example'
+    if (navigator.userAgent.match(/Android/i))
+    {
+      branch.link({
+      campaign: 'My Campaign Name', // analytics tag representing the journey name
+      channel: 'dt-single-tap', // analytics tag that will populate in the dashboard
+      feature: 'journeys', // do not remove, this will ensure analytics appear in the proper section of the branch dash
+      data: {
+          '$canonical_url': window.location, // include this for clients who use web url routing
+          '$deeplink_path': 'property/listing/12345', // include this for clients who use deeplink_path routing. Typically only one of "$canonical_url" and "deeplink_path" will be used
+          '$3p': 'a_digital_turbine' // do not remove, this will ensure postbacks are sent to DT endpoints on event completion
         }
-    });
-
-
-
-    // if (navigator.userAgent.match(/Android/i))
-    // {
-    //   branch.link({
-    //   campaign: 'My Campaign Name', // analytics tag representing the journey name
-    //   channel: 'dt-single-tap', // analytics tag that will populate in the dashboard
-    //   feature: 'journeys', // do not remove, this will ensure analytics appear in the proper section of the branch dash
-    //   data: {
-    //       '$canonical_url': window.location, // include this for clients who use web url routing
-    //       '$deeplink_path': 'property/listing/12345', // include this for clients who use deeplink_path routing. Typically only one of "$canonical_url" and "deeplink_path" will be used
-    //       '$3p': 'a_digital_turbine' // do not remove, this will ensure postbacks are sent to DT endpoints on event completion
-    //     }
-    //   }, function(err, link) {
-    //       console.log(err, link);
-    //       var fullLink = 'https://delivers.dtignight.com/abfjsaf?&dvURL=' + encodeURI(link) // TODO: modify the dt base url
-    //       branch.setBranchViewData({
-    //         data: {
-    //             '$journeys_cta': fullLink
-    //         }
-    //       });
-    //   });
-    // }
+      }, function(err, link) {
+          console.log(err, link);
+          var fullLink = 'https://delivers.dtignight.com/abfjsaf?&dvURL=' + encodeURI(link) // TODO: modify the dt base url
+          branch.setBranchViewData({
+            data: {
+                '$journeys_cta': fullLink
+            }
+          });
+          branch.track('pageview');
+      });
+    }
   </script>
 </head>
 <body>
