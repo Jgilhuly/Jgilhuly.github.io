@@ -1,0 +1,773 @@
+<html>
+  <head>
+    <title>Adobe Link Creator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <link rel="apple-touch-icon" sizes="57x57" href="//branch.io/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="//branch.io/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="//branch.io/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="//branch.io/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="//branch.io/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="//branch.io/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="//branch.io/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="//branch.io/img/favicon/apple-touch-icon-152x152.png">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+    <style>
+    .page-header,
+    .panel-title,
+    label {
+        font-weight: lighter
+    }
+
+    .btn,
+    .page-header {
+        text-transform: uppercase
+    }
+
+    body {
+        font-family: "Open Sans", Helvetica, Arial;
+        background-color: #fafafa;
+        color: #444
+    }
+
+    label {
+        font-size: 110%
+    }
+
+    .panel-body {
+        display: grid
+    }
+
+    .panel-header {
+        margin-top: 70px
+    }
+
+    .page-header {
+        font-size: 300%;
+        margin-bottom: 30px
+    }
+
+    .panel-title {
+        font-size: 150%
+    }
+
+    .label {
+        display: inline-flex
+    }
+
+    .form-control {
+        margin-bottom: 10px;
+        height: inherit
+    }
+
+    .redactor_box,
+    input.form-control,
+    option,
+    select {
+        border-radius: 3px;
+        border-color: #eee;
+        font-size: 16px;
+        line-height: normal;
+        margin-right: 0;
+        padding: 15px 20px;
+        -moz-box-shadow: none;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        width: 100%;
+        color: #444;
+        font-weight: 400;
+        background: #fff
+    }
+
+    /*.btn {
+        background-color: #1cadce;
+        font-weight: 700;
+        font-size: 16px;
+        display: inline-block;
+        padding: 15px 15px;
+        border-radius: 2px;
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        color: #fff;
+        transition: background 250ms;
+        -webkit-transition: background 250ms;
+        margin: 30px auto 30px;
+        min-width: 170px
+    }*/
+
+    #final_url {
+        margin-top: 2%;
+        margin-bottom: 5%;
+        font-weight: lighter;
+        font-size: 110%
+    }
+
+    .navbar-brand img {
+        max-height: 40px
+    }
+
+    nav.navbar-main {
+        padding: 2px 0;
+        background-color: #2F2F2F;
+        position: fixed;
+        width: 100%;
+        z-index: 99;
+        border-radius: 0
+    }
+
+    .brand {
+        margin-top: -10px
+    }
+
+    .custom-select {
+      width: 145px;
+      padding: 15px;
+      font-size: 16px;
+      font-weight: 100;
+    }
+    p {
+      font-style: italic;
+      font-size: 85%;
+    }
+    .extra-field {
+      display: inline-flex;
+    }
+    .extra-field-input {
+      margin: 10px 40px 10px 40px !important;
+    }
+    .add-field-btn {
+      font-size: 12px;
+    }
+    </style>
+
+    <script>
+      var fieldCount = 0;
+      var branchKeys = {
+        "aero":"key_live_cdTvTtwBPh3UQwdZZNlwbbdhqDakuKSj",
+        "fresco":"key_live_bmNdZDHgMUk7VGTx5bdUZbpbFvogSE8i",
+        "photoshopipad":"key_live_ibHp9EVpQKeYXNAaWHyesadpyyocSNsL",
+        "photoshopexpress":"key_live_fhPo4Nlbi7AIL5ltTMYpxllnxvljUYEs",
+        "rush":"key_live_bbNd6Pedl4sN9oO6gm9zGnnfzygg9ef2",
+        "scan":"key_live_flDW3W4eHDwFJI2KlQ04gmjpvEcHGeEc",
+        "lightroom":"key_live_mpNkmP6pUud4YmIqkpxginnnADcn7yGW",
+        "sparkpost":"key_live_ikqc03rxCzFIX8gq8i2nBddbquai90pm",
+        "sparkpage":"key_live_geAk9bR7b2q4AGv0ZkX4xolgCBnNwZB0",
+        "photoshopcamera":"key_live_ohCMlAYHK2fGwbBEXL800eefzqbL16UD",
+        "acrobat":"key_live_pbKc1OdmiXCZnwq34n7rIpjfrtphZEln"
+      };
+
+      function addField(element) {
+        fieldCount++;
+
+        var newField = '<span class="extra-field"><input type="text" id="' + element.parentElement.id + '_key_' + fieldCount + '" class="extra-field-input form-control" value="" placeholder="Key"/><input type="text" id="' + element.parentElement.id + '_value_'+ fieldCount + '" class="extra-field-input form-control" value="" placeholder="Value"/></span>';
+        element.parentElement.innerHTML += newField;
+      }
+
+      function checkForOtherSelection(selectionElement, otherFieldId) {
+        var otherField = document.getElementById(otherFieldId);
+         if (selectionElement.value == 'other')
+           otherField.style.display='block';
+         else
+           otherField.style.display='none';
+      }
+
+      function extractValue(id, otherFieldId) {
+        if (!otherFieldId) {
+          var value = document.getElementById(id).value;
+          if (value == 'other' || value == 'Other') {
+            return document.getElementById(otherFieldId).value;
+          } else if (value == "") {
+            return null;
+          } else {
+            return document.getElementById(id).value;
+          }
+        } else {
+          return document.getElementById(id).value;
+        }
+      }
+
+      function addLinkName(linkBody) {
+        var linkName = extractValue('app_selector', 'app_other') + '_' + extractValue('campaign') + '_' + extractValue('medium_selector', 'medium_other');
+        var timeFrame = extractValue('timeFrame');
+        if (timeFrame) {linkName += '_' + timeFrame}
+        var language = extractValue('language_selector', 'language_other');
+        if (language) {linkName += '_' + language}
+        var variation = extractValue('variation');
+        if (variation) {linkName += '_' + variation}
+        return linkName;
+      }
+
+      function makeCampaignString() {
+        var campaign = extractValue('campaign');
+        var segCode = extractValue('segmentation_selector', 'segmentation_other');
+        if (segCode) {campaign += '_' + segCode}
+        var journey = extractValue('journey_selector');
+        if (journey) {campaign += '_' + journey}
+        var year = extractValue('year');
+        if (year) {campaign += '_' + year}
+        var month = extractValue('month');
+        if (month) {campaign += '_' + month}
+        var campaignName = extractValue('campaign_name');
+        if (campaignName) {campaign += '_' + campaignName}
+        return campaign
+      }
+
+      function makeTags() {
+        var tags = document.getElementById('tags').value;
+        tags = tags.replace(/ /g, '');
+        tags = tags.split(',');
+
+        for (var i = 0; i < tags.length; i++) {
+          tags[i] = "tags=" + tags[i];
+        }
+
+        var variation = extractValue('variation');
+        if (variation && variation !== '' && !tags.includes(variation)) {
+          var t = "tags=" + variation;
+          tags.push(t);
+        }
+
+        return tags;
+      }
+
+      function addOGParams(linkBody) {
+        var ogTitle = document.getElementById('og_title').value;
+        if (ogTitle != null && ogTitle != "") { linkBody.data["$og_title"] = ogTitle }
+        var ogDescription = document.getElementById('og_description').value;
+        if (ogDescription != null && ogDescription != "") { linkBody.data["$og_description"] = ogDescription }
+        var ogImage = document.getElementById('og_image').value;
+        if (ogImage != null && ogImage != "") { linkBody.data["$og_image_url"] = ogImage }
+        var ogUrl = document.getElementById('og_url').value;
+        if (ogUrl != null && ogUrl != "") { linkBody.data["$og_url"] = ogUrl }
+        var ogVideo = document.getElementById('og_video').value;
+        if (ogVideo != null && ogVideo != "") { linkBody.data["$og_video"] = ogVideo }
+        var ogType = document.getElementById('og_type').value;
+        if (ogType != null && ogType != "") { linkBody.data["$og_type"] = ogType }
+        return linkBody;
+      }
+
+      function addExtraParams(linkBody) {
+        for (var i = 1; i <= fieldCount; i++) {
+          var key = document.getElementById('extra_param_panel_key_' + i).value;
+          var value = document.getElementById('extra_param_panel_value_' + i).value;
+          if (key != null && key != "" && value != null) { // allowing for an empty value, but not an empty key
+            linkBody.data[key] = value;
+          }
+        }
+        return linkBody;
+      }
+
+      function addBranchKey(linkBody) {
+        var branchKey = branchKeys[document.getElementById("branch_app_selector").value];
+        linkBody['branch_key'] = branchKey;
+        return linkBody;
+      }
+
+      function createLinkViaAPI(linkBody, linkParameters) {
+        linkBody = addBranchKey(linkBody);
+
+        console.log(JSON.stringify(linkBody));
+        console.log(linkParameters);
+
+        // let request = new XMLHttpRequest();
+        // xhttp.onreadystatechange = function() {
+        //     if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+        //        var link = xhttp.responseText;
+        //        document.getElementById("final_url").value
+        //     }
+        // };
+        // request.setRequestHeader("Content-Type", "application/json");
+        // request.open('POST', 'https://api2.branch.io/v1/url');
+        // request.send(linkBody);
+
+        document.getElementById('final_url').value = 'See console for link body and params';
+      }
+
+      function createLink() {
+        var linkBody = {
+          "data":{}
+        };
+        var linkParameters = "?";
+
+
+        linkBody.data['$marketing_title'] = addLinkName();
+        linkBody['feature'] = extractValue('medium_selector', 'medium_other');
+        linkBody['channel'] = extractValue('channel_selector', 'channel_other');
+        linkBody['campaign'] = makeCampaignString();
+        linkBody = addOGParams(linkBody);
+        linkBody = addExtraParams(linkBody);
+
+        // redirect logic - blame this giant block on pass by value js logic
+        var iosRedirectCgen = document.getElementById('ios_url_cgen').checked;
+        if (iosRedirectCgen == true) {
+          var url = "$ios_url=" + encodeURIComponent(document.getElementById('ios_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+          linkParameters += '&' + url; // TODO - account for no url submitted and cgen selected
+        } else {
+          linkBody.data['$ios_url'] = document.getElementById('ios_url').value;
+        }
+        var androidRedirectCgen = document.getElementById('android_url_cgen').checked;
+        if (androidRedirectCgen == true) {
+          var url = "$android_url=" + encodeURIComponent(document.getElementById('android_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+          linkParameters += '&' + url; // TODO - account for no url submitted and cgen selected
+        } else {
+          linkBody.data['$android_url'] = document.getElementById('android_url').value;
+        }
+        var desktopRedirectCgen = document.getElementById('desktop_url_cgen').checked;
+        if (desktopRedirectCgen == true) {
+          var url = "$desktop_url=" + encodeURIComponent(document.getElementById('desktop_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+          linkParameters += '&' + url; // TODO - account for no url submitted and cgen selected
+        } else {
+          linkBody.data['$desktop_url'] = document.getElementById('desktop_url').value;
+        }
+        var macRedirectCgen = document.getElementById('mac_desktop_url_cgen').checked;
+        if (macRedirectCgen == true) {
+          var url = "$mac_desktop_url=" + encodeURIComponent(document.getElementById('mac_desktop_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+          linkParameters += '&' + url; // TODO - account for no url submitted and cgen selected
+        } else {
+          linkBody.data['$mac_desktop_url'] = document.getElementById('mac_desktop_url').value;
+        }
+        var windowsRedirectCgen = document.getElementById('windows_desktop_url_cgen').checked;
+        if (windowsRedirectCgen == true) {
+          var url = "$windows_desktop_url=" + encodeURIComponent(document.getElementById('windows_desktop_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+          linkParameters += '&' + url; // TODO - account for no url submitted and cgen selected
+        } else {
+          linkBody.data['$windows_desktop_url'] = document.getElementById('windows_desktop_url').value;
+        }
+        var samsungRedirectCgen = document.getElementById('samsung_url_cgen').checked;
+        if (samsungRedirectCgen == true) {
+          var url = "$samsung_url=" + encodeURIComponent(document.getElementById('samsung_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+          linkParameters += '&' + url; // TODO - account for no url submitted and cgen selected
+        } else {
+          linkBody.data['$samsung_url'] = document.getElementById('samsung_url').value;
+        }
+        var ipadRedirectCgen = document.getElementById('ipad_url_cgen').checked;
+        if (ipadRedirectCgen == true) {
+          var url = "$ipad_url=" + encodeURIComponent(document.getElementById('ipad_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+          linkParameters += '&' + url; // TODO - account for no url submitted and cgen selected
+        } else {
+          linkBody.data['$ipad_url'] = document.getElementById('ipad_url').value;
+        }
+        var androidTabletRedirectCgen = document.getElementById('android_tablet_url_cgen').checked;
+        if (androidTabletRedirectCgen == true) {
+          var url = "$android_tablet_url=" + encodeURIComponent(document.getElementById('android_tablet_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+          linkParameters += '&' + url; // TODO - account for no url submitted and cgen selected
+        } else {
+          linkBody.data['$android_tablet_url'] = document.getElementById('android_tablet_url').value;
+        }
+
+        // automatic parameters based on channel selection
+        var channelValue = document.getElementById('channel_selector').value;
+        if (channelValue == 'IG') { // add insta redirect parameter
+          linkBody.data['$uri_redirect_mode'] = 2;
+        }
+
+        if (channelValue == 'AC') { // append AC campaign macro
+          var tags = '~tags=ActivityID=<%targetData.campaignSourceCode%>'
+          var tagsToAdd = makeTags();
+          for (var i = 0; i < tagsToAdd.length; i++) {
+            tags += '&' + tagsToAdd[i];
+          }
+          linkParameters += tags; // other tags must be added as query params instead of into link body
+        } else if (channelValue == 'Sophia') { // append Sophia campaign macro
+          var tags = '~tags=ActivityID=<%=targetData.sourceCode%>'
+          var tagsToAdd = makeTags();
+          for (var i = 0; i < tagsToAdd.length; i++) {
+            tags += '&' + tagsToAdd[i];
+          }
+          linkParameters += tags;
+        } else {
+          linkBody['tags'] = makeTags();
+        }
+
+        createLinkViaAPI(linkBody, linkParameters);
+      }
+    </script>
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-static-top navbar-main">
+      <div class="container">
+        <div class="navbar-header">
+          <div class="navbar-brand brand">
+            <a href="https://branch.io" target="_blank" class="logo-container">
+              <div class="branch-logo"><img src="https://branch.io/img/logo_white.png" alt="BranchMetrics" title="Branch Metrics"></div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="panel-header page-header">
+        Adobe Link Creator
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-body">
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                <!-- <a data-toggle="collapse" data-parent="#accordion" href="#analytics_fields" aria-expanded="false" aria-controls="analytics_fields"> -->
+                  Analytics Information
+                </a>
+              </h3>
+            </div>
+            <div id="analytics_fields" class="collapse show">
+              <div class="panel-body">
+                <label>App (Required):
+                  <p>Name of the application.</p>
+                  <select class="selectpicker" id="app_selector" onchange="checkForOtherSelection(this, 'app_other')">
+                    <option value="CCD">CC Thor (CC Desktop)</option>
+                    <option value="ACR">Acrobat</option>
+                    <option value="ASH">Acrobat Share</option>
+                    <option value="ACR">Acrobat Reader</option>
+                    <option value="LRM">Lightroom Mobile</option>
+                    <option value="LRD">Lightroom Desktop</option>
+                    <option value="PSX">Photoshop Express</option>
+                    <option value="PSP">Rocket (photoshop iPad)</option>
+                    <option value="PRO">Premiere Pro</option>
+                    <option value="PSD">Photoshop Desktop</option>
+                    <option value="RSH">Rush</option>
+                    <option value="FRE">Fresco (Gemini)</option>
+                    <option value="SPW">Spark Web</option>
+                    <option value="SPM">Spark Mobile</option>
+                    <option value="XD">XD</option>
+                    <option value="SCN">Scan</option>
+                    <option value="FAS">Fill & Sign</option>
+                    <option value="ARO">Aero</option>
+                    <option value="TikTok">TikTok</option>
+                    <option value="BEH">Behance</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <input type="text" class="form-control" id="app_other" style='display:none;' placeholder="Enter other value here"/>
+                </label>
+                <label>Branch App (Required):
+                  <p>Name of the application the link should direct users to.</p>
+                  <select class="selectpicker" id="branch_app_selector">
+                    <option value="aero">Aero</option>
+                    <option value="fresco">Fresco</option>
+                    <option value="photoshopipad">Photoshop iPad</option>
+                    <option value="photshopexpress">Photoshop Express</option>
+                    <option value="rush">Rush</option>
+                    <option value="scan">Scan</option>
+                    <option value="lightroom">Lightroom</option>
+                    <option value="sparkpost">Spark Post</option>
+                    <option value="sparkpage">Spark Page</option>
+                    <option value="photoshopcamera">Photoshop Camera</option>
+                    <option value="acrobat">Acrobat Reader</option>
+                  </select>
+                </label>
+                <label>Campaign (Required):
+                  <p>Name of the marketing campaign</p>
+                  <input type="text" id="campaign" class="form-control" value=""/>
+                </label>
+                <label>Medium (Required):
+                  <p>Name of the marketing medium</p>
+                  <select class="selectpicker" id="medium_selector" onchange="checkForOtherSelection(this, 'medium_other')">
+                    <option value="Web-App" data-subtext="Generally used for marketing on a website for a mobile app">Web to App</option>
+                    <option value="Social-Paid">Social Paid</option>
+                    <option value="Social-Owned">Social Owned (Non-Promoted)</option>
+                    <option value="Paid-Ad-Display">Paid Advertising Display</option>
+                    <option value="Paid-Ad-Search">Paid Ad Search</option>
+                    <option value="Email">Email</option>
+                    <option value="Desktop">Desktop Application</option>
+                    <option value="Mobile-to-Mobile" data-subtext="Promotion of a mobile app from within another mobile app">Cross App Promotion (Mobile to Mobile)</option>
+                    <option value="Mobile-to-Desktop" data-subtext="Promotion of a desktop app from within a mobile app">Cross App Promotion (Mobile to Desktop)</option>
+                    <option value="Desktop-to-Mobile" data-subtext="Promotion of a mobile app from within a desktop app">Cross App Promotion (Desktop to Mobile)</option>
+                    <option value="Desktop-to-Desktop" data-subtext="Promotion of a desktop app from within another desktop app">Cross App Promotion (Desktop to Desktop)</option>
+                    <option value="Ad">Advertising</option>
+                    <option value="Organic-Search">Organic Search</option>
+                    <option value="App-Store">Application Store</option>
+                    <option value="Influencer">Influencers</option>
+                    <option value="Web-Web" data-subtext="Used for marketing on an external website to send users to a product's A.com landing page.">Cross-Site Promotion (Website to A.com product page)</option>
+                    <option value="In-App-Content" data-subtext="Link to other content served within the application.">In-app content</option>
+                    <option value="Physical">Physical Document</option>
+                    <option value="QR">QR Code, Events</option>
+                    <option value="Social-Partner" data-subtext="Used to denote social posts that are posted on an account owned by another firm that we are engaging in a partnership campaign with.">Social owned by a business partner</option>
+                    <option value="Creative-Cloud-Surfaces" data-subtext="If this link is posted somewhere on the creative cloud manager suite.">Creative Cloud Manager Application (Web/Mobile/Desktop)</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <input type="text" class="form-control" id="medium_other" style='display:none;' placeholder="Enter other value here"/>
+                </label>
+                <label>Time Frame (Optional):
+                  <p>Time frame campaign is associated with. Should be in "Q1, Q2, ..." or "JAN, FEB, ..." format.</p>
+                  <input type="text" id="timeFrame" class="form-control" value=""/>
+                </label>
+                <label>Variation Number / Creative ID (Optional):
+                  <p>This is a unique identifier for reporting on a link that may be very similar or identical to others in a campaign, but needs to be reported on individually.</p>
+                  <input type="text" id="variation" class="form-control" value=""/>
+                </label>
+                <label>Language (Optional):
+                  <p>Name of the application.</p>
+                  <select class="selectpicker" id="language_selector" onchange="checkForOtherSelection(this, 'language_other')">
+                    <option value="">None</option>
+                    <option value="US">US</option>
+                    <option value="GB">GB</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <input type="text" class="form-control" id="language_other" style='display:none;' placeholder="Enter other value here"/>
+                </label>
+                <label>Channel (Optional):
+                  <p>Where the link lives in the platform</p>
+                  <select class="selectpicker" id="channel_selector" onchange="checkForOtherSelection(this, 'channel_other')">
+                    <option value="">None</option>
+                    <option value="Adobe-web">adobe.com</option>
+                    <option value="FB">Facebook</option>
+                    <option value="Google">Google</option>
+                    <option value="IG" data-subtext="URI Redirect Mode will be automatically set to 2">Instagram</option>
+                    <option value="TW">Twitter</option>
+                    <option value="SNAP">Snapchat</option>
+                    <option value="Slack">Slack</option>
+                    <option value="Bing">Bing</option>
+                    <option value="Blog">Blog</option>
+                    <option value="Apple">Apple</option>
+                    <option value="IAM">In App Messaging</option>
+                    <option value="AC">Adobe Campaign</option>
+                    <option value="Sophia">Sophia</option>
+                    <option value="CCD">CC Thor (CC Desktop)</option>
+                    <option value="ACR">Acrobat Reader</option>
+                    <option value="ACRD">Acrobat Reader Desktop</option>
+                    <option value="ASH">Acrobat Share</option>
+                    <option value="LRM">Lightroom Mobile</option>
+                    <option value="LRD">Lightroom Desktop</option>
+                    <option value="PSX">Photoshop Express</option>
+                    <option value="PSP">Rocket (photoshop iPad)</option>
+                    <option value="RSH">Rush</option>
+                    <option value="FRE">Fresco</option>
+                    <option value="SPW">Spark Web</option>
+                    <option value="SPM">Spark Mobile</option>
+                    <option value="XD">XD</option>
+                    <option value="SCN">Scan</option>
+                    <option value="FAS">Fill & Sign</option>
+                    <option value="Livenation">Livenation</option>
+                    <option value="helpx">HelpX</option>
+                    <option value="Handout">Handout/Flyer</option>
+                    <option value="ARO">Aero</option>
+                    <option value="PHY">Phylo</option>
+                    <option value="LI">LinkedIn</option>
+                    <option value="TT">TikTok</option>
+                    <option value="GalaxyStore">Samsung Galaxy App Store</option>
+                    <option value="PlayStore">Play Store</option>
+                    <option value="AppStore">Apple App Store</option>
+                    <option value="CCW">Creative Cloud Manager Web</option>
+                    <option value="CCM">Creative Cloud Manager Mobile</option>
+                    <option value="BEH">Behance</option>
+                    <option value="PRO">Premiere Pro</option>
+                    <option value="PSD">Photoshop Desktop</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <input type="text" class="form-control" id="channel_other" style='display:none;' placeholder="Enter other value here"/>
+                </label>
+                <label>Journey Stage (Optional):
+                  <p></p>
+                  <select class="selectpicker" id="journey_selector">
+                    <option value="">None</option>
+                    <option value="Discover">Discover</option>
+                    <option value="Onboarding">Onboarding</option>
+                    <option value="Try">Try</option>
+                    <option value="Buy">Buy</option>
+                    <option value="Use-Engagement">Use-Engagement</option>
+                    <option value="Retention">Retention</option>
+                    <option value="Winback">Winback</option>
+                  </select>
+                </label>
+                <label>Segmentation Code (Optional):
+                  <p>Include these codes only for email campaigns.</p>
+                  <select class="selectpicker" id="segmentation_selector"onchange="checkForOtherSelection(this, 'segmentation_other')">
+                    <option value="">None</option>
+                    <option value="CSBU-CPRO">Design/Web</option>
+                    <option value="CSBU-VPRO">Video</option>
+                    <option value="CSBU-XD">XD</option>
+                    <option value="CSBU-RUSH">Rush</option>
+                    <option value="DIBU">Photography</option>
+                    <option value="CSBU-Stock">Stock</option>
+                    <option value="CSBU-Portfolio">Portfolio</option>
+                    <option value="CSBU-Spark">Spark</option>
+                    <option value="EDU-Faculty">Faculty</option>
+                    <option value="EDU-Licensing">Licensing</option>
+                    <option value="EDU-Student">Student</option>
+                    <option value="CSBU-MAX">Max Programs</option>
+                    <option value="CSBU-Admin">SMB Admins</option>
+                    <option value="CSBU-End-User">SMB End Users</option>
+                    <option value="DESBU-KWDC">KW Document Cloud</option>
+                    <option value="DESBU-KWSC">KW Adobe Scan</option>
+                    <option value="DESBU-IT">IT Document Cloud</option>
+                    <option value="CSBU-Winback">Winback</option>
+                    <option value="GRO-Squad">Growth Programs for Growth Squads</option>
+                    <option value="GRO-CSBU">Growth Programs for Cross Segment</option>
+                    <option value="GRO-CPRO">Growth Programs for Design/Web</option>
+                    <option value="GRO-VPRO">Growth Programs for Video</option>
+                    <option value="GRO-XD">Growth Programs for XD</option>
+                    <option value="GRO-DIBU">Growth Programs for Photo</option>
+                    <option value="GRO-Student">Growth Programs for Students</option>
+                    <option value="GRO-ACQ">Growth Programs for ACQ</option>
+                    <option value="GRO-KWDC">Growth Programs for Acrobat Document Cloud</option>
+                    <option value="AGRO">Acquisition Growth Programs</option>
+                    <option value="other">Other</option>
+                    <input type="text" class="form-control" id="segmentation_other" style='display:none;' placeholder="Enter other value here"/>
+                  </select>
+                </label>
+                <label>Year (Optional):
+                  <p>Year of your campaign - YYYY format</p>
+                  <input type="text" id="year" class="form-control" value=""/>
+                </label>
+                <label>Month (Optional):
+                  <p>Month of your campaign - MM format</p>
+                  <input type="text" id="month" class="form-control" value=""/>
+                </label>
+                <label>Campaign Name (Optional):
+                  <p>Optional value, should be in camel case (eg thanksgivingPromo)</p>
+                  <input type="text" id="campaign_name" class="form-control" value=""/>
+                </label>
+                <label>Tags (Optional):
+                  <p>Populate this field with any relevant tags to make this link more easily searchable.</p>
+                  <p>If you have multiple links with the same campaign/channel/source, you will want to use a UNIQUE tag for each link to differentiate between your links when you are reporting on this data.</p>
+                  <p>For example - if you have an influencer campaign on instagram, you should include the influencer's name/handle as a tag for easily reporting on their metrics.</p>
+                  <p>Individual tags should be comma separated.</p>
+                  <p>Tags should contain no spaces or underscores. Multiple words should be separated by a dash.</p>
+                  <p>All letters should be lower case.</p>
+                  <p>If a partner agency has created this campaign, the name of the agency should be included in tags.</p>
+                  <p></p>
+                  <input type="text" id="tags" class="form-control" value=""/>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#redirect_fields" aria-expanded="false" aria-controls="redirect_fields">
+                  Redirects
+                </a>
+              </h3>
+            </div>
+            <div id="redirect_fields" class="collapse">
+              <div class="panel-body">
+                <label>iOS Redirect
+                  <p>If the link is clicked by a user without the app on iOS, where should that user go? If no value
+                  is specified, user will be taken to the App Store.</p>
+                  <input type="text" id="ios_url" class="form-control" value=""/>
+                  <label class="form-control"><input type="checkbox" value="" id="ios_url_cgen">Apply CGEN tracking to this redirect url.</label>
+                </label>
+                <label>Android Redirect
+                  <p>If the link is clicked by a user without the app on Android, where should that user go? If no value
+                  is specified, user will be taken to the Play Store.</p>
+                  <input type="text" id="android_url" class="form-control" value=""/>
+                  <label class="form-control"><input type="checkbox" value="" id="android_url_cgen">Apply CGEN tracking to this redirect url.</label>
+                </label>
+                <label>Desktop Redirect
+                  <p>If the link is clicked by a user without the app on Desktop, where should that user go? If no value
+                  is specified, user will be taken to the app's a.com page.</p>
+                  <input type="text" id="desktop_url" class="form-control" value=""/>
+                  <label class="form-control"><input type="checkbox" value="" id="desktop_url_cgen">Apply CGEN tracking to this redirect url.</label>
+                </label>
+                <label>Mac Redirect
+                  <p>If the link is clicked by a user without the app on Mac OS, where should that user go? If no value
+                  is specified, user will be taken to app's a.com page. Note: Will override the Desktop Redirect specified above.</p>
+                  <input type="text" id="mac_desktop_url" class="form-control" value=""/>
+                  <label class="form-control"><input type="checkbox" value="" id="mac_desktop_url_cgen">Apply CGEN tracking to this redirect url.</label>
+                </label>
+                <label>Windows Redirect
+                  <p>If the link is clicked by a user without the app on Windows, where should that user go? If no value
+                  is specified, user will be taken to app's a.com page. Note: Will override the Desktop Redirect specified above.</p>
+                  <input type="text" id="windows_desktop_url" class="form-control" value=""/>
+                  <label class="form-control"><input type="checkbox" value="" id="windows_desktop_url_cgen">Apply CGEN tracking to this redirect url.</label>
+                </label>
+                <label>iPad Redirect
+                  <p>If the link is clicked by a user without the app on iPad, where should that user go? If no value
+                  is specified, user will be taken to App Store.</p>
+                  <input type="text" id="ipad_url" class="form-control" value=""/>
+                  <label class="form-control"><input type="checkbox" value="" id="ipad_url_cgen">Apply CGEN tracking to this redirect url.</label>
+                </label>
+                <label>Android Tablet Redirect
+                  <p>If the link is clicked by a user without the app on an Android Tablet, where should that user go? If no value
+                  is specified, user will be taken to Play Store.</p>
+                  <input type="text" id="android_tablet_url" class="form-control" value=""/>
+                  <label class="form-control"><input type="checkbox" value="" id="android_tablet_url_cgen">Apply CGEN tracking to this redirect url.</label>
+                </label>
+                <label>Samsung Redirect
+                  <p>If the link is clicked by a user without the app on a Samsung Android Device, where should that user go? If no value
+                  is specified, user will be taken to Play Store.</p>
+                  <input type="text" id="samsung_url" class="form-control" value=""/>
+                  <label class="form-control"><input type="checkbox" value="" id="samsung_url_cgen">Apply CGEN tracking to this redirect url.</label>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#og_fields" aria-expanded="false" aria-controls="og_fields">
+                  Social Media
+                </a>
+              </h3>
+            </div>
+            <div id="og_fields" class="collapse">
+              <div class="panel-body">
+                <label>OG Title (Optional):
+                  <p>Specifies a title to show if the link is posted on social media.</p>
+                  <input type="text" id="og_title" class="form-control" value=""/>
+                </label>
+                <label>OG Description (Optional):
+                  <p>Specifies a description to show if the link is posted on social media.</p>
+                  <input type="text" id="og_description" class="form-control" value=""/>
+                </label>
+                <label>OG Image URL (Optional):
+                  <p>Specifies an image to show if the link is posted on social media.</p>
+                  <input type="text" id="og_image" class="form-control" value=""/>
+                </label>
+                <!-- Image Upload -->
+                <label>OG Video (Optional):
+                  <p>Specifies a video to show if the link is posted on social media.</p>
+                  <input type="text" id="og_video" class="form-control" value=""/>
+                </label>
+                <label>OG URL (Optional):
+                  <p>Specifies a url to serve as the canonical identifier of the og info.</p>
+                  <input type="text" id="og_url" class="form-control" value=""/>
+                </label>
+                <label>OG Type (Optional):
+                  <p>Specifies a type of og content (ie article, book, etc.).</p>
+                  <input type="text" id="og_type" class="form-control" value=""/>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#other_fields" aria-expanded="false" aria-controls="other_fields">
+                  Other Fields
+                </a>
+              </h3>
+            </div>
+            <div id="other_fields" class="collapse">
+              <div class="panel-body" id="extra_param_panel">
+                <button class="btn btn-info add-field-btn" onclick="addField(this)">Add Link Parameter</button>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn-info" onclick="createLink()">Create Link</button>
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <input type="text" id="final_url" class="form-control" value="Final Link Goes Here" readonly />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
