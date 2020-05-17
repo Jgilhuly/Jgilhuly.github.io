@@ -141,11 +141,17 @@
     .extra-field {
       display: inline-flex;
     }
-    .extra-field-input {
+    .extra-field-input,
+    .other_dropdown,
+    .other_dropdown_field  {
       margin: 10px 40px 10px 40px !important;
     }
-    .add-field-btn {
+    .add-field-btn{
       font-size: 12px;
+    }
+    .btn-copy {
+      background-color: lightgray;
+      width: 20%;
     }
     </style>
 
@@ -168,7 +174,11 @@
       function addField(element) {
         fieldCount++;
 
-        var newField = '<span class="extra-field"><input type="text" id="' + element.parentElement.id + '_key_' + fieldCount + '" class="extra-field-input form-control" value="" placeholder="Key"/><input type="text" id="' + element.parentElement.id + '_value_'+ fieldCount + '" class="extra-field-input form-control" value="" placeholder="Value"/></span>';
+        // var newField = '<span class="extra-field"><input type="text" id="' + element.parentElement.id + '_key_' + fieldCount + '" class="extra-field-input form-control" value="" placeholder="Key"/><input type="text" id="' + element.parentElement.id + '_value_'+ fieldCount + '" class="extra-field-input form-control" value="" placeholder="Value"/></span>';
+        var newField = '<span class="extra-field"><select class="other_dropdown" id="' + element.parentElement.id + '_key_' + fieldCount + '" onchange="checkForOtherSelection(this, \'other_' + fieldCount + '\')"/>';
+        newField += '<option value="">None</option><option value="$deeplink_path">$deeplink_path</option><option value="$ios_deeplink_path">$ios_deeplink_path</option><option value="$android_deeplink_path">$android_deeplink_path</option><option value="$desktop_deeplink_path">$desktop_deeplink_path</option><option value="$windows_phone_url">$windows_phone_url</option><option value="$blackberry_url">$blackberry_url</option><option value="$fire_url">$fire_url</option><option value="$ios_wechat_url">$ios_wechat_url</option><option value="$android_wechat_url">$android_wechat_url</option><option value="$web_only">$web_only</option><option value="$uri_redirect_mode">$uri_redirect_mode</option><option value="$match_duration">$match_duration</option><option value="$always_deeplink">$always_deeplink</option><option value="$ios_redirect_timeout">$ios_redirect_timeout</option><option value="$android_redirect_timeout">$android_redirect_timeout</option>';
+        newField += '<option value="$custom_sms_text">$custom_sms_text</option><option value="$deeplink_no_attribution">$deeplink_no_attribution</option><option value="$ios_passive_deepview">$ios_passive_deepview</option><option value="$android_passive_deepview">$android_passive_deepview</option><option value="$canonical_identifier">$canonical_identifier</option><option value="$canonical_url">$canonical_url</option><option value="$content_type">$content_type</option><option value="$do_not_process">$do_not_process</option><option value="$custom_meta_tags">$custom_meta_tags</option><option value="$click_install_window_days">$click_install_window_days</option><option value="$click_session_start_window_days">$click_session_start_window_days</option><option value="$click_conversion_window_days">$click_conversion_window_days</option><option value="$impression_install_window_days">$impression_install_window_days</option>';
+        newField += '<option value="$impression_session_start_window_days">$impression_session_start_window_days</option><option value="$impression_conversion_window_days">$impression_conversion_window_days</option><option value="$ios_has_app_url">$ios_has_app_url</option><option value="$after_click_url">$after_click_url</option><option value="$after_click_desktop_url">$after_click_desktop_url</option><option value="$exp_date">$exp_date</option><option value="other">Other</option><input type="text" class="form-control other_dropdown_field" id="other_'+ fieldCount +'" style="display:none;" placeholder="Enter other value here"/><input type="text" id="' + element.parentElement.id + '_value_'+ fieldCount + '" class="extra-field-input form-control" value="" placeholder="Value"/></span>';
         element.parentElement.innerHTML += newField;
       }
 
@@ -369,7 +379,7 @@
           linkBody.data['$uri_redirect_mode'] = 2;
         }
 
-        if (channelValue == 'AC') { // append AC campaign macro
+        if (channelValue == 'AC') { // append AC campaign macro TODO: add 3p
           var tags = '~tags=ActivityID=<%targetData.campaignSourceCode%>'
           var tagsToAdd = makeTags();
           for (var i = 0; i < tagsToAdd.length; i++) {
@@ -388,6 +398,20 @@
         }
 
         createLinkViaAPI(linkBody, linkParameters);
+      }
+
+      function copyLink() {
+        var copyText = document.getElementById("final_url");
+
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+
+        document.execCommand("copy");
+        alert("Copied the text: " + copyText.value);
+      }
+
+      function resetFields() {
+        location.reload();
       }
     </script>
   </head>
@@ -763,8 +787,10 @@
           <div class="panel panel-default">
             <div class="panel-body">
               <input type="text" id="final_url" class="form-control" value="Final Link Goes Here" readonly />
+              <button class="btn btn-copy" onclick="copyLink()">Copy Link</button>
             </div>
           </div>
+          <button class="btn btn-copy" onclick="resetFields()">Reset Fields</button>
         </div>
       </div>
     </div>
