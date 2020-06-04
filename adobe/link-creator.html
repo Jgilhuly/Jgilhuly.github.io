@@ -198,7 +198,7 @@
         "acrobat":"key_live_pbKc1OdmiXCZnwq34n7rIpjfrtphZEln"
       };
       var fieldsToValidateWithCgen = ["ios_url", "android_url", "desktop_url", "mac_desktop_url", "windows_desktop_url", "ipad_url", "android_tablet_url", "samsung_url"];
-      var fieldsToValidate = ["campaign"];
+      var fieldsToValidate = [];
 
       function addField(element) {
         fieldCount++;
@@ -220,7 +220,7 @@
       }
 
       function extractValue(id, otherFieldId) {
-        if (!otherFieldId) {
+        if (otherFieldId) {
           var value = document.getElementById(id).value;
           if (value == 'other' || value == 'Other') {
             return document.getElementById(otherFieldId).value;
@@ -235,7 +235,7 @@
       }
 
       function addLinkName(linkBody) {
-        var linkName = extractValue('app_selector', 'app_other') + '_' + extractValue('campaign') + '_' + extractValue('medium_selector', 'medium_other');
+        var linkName = extractValue('app_selector', 'app_other') + '_' + extractValue('campaign_name') + '_' + extractValue('medium_selector', 'medium_other');
         var timeFrame = extractValue('timeFrame');
         if (timeFrame) {linkName += '_' + timeFrame}
         var language = extractValue('language_selector', 'language_other');
@@ -246,18 +246,19 @@
       }
 
       function makeCampaignString() {
-        var campaign = extractValue('campaign');
+        var campaignString = ""
         var segCode = extractValue('segmentation_selector', 'segmentation_other');
-        if (segCode) {campaign += '_' + segCode}
+        if (segCode) {campaignString += segCode}
         var journey = extractValue('journey_selector');
-        if (journey) {campaign += '_' + journey}
+        if (journey) {campaignString += '_' + journey}
         var year = extractValue('year');
-        if (year) {campaign += '_' + year}
+        if (year) {campaignString += '_' + year}
         var month = extractValue('month');
-        if (month) {campaign += '_' + month}
+        if (month) {campaignString += '_' + month}
         var campaignName = extractValue('campaign_name');
-        if (campaignName) {campaign += '_' + campaignName}
-        return campaign
+        if (campaignName) {campaignString += '_' + campaignName}
+        document.getElementById('generated_campaign').value = campaignString;
+        return campaignString;
       }
 
       function makeTags() { // TODO: add a tag specifying link creator
@@ -430,14 +431,14 @@
           }
 
           if (channelValue == 'AC') { // append AC campaign macro TODO: add 3p
-            var tags = '~tags=ActivityID=<%targetData.campaignSourceCode%>'
+            var tags = '&~tags=ActivityID=<%targetData.campaignSourceCode%>'
             var tagsToAdd = makeTags();
             for (var i = 0; i < tagsToAdd.length; i++) {
               tags += '&' + tagsToAdd[i];
             }
             linkParameters += tags; // other tags must be added as query params instead of into link body
           } else if (channelValue == 'Sophia') { // append Sophia campaign macro
-            var tags = '~tags=ActivityID=<%=targetData.sourceCode%>'
+            var tags = '&~tags=ActivityID=<%=targetData.sourceCode%>'
             var tagsToAdd = makeTags();
             for (var i = 0; i < tagsToAdd.length; i++) {
               tags += '&' + tagsToAdd[i];
@@ -475,7 +476,12 @@
       }
 
       function feedback() {
-        window.location.href = "mailto:jgilhuly@branch.io";
+        window.location.href = "mailto:adobe-support@branch.io";
+      }
+
+      function campaignPiecesOnChange(element, otherName) {
+        if (element && otherName) { checkForOtherSelection(element, otherName); }
+        makeCampaignString();
       }
     </script>
   </head>
@@ -553,10 +559,6 @@
                     <option value="photoshopcamera">Photoshop Camera</option>
                     <option value="acrobat">Acrobat Reader</option>
                   </select>
-                </label>
-                <label>Campaign (Required):
-                  <p>Name of the marketing campaign</p>
-                  <input type="text" id="campaign" class="form-control" value=""/>
                 </label>
                 <label>Medium (Required):
                   <p>Name of the marketing medium</p>
@@ -671,7 +673,7 @@
                     <option value="XH">Xhosa</option>
                     <option value="other">Other</option>
                   </select>
-                  <input type="text" class="form-control" id="language_other" style='display:none;' placeholder="Enter other value here"/>
+                  <input type="text" class="form-control" id="language_other" style='display:none;' placeholder="Enter other value here" onchange="checkForOtherSelection()"/>
                 </label>
                 <label>Channel (Optional):
                   <p>Where the link lives in the platform</p>
@@ -739,7 +741,7 @@
                 </label>
                 <label>Segmentation Code (Optional):
                   <p>Include these codes only for email campaigns.</p>
-                  <select class="selectpicker" id="segmentation_selector"onchange="checkForOtherSelection(this, 'segmentation_other')">
+                  <select class="selectpicker" id="segmentation_selector" onchange="campaignPiecesOnChange(this, 'segmentation_other')">
                     <option value="">None</option>
                     <option value="CSBU-CPRO">Design/Web</option>
                     <option value="CSBU-VPRO">Video</option>
@@ -770,20 +772,25 @@
                     <option value="GRO-KWDC">Growth Programs for Acrobat Document Cloud</option>
                     <option value="AGRO">Acquisition Growth Programs</option>
                     <option value="other">Other</option>
-                    <input type="text" class="form-control" id="segmentation_other" style='display:none;' placeholder="Enter other value here"/>
+                    <input type="text" class="form-control" id="segmentation_other" style='display:none;' placeholder="Enter other value here" onchange="campaignPiecesOnChange()"/>
                   </select>
                 </label>
                 <label>Year (Optional):
                   <p>Year of your campaign - YYYY format</p>
-                  <input type="text" id="year" class="form-control" value=""/>
+                  <input type="text" id="year" class="form-control" value="" onchange="campaignPiecesOnChange()"/>
                 </label>
                 <label>Month (Optional):
                   <p>Month of your campaign - MM format</p>
-                  <input type="text" id="month" class="form-control" value=""/>
+                  <input type="text" id="month" class="form-control" value="" onchange="campaignPiecesOnChange()"/>
                 </label>
                 <label>Campaign Name (Optional):
                   <p>Optional value, should be in camel case (eg thanksgivingPromo)</p>
-                  <input type="text" id="campaign_name" class="form-control" value=""/>
+                  <input type="text" id="campaign_name" class="form-control" value="" onchange="campaignPiecesOnChange()"/>
+                </label>
+                <label>Generated Campaign:
+                  <p>Campaign Value Generated by Branch using this format ([SegmentationCode]-[CampaignName])</p>
+                  <p>Does not need to be filled in</p>
+                  <input type="text" id="generated_campaign" class="form-control" value="" readonly/>
                 </label>
                 <label>Tags (Optional):
                   <p>Populate this field with any relevant tags to make this link more easily searchable.</p>
@@ -810,6 +817,8 @@
             </div>
             <div id="redirect_fields" class="collapse">
               <div class="panel-body">
+                <label class="form-control"><input type="checkbox" value="" id="activity_id_required_checkbox">This link needs an ActivityID</label>
+                <hr/>
                 <label>iOS Redirect
                   <p>If the link is clicked by a user without the app on iOS, where should that user go? If no value
                   is specified, user will be taken to the App Store.</p>
