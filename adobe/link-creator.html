@@ -197,7 +197,7 @@
         "photoshopcamera":"key_live_ohCMlAYHK2fGwbBEXL800eefzqbL16UD",
         "acrobat":"key_live_pbKc1OdmiXCZnwq34n7rIpjfrtphZEln"
       };
-      var fieldsToValidateWithCgen = ["ios_url", "android_url", "desktop_url", "mac_desktop_url", "windows_desktop_url", "ipad_url", "android_tablet_url", "samsung_url"];
+      var cgenRedirectFields = ["ios_url", "android_url", "desktop_url", "mac_desktop_url", "windows_desktop_url", "ipad_url", "android_tablet_url", "samsung_url"];
       var fieldsToValidate = [];
 
       function addField(element) {
@@ -326,7 +326,7 @@
         });
       }
 
-      function validateFields() {
+      function validateMandatoryFields() {
         var fieldsValid = true;
         for (var i = 0; i < fieldsToValidate.length; i++) {
           var field = document.getElementById(fieldsToValidate[i]);
@@ -336,10 +336,14 @@
             document.getElementById('final_url').value = "Please fill in marked fields";
           }
         }
+        return fieldsValid;
+      }
 
-        for (var i = 0; i < fieldsToValidateWithCgen.length; i++) {
-          var field = document.getElementById(fieldsToValidateWithCgen[i]);
-          var cgenCheckbox = document.getElementById(fieldsToValidateWithCgen[i] + "_cgen").checked;
+      function validateCgenUrlsSpecified() {
+        var fieldsValid = true;
+        for (var i = 0; i < cgenRedirectFields.length; i++) {
+          var field = document.getElementById(cgenRedirectFields[i]);
+          var cgenCheckbox = document.getElementById(cgenRedirectFields[i] + "_cgen").checked;
           if (field.value == "" && cgenCheckbox) {
             fieldsValid = false;
             field.classList.add("error-border");
@@ -348,6 +352,30 @@
           }
         }
         return fieldsValid;
+      }
+
+      function validateCgenChannelCombo() {
+        var fieldsValid = true;
+        var channel = extractValue('channel_selector', 'channel_other');
+
+        var activityIdCheckboxChecked = document.getElementById("activity_id_required_checkbox").checked;
+        if (activityIdCheckboxChecked && (channel != 'AC' && channel != 'Sophia')) {
+          document.getElementById('final_url').value = "Channel must be Sophia or Adobe Campaign to include cgen or ActivityID";
+          return false;
+        }
+
+        for (var i = 0; i < cgenRedirectFields.length; i++) {
+          var cgenCheckbox = document.getElementById(cgenRedirectFields[i] + "_cgen").checked;
+          if (cgenCheckbox && (channel != 'AC' && channel != 'Sophia')) {
+            document.getElementById('final_url').value = "Channel must be Sophia or Adobe Campaign to include cgen or ActivityID";
+            return false;
+          }
+        }
+        return fieldsValid;
+      }
+
+      function validateFields() {
+        return (validateMandatoryFields() && validateCgenUrlsSpecified() && validateCgenChannelCombo());
       }
 
       function createLink() {
@@ -360,6 +388,7 @@
 
 
           linkBody.data['$marketing_title'] = addLinkName();
+          linkBody['type'] = 2;
           linkBody['feature'] = extractValue('medium_selector', 'medium_other');
           linkBody['channel'] = extractValue('channel_selector', 'channel_other');
           linkBody['campaign'] = makeCampaignString();
@@ -482,6 +511,20 @@
       function campaignPiecesOnChange(element, otherName) {
         if (element && otherName) { checkForOtherSelection(element, otherName); }
         makeCampaignString();
+      }
+
+      function checkCgenBoxesAndUpdateActivityIdBox() {
+        for (var i = 0; i < cgenRedirectFields.length; i++) {
+          var field = document.getElementById(cgenRedirectFields[i]);
+          var cgenCheckbox = document.getElementById(cgenRedirectFields[i] + "_cgen").checked;
+          if (cgenCheckbox) {
+            document.getElementById('activity_id_required_checkbox').checked = true;
+            document.getElementById('activity_id_required_checkbox').disabled = true;
+            return;
+          }
+        }
+        document.getElementById('activity_id_required_checkbox').checked = false;
+        document.getElementById('activity_id_required_checkbox').disabled = false;
       }
     </script>
   </head>
@@ -823,49 +866,49 @@
                   <p>If the link is clicked by a user without the app on iOS, where should that user go? If no value
                   is specified, user will be taken to the App Store.</p>
                   <input type="text" id="ios_url" class="form-control" value=""/>
-                  <label class="form-control"><input type="checkbox" value="" id="ios_url_cgen">Apply CGEN tracking to this redirect url.</label>
+                  <label class="form-control"><input type="checkbox" value="" id="ios_url_cgen" onchange="checkCgenBoxesAndUpdateActivityIdBox()">Apply CGEN tracking to this redirect url.</label>
                 </label>
                 <label>Android Redirect
                   <p>If the link is clicked by a user without the app on Android, where should that user go? If no value
                   is specified, user will be taken to the Play Store.</p>
                   <input type="text" id="android_url" class="form-control" value=""/>
-                  <label class="form-control"><input type="checkbox" value="" id="android_url_cgen">Apply CGEN tracking to this redirect url.</label>
+                  <label class="form-control"><input type="checkbox" value="" id="android_url_cgen" onchange="checkCgenBoxesAndUpdateActivityIdBox()">Apply CGEN tracking to this redirect url.</label>
                 </label>
                 <label>Desktop Redirect
                   <p>If the link is clicked by a user without the app on Desktop, where should that user go? If no value
                   is specified, user will be taken to the app's a.com page.</p>
                   <input type="text" id="desktop_url" class="form-control" value=""/>
-                  <label class="form-control"><input type="checkbox" value="" id="desktop_url_cgen">Apply CGEN tracking to this redirect url.</label>
+                  <label class="form-control"><input type="checkbox" value="" id="desktop_url_cgen" onchange="checkCgenBoxesAndUpdateActivityIdBox()">Apply CGEN tracking to this redirect url.</label>
                 </label>
                 <label>Mac Redirect
                   <p>If the link is clicked by a user without the app on Mac OS, where should that user go? If no value
                   is specified, user will be taken to app's a.com page. Note: Will override the Desktop Redirect specified above.</p>
                   <input type="text" id="mac_desktop_url" class="form-control" value=""/>
-                  <label class="form-control"><input type="checkbox" value="" id="mac_desktop_url_cgen">Apply CGEN tracking to this redirect url.</label>
+                  <label class="form-control"><input type="checkbox" value="" id="mac_desktop_url_cgen" onchange="checkCgenBoxesAndUpdateActivityIdBox()">Apply CGEN tracking to this redirect url.</label>
                 </label>
                 <label>Windows Redirect
                   <p>If the link is clicked by a user without the app on Windows, where should that user go? If no value
                   is specified, user will be taken to app's a.com page. Note: Will override the Desktop Redirect specified above.</p>
                   <input type="text" id="windows_desktop_url" class="form-control" value=""/>
-                  <label class="form-control"><input type="checkbox" value="" id="windows_desktop_url_cgen">Apply CGEN tracking to this redirect url.</label>
+                  <label class="form-control"><input type="checkbox" value="" id="windows_desktop_url_cgen" onchange="checkCgenBoxesAndUpdateActivityIdBox()">Apply CGEN tracking to this redirect url.</label>
                 </label>
                 <label>iPad Redirect
                   <p>If the link is clicked by a user without the app on iPad, where should that user go? If no value
                   is specified, user will be taken to App Store.</p>
                   <input type="text" id="ipad_url" class="form-control" value=""/>
-                  <label class="form-control"><input type="checkbox" value="" id="ipad_url_cgen">Apply CGEN tracking to this redirect url.</label>
+                  <label class="form-control"><input type="checkbox" value="" id="ipad_url_cgen" onchange="checkCgenBoxesAndUpdateActivityIdBox()">Apply CGEN tracking to this redirect url.</label>
                 </label>
                 <label>Android Tablet Redirect
                   <p>If the link is clicked by a user without the app on an Android Tablet, where should that user go? If no value
                   is specified, user will be taken to Play Store.</p>
                   <input type="text" id="android_tablet_url" class="form-control" value=""/>
-                  <label class="form-control"><input type="checkbox" value="" id="android_tablet_url_cgen">Apply CGEN tracking to this redirect url.</label>
+                  <label class="form-control"><input type="checkbox" value="" id="android_tablet_url_cgen" onchange="checkCgenBoxesAndUpdateActivityIdBox()">Apply CGEN tracking to this redirect url.</label>
                 </label>
                 <label>Samsung Redirect
                   <p>If the link is clicked by a user without the app on a Samsung Android Device, where should that user go? If no value
                   is specified, user will be taken to Play Store.</p>
                   <input type="text" id="samsung_url" class="form-control" value=""/>
-                  <label class="form-control"><input type="checkbox" value="" id="samsung_url_cgen">Apply CGEN tracking to this redirect url.</label>
+                  <label class="form-control"><input type="checkbox" value="" id="samsung_url_cgen" onchange="checkCgenBoxesAndUpdateActivityIdBox()">Apply CGEN tracking to this redirect url.</label>
                 </label>
               </div>
             </div>
