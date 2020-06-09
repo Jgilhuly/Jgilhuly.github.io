@@ -107,9 +107,9 @@
         min-width: 170px
     }*/
 
-    #final_url {
+    .final-url-field {
         margin-top: 2%;
-        margin-bottom: 5%;
+        margin-bottom: 2%;
         font-weight: lighter;
         font-size: 110%
     }
@@ -154,7 +154,7 @@
     }
     .btn-copy {
       background-color: lightgray;
-      width: 20%;
+      width: fit-content;
     }
     .error-border {
       box-shadow: 0 0 3px #CC0000 !important;
@@ -168,8 +168,10 @@
       border-radius: 4px;
       cursor: pointer;
       text-align: center;
-      display: inline-block;
       width: fit-content;
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
     }
 
     .feedback-form-button:hover {
@@ -178,6 +180,7 @@
 
     .btn-info {
       margin: 2%;
+      width: -webkit-fill-available;
     }
 
     </style>
@@ -250,13 +253,13 @@
         var segCode = extractValue('segmentation_selector', 'segmentation_other');
         if (segCode) {campaignString += segCode}
         var journey = extractValue('journey_selector');
-        if (journey) {campaignString += '_' + journey}
+        if (journey) {campaignString += '-' + journey}
         var year = extractValue('year');
-        if (year) {campaignString += '_' + year}
+        if (year) {campaignString += '-' + year}
         var month = extractValue('month');
-        if (month) {campaignString += '_' + month}
+        if (month) {campaignString += '-' + month}
         var campaignName = extractValue('campaign_name');
-        if (campaignName) {campaignString += '_' + campaignName}
+        if (campaignName) {campaignString += '-' + campaignName}
         document.getElementById('generated_campaign').value = campaignString;
         return campaignString;
       }
@@ -266,6 +269,7 @@
         tags = tags.replace(/ /g, '');
         tags = tags.split(',');
 
+
         for (var i = 0; i < tags.length; i++) {
           tags[i] = "tags=" + tags[i];
         }
@@ -274,6 +278,19 @@
         if (variation && variation !== '' && !tags.includes(variation)) {
           var t = "tags=" + variation;
           tags.push(t);
+        }
+
+        return tags;
+      }
+
+      function makeTagsForShortLink() {
+        var tags = document.getElementById('tags').value;
+        tags = tags.replace(/ /g, '');
+        tags = tags.split(',');
+
+        var variation = extractValue('variation');
+        if (variation && variation !== '' && !tags.includes(variation)) {
+          tags.push(variation);
         }
 
         return tags;
@@ -299,7 +316,7 @@
         for (var i = 1; i <= fieldCount; i++) {
           var key = document.getElementById('extra_param_panel_key_' + i).value;
           var value = document.getElementById('extra_param_panel_value_' + i).value;
-          if (key != null && key != "" && value != null) { // allowing for an empty value, but not an empty key
+          if (key != null && key != "" && key != "None" && value != null) { // allowing for an empty value, but not an empty key
             linkBody.data[key] = value;
           }
         }
@@ -388,7 +405,7 @@
 
 
           linkBody.data['$marketing_title'] = addLinkName();
-          linkBody['type'] = 2;
+          // linkBody['type'] = 2;
           linkBody['feature'] = extractValue('medium_selector', 'medium_other');
           linkBody['channel'] = extractValue('channel_selector', 'channel_other');
           linkBody['campaign'] = makeCampaignString();
@@ -396,61 +413,84 @@
           linkBody = addExtraParams(linkBody);
 
           // redirect logic - blame this giant block on pass by value js logic
-          var iosRedirectCgen = document.getElementById('ios_url_cgen').checked;
-          if (iosRedirectCgen == true) {
-            var url = "$ios_url=" + encodeURIComponent(document.getElementById('ios_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
-            linkParameters += '&' + url;
-          } else {
-            linkBody.data['$ios_url'] = document.getElementById('ios_url').value;
+          if (document.getElementById('ios_url').value != "") {
+            var iosRedirectCgen = document.getElementById('ios_url_cgen').checked;
+            if (iosRedirectCgen == true) {
+              var url = "$ios_url=" + encodeURIComponent(document.getElementById('ios_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              linkParameters += '&' + url;
+            } else {
+              linkBody.data['$ios_url'] = document.getElementById('ios_url').value;
+            }
           }
-          var androidRedirectCgen = document.getElementById('android_url_cgen').checked;
-          if (androidRedirectCgen == true) {
-            var url = "$android_url=" + encodeURIComponent(document.getElementById('android_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
-            linkParameters += '&' + url;
-          } else {
-            linkBody.data['$android_url'] = document.getElementById('android_url').value;
+
+          if (document.getElementById('android_url').value != "") {
+            var androidRedirectCgen = document.getElementById('android_url_cgen').checked;
+            if (androidRedirectCgen == true) {
+              var url = "$android_url=" + encodeURIComponent(document.getElementById('android_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              linkParameters += '&' + url;
+            } else {
+              linkBody.data['$android_url'] = document.getElementById('android_url').value;
+            }
           }
-          var desktopRedirectCgen = document.getElementById('desktop_url_cgen').checked;
-          if (desktopRedirectCgen == true) {
-            var url = "$desktop_url=" + encodeURIComponent(document.getElementById('desktop_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
-            linkParameters += '&' + url;
-          } else {
-            linkBody.data['$desktop_url'] = document.getElementById('desktop_url').value;
+
+          if (document.getElementById('desktop_url').value != "") {
+            var desktopRedirectCgen = document.getElementById('desktop_url_cgen').checked;
+            if (desktopRedirectCgen == true) {
+              var url = "$desktop_url=" + encodeURIComponent(document.getElementById('desktop_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              linkParameters += '&' + url;
+            } else {
+              linkBody.data['$desktop_url'] = document.getElementById('desktop_url').value;
+            }
           }
-          var macRedirectCgen = document.getElementById('mac_desktop_url_cgen').checked;
-          if (macRedirectCgen == true) {
-            var url = "$mac_desktop_url=" + encodeURIComponent(document.getElementById('mac_desktop_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
-            linkParameters += '&' + url;
-          } else {
-            linkBody.data['$mac_desktop_url'] = document.getElementById('mac_desktop_url').value;
+
+          if (document.getElementById('mac_desktop_url').value != "") {
+            var macRedirectCgen = document.getElementById('mac_desktop_url_cgen').checked;
+            if (macRedirectCgen == true) {
+              var url = "$mac_desktop_url=" + encodeURIComponent(document.getElementById('mac_desktop_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              linkParameters += '&' + url;
+            } else {
+              linkBody.data['$mac_desktop_url'] = document.getElementById('mac_desktop_url').value;
+            }
           }
-          var windowsRedirectCgen = document.getElementById('windows_desktop_url_cgen').checked;
-          if (windowsRedirectCgen == true) {
-            var url = "$windows_desktop_url=" + encodeURIComponent(document.getElementById('windows_desktop_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
-            linkParameters += '&' + url;
-          } else {
-            linkBody.data['$windows_desktop_url'] = document.getElementById('windows_desktop_url').value;
+
+          if (document.getElementById('windows_desktop_url').value != "") {
+            var windowsRedirectCgen = document.getElementById('windows_desktop_url_cgen').checked;
+            if (windowsRedirectCgen == true) {
+              var url = "$windows_desktop_url=" + encodeURIComponent(document.getElementById('windows_desktop_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              linkParameters += '&' + url;
+            } else {
+              linkBody.data['$windows_desktop_url'] = document.getElementById('windows_desktop_url').value;
+            }
           }
-          var samsungRedirectCgen = document.getElementById('samsung_url_cgen').checked;
-          if (samsungRedirectCgen == true) {
-            var url = "$samsung_url=" + encodeURIComponent(document.getElementById('samsung_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
-            linkParameters += '&' + url;
-          } else {
-            linkBody.data['$samsung_url'] = document.getElementById('samsung_url').value;
+
+          if (document.getElementById('samsung_url').value != "") {
+            var samsungRedirectCgen = document.getElementById('samsung_url_cgen').checked;
+            if (samsungRedirectCgen == true) {
+              var url = "$samsung_url=" + encodeURIComponent(document.getElementById('samsung_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              linkParameters += '&' + url;
+            } else {
+              linkBody.data['$samsung_url'] = document.getElementById('samsung_url').value;
+            }
           }
-          var ipadRedirectCgen = document.getElementById('ipad_url_cgen').checked;
-          if (ipadRedirectCgen == true) {
-            var url = "$ipad_url=" + encodeURIComponent(document.getElementById('ipad_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
-            linkParameters += '&' + url;
-          } else {
-            linkBody.data['$ipad_url'] = document.getElementById('ipad_url').value;
+
+          if (document.getElementById('ipad_url').value != "") {
+            var ipadRedirectCgen = document.getElementById('ipad_url_cgen').checked;
+            if (ipadRedirectCgen == true) {
+              var url = "$ipad_url=" + encodeURIComponent(document.getElementById('ipad_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              linkParameters += '&' + url;
+            } else {
+              linkBody.data['$ipad_url'] = document.getElementById('ipad_url').value;
+            }
           }
-          var androidTabletRedirectCgen = document.getElementById('android_tablet_url_cgen').checked;
-          if (androidTabletRedirectCgen == true) {
-            var url = "$android_tablet_url=" + encodeURIComponent(document.getElementById('android_tablet_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
-            linkParameters += '&' + url;
-          } else {
-            linkBody.data['$android_tablet_url'] = document.getElementById('android_tablet_url').value;
+
+          if (document.getElementById('android_tablet_url').value != "") {
+            var androidTabletRedirectCgen = document.getElementById('android_tablet_url_cgen').checked;
+            if (androidTabletRedirectCgen == true) {
+              var url = "$android_tablet_url=" + encodeURIComponent(document.getElementById('android_tablet_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              linkParameters += '&' + url;
+            } else {
+              linkBody.data['$android_tablet_url'] = document.getElementById('android_tablet_url').value;
+            }
           }
 
           // automatic parameters based on channel selection
@@ -474,7 +514,7 @@
             }
             linkParameters += tags;
           } else {
-            linkBody['tags'] = makeTags();
+            linkBody['tags'] = makeTagsForShortLink();
           }
 
           createLinkViaAPI(linkBody, linkParameters);
@@ -548,8 +588,29 @@
         Adobe Link Creator
       </div>
       <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+              Branch App
+            </a>
+          </h3>
+        </div>
         <div class="panel-body">
-
+          <p>Name of the application the link should direct users to.</p>
+          <select class="selectpicker" id="branch_app_selector">
+            <option value="aero">Aero</option>
+            <option value="fresco">Fresco</option>
+            <option value="photoshopipad">Photoshop iPad</option>
+            <option value="photshopexpress">Photoshop Express</option>
+            <option value="rush">Rush</option>
+            <option value="scan">Scan</option>
+            <option value="lightroom">Lightroom</option>
+            <option value="sparkpost">Spark Post</option>
+            <option value="sparkpage">Spark Page</option>
+            <option value="photoshopcamera">Photoshop Camera</option>
+            <option value="acrobat">Acrobat Reader</option>
+          </select>
+        </div>
+      </div>
           <div class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title">
@@ -586,22 +647,6 @@
                     <option value="other">Other</option>
                   </select>
                   <input type="text" class="form-control" id="app_other" style='display:none;' placeholder="Enter other value here"/>
-                </label>
-                <label>Branch App (Required):
-                  <p>Name of the application the link should direct users to.</p>
-                  <select class="selectpicker" id="branch_app_selector">
-                    <option value="aero">Aero</option>
-                    <option value="fresco">Fresco</option>
-                    <option value="photoshopipad">Photoshop iPad</option>
-                    <option value="photshopexpress">Photoshop Express</option>
-                    <option value="rush">Rush</option>
-                    <option value="scan">Scan</option>
-                    <option value="lightroom">Lightroom</option>
-                    <option value="sparkpost">Spark Post</option>
-                    <option value="sparkpage">Spark Page</option>
-                    <option value="photoshopcamera">Photoshop Camera</option>
-                    <option value="acrobat">Acrobat Reader</option>
-                  </select>
                 </label>
                 <label>Medium (Required):
                   <p>Name of the marketing medium</p>
@@ -969,21 +1014,18 @@
           </div>
 
           <button class="btn btn-info" onclick="createLink()">Create Link</button>
+
           <div class="panel panel-default">
             <div class="panel-body">
-              <input type="text" id="final_url" class="form-control" value="Final Link Goes Here" readonly />
-              <button class="btn btn-copy" onclick="copyLink()">Copy Link</button>
+              <input type="text" id="final_url" class="form-control final-url-field" value="Final Link Goes Here" readonly />
+              <div class="buttons">
+                <button class="btn btn-copy" onclick="copyLink()">Copy Link</button>
+                <button class="btn btn-copy" onclick="resetFields()">Reset Fields</button>
+                <button class="btn btn-copy" onclick="feedback()">Submit Feedback</button>
+              </div>
             </div>
           </div>
-          <button class="btn btn-copy" onclick="resetFields()">Reset Fields</button>
         </div>
-      </div>
-
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <input class="feedback-form-button" onclick="feedback()" value="Submit Feedback">
-        </div>
-      </div>
     </div>
   </body>
 </html>
