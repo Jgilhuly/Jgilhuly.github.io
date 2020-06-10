@@ -245,6 +245,9 @@
         if (language) {linkName += '_' + language}
         var variation = extractValue('variation');
         if (variation) {linkName += '_' + variation}
+
+        document.getElementById('marketing_title').value = linkName;
+
         return linkName;
       }
 
@@ -1017,6 +1020,10 @@
 
           <div class="panel panel-default">
             <div class="panel-body">
+              <label>Generated Campaign:
+                <p>The name that will appear next to you link in the Quick Links tab of the Branch dashboard.</p>
+                <input type="text" id="marketing_title" class="form-control" value="" readonly/>
+              </label>
               <input type="text" id="final_url" class="form-control final-url-field" value="Final Link Goes Here" readonly />
               <div class="buttons">
                 <button class="btn btn-copy" onclick="copyLink()">Copy Link</button>
