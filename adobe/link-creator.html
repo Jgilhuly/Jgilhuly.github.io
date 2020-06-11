@@ -322,7 +322,7 @@
 
       function addExtraParams(linkBody) {
         for (var i = 1; i <= fieldCount; i++) {
-          var key = document.getElementById('extra_param_panel_key_' + i).value;
+          var key = extractValue('extra_param_panel_key_' + i, 'other_' + i);
           var value = document.getElementById('extra_param_panel_value_' + i).value;
           if (key != null && key != "" && key != "None" && value != null) { // allowing for an empty value, but not an empty key
             linkBody.data[key] = value;
