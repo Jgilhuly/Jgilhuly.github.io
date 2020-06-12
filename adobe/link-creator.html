@@ -250,7 +250,7 @@
         var campaignName = extractValue(campaign_name);
         if (campaignName && campaignName != "") {linkName += '_' + campaignName}
 
-        linkName += '_' extractValue('medium_selector', 'medium_other');
+        linkName += '_' + extractValue('medium_selector', 'medium_other');
 
         var timeFrame = extractValue('timeFrame');
         if (timeFrame && timeFrame != "") {linkName += '_' + timeFrame}
@@ -918,7 +918,7 @@
             <div class="panel-heading">
               <h3 class="panel-title">
                 <a data-toggle="collapse" data-parent="#accordion" href="#redirect_fields" aria-expanded="false" aria-controls="redirect_fields">
-                  Redirects - where the user will be taken if they do not have the app installed.
+                  Redirects - where the user will be taken if they do not have the app installed
                 </a>
               </h3>
             </div>
