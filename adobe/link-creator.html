@@ -245,9 +245,9 @@
       }
 
       function addLinkName(linkBody) {
-        var linkName = extractValue('app_selector', 'app_other') + '_';
+        var linkName = extractValue('app_selector', 'app_other');
 
-        var campaignName = extractValue(campaign_name);
+        var campaignName = extractValue('campaign_name');
         if (campaignName && campaignName != "") {linkName += '_' + campaignName}
 
         linkName += '_' + extractValue('medium_selector', 'medium_other');
@@ -267,7 +267,7 @@
       }
 
       function makeCampaignString() {
-        var campaignString = ""
+        var campaignString = "";
         var segCode = extractValue('segmentation_selector', 'segmentation_other');
         if (segCode  && segCode != "") {campaignString += segCode}
         var journey = extractValue('journey_selector');
@@ -278,6 +278,7 @@
         if (month && month != "") {campaignString += '-' + month}
         var campaignName = extractValue('campaign_name');
         if (campaignName && campaignName != "") {campaignString += '-' + campaignName}
+        if (campaignString.charAt(0) == '-') {campaignString = campaignString.substring(1)}
         document.getElementById('generated_campaign').value = campaignString;
         return campaignString;
       }
