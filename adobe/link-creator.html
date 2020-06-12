@@ -348,16 +348,33 @@
         return linkBody;
       }
 
+      function trackUsageEventToBranch(link, linkParameters) {
+        var eventBody = {
+          'name': 'Link Created',
+          'branch_key': 'key_live_ofV3iqJOGzV5o6nRLi53rganBxhqM3i0',
+          'metadata': {},
+          'user_data': {
+            'developer_identity': 'adobe link creator'
+          },
+          'custom_data': {
+            'link_generated': link,
+            'link_parameters_generated': linkParameters
+          }
+        };
+
+        $.post('https://api2.branch.io/v2/event/custom',JSON.stringify(eventBody),function(data) {
+          console.log(data);
+        });
+      }
+
       function createLinkViaAPI(linkBody, linkParameters) {
         linkBody = addBranchKey(linkBody);
-
-        // console.log(JSON.stringify(linkBody));
-        // console.log(linkParameters);
 
         $.post('https://api2.branch.io/v1/url',JSON.stringify(linkBody),function(data) {
           console.log(data);
           if (data.url) {
             document.getElementById('final_url').value = data.url + linkParameters;
+            trackUsageEventToBranch();
           }
         });
       }
