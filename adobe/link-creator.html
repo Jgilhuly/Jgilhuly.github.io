@@ -374,7 +374,7 @@
           console.log(data);
           if (data.url) {
             document.getElementById('final_url').value = data.url + linkParameters;
-            trackUsageEventToBranch();
+            trackUsageEventToBranch(data.url, linkParameters);
           }
         });
       }
