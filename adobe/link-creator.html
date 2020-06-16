@@ -283,7 +283,7 @@
         return campaignString;
       }
 
-      function makeTags() { // TODO: add a tag specifying link creator
+      function makeTags() {
         var tags = document.getElementById('tags').value;
         tags = tags.replace(/ /g, '');
         tags = tags.split(',');
@@ -445,6 +445,7 @@
           linkBody['feature'] = extractValue('medium_selector', 'medium_other');
           linkBody['channel'] = extractValue('channel_selector', 'channel_other');
           linkBody['campaign'] = makeCampaignString();
+          linkBody['stage'] = 'Link Creator Tool';
           linkBody = addOGParams(linkBody);
           linkBody = addExtraParams(linkBody);
 
