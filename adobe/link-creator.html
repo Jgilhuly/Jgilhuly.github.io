@@ -569,6 +569,10 @@
             setWarningMessage('Note: This url will show an error page if you paste it straight into your browser. That\'s okay! The ActivityID parameter needs to be filled in for the url to load properly.');
           }
 
+          if (linkParameters.indexOf('?&') != -1) {
+            linkParameters = linkParameters.replace('&', '');
+          }
+
           createLinkViaAPI(linkBody, linkParameters);
         }
       }
