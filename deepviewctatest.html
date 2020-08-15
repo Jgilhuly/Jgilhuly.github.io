@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width">
+  <script>
+		// load Branch
+		(function(b,r,a,n,c,h,_,s,d,k){if(!b[n]||!b[n]._q){for(;s<_.length;)c(h,_[s++]);d=r.createElement(a);d.async=1;d.src="https://cdn.branch.io/branch-latest.min.js";k=r.getElementsByTagName(a)[0];k.parentNode.insertBefore(d,k);b[n]=h}})(window,document,"script","branch",function(b,r){b[r]=function(){b._q.push([r,arguments])}},{_q:[],_v:1},"addListener applyCode autoAppIndex banner closeBanner closeJourney creditHistory credits data deepview deepviewCta first getCode init link logout redeem referrals removeListener sendSMS setBranchViewData setIdentity track validateCode trackCommerceEvent".split(" "), 0);
+		// init Branch
+		branch.init('key_live_mpNkmP6pUud4YmIqkpxginnnADcn7yGW');
+
+		branch.deepview(
+	    {
+	        channel: 'test',
+	        data: {
+	            foo: 'bar',
+	        },
+	        feature: 'test',
+	    },
+	    {
+	        make_new_link: true,
+	        open_app: true
+	    },
+	    function(err) {
+	        console.log(err || 'no error');
+
+					branch.deepviewCta(function(err) {
+					    if (err) {
+					        console.log(err);
+					    }
+					});
+	    }
+		);
+	</script>
+
+	<script type="text/javascript">
+		function unescapeHtml(escaped_str) {
+				var div = document.createElement('div');
+				div.innerHTML = escaped_str;
+				var child = div.childNodes[0];
+				return child ? child.nodeValue : null;
+		}
+
+		function validateProtocol(url) {
+			var parser = document.createElement('a');
+				parser.href = url;
+				var protocol = parser.protocol.toLowerCase();
+			if ([ 'javascript:',  'vbscript:',  'data:', 'ftp:',':' , ' '].indexOf(protocol) < 0) {
+				return url;
+			}
+			return null;
+		}
+
+		function validate(url) {
+			var unescaped_value = unescapeHtml(url);
+			if (unescaped_value && validateProtocol(unescaped_value)) {
+				return unescaped_value;
+			}
+			return '/';
+		}
+
+		var hasURI = false;
+		var intervalExecuted = false;
+		window.onload = function() {
+			document.getElementById("l").src = validate("adobelightroom://open?link_click_id=821473527331352265");
+			window.setTimeout(function() {
+				if (!hasURI) {
+					window.top.location = validate("https://lightroom.adobe.com/learn/discover?_branch_match_id=821473527331352265");
+				}
+				intervalExecuted = true;
+			}, 300);
+		};
+
+		window.onblur = function() {
+			hasURI = true;
+		};
+
+		window.onfocus = function() {
+			if (hasURI) {
+				window.top.location = validate("https://lightroom.adobe.com/learn/discover?_branch_match_id=821473527331352265");
+			} else if(intervalExecuted) {
+				window.top.location = validate("https://lightroom.adobe.com/learn/discover?_branch_match_id=821473527331352265");
+			}
+		}
+	</script>
+</head>
+
+<body>
+	<iframe id="l" width="1" height="1" style="visibility:hidden"></iframe>
+</body>
+</html>
