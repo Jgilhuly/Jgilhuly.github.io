@@ -464,7 +464,11 @@
           if (document.getElementById('ios_url').value != "") {
             var iosRedirectCgen = document.getElementById('ios_url_cgen').checked;
             if (iosRedirectCgen == true) {
-              var url = "$ios_url=" + encodeURIComponent(document.getElementById('ios_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              if (document.getElementById('ios_url').value.indexOf('?') == -1) {
+                var url = "$ios_url=" + encodeURIComponent(document.getElementById('ios_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              } else {
+                var url = "$ios_url=" + encodeURIComponent(document.getElementById('ios_url').value) + "%26trackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              }
               linkParameters += '&' + url;
             } else {
               linkBody.data['$ios_url'] = document.getElementById('ios_url').value;
@@ -474,7 +478,11 @@
           if (document.getElementById('android_url').value != "") {
             var androidRedirectCgen = document.getElementById('android_url_cgen').checked;
             if (androidRedirectCgen == true) {
-              var url = "$android_url=" + encodeURIComponent(document.getElementById('android_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              if (document.getElementById('android_url').value.indexOf('?') == -1) {
+                var url = "$android_url=" + encodeURIComponent(document.getElementById('android_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              } else {
+                var url = "$android_url=" + encodeURIComponent(document.getElementById('android_url').value) + "%26trackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              }
               linkParameters += '&' + url;
             } else {
               linkBody.data['$android_url'] = document.getElementById('android_url').value;
@@ -484,7 +492,11 @@
           if (document.getElementById('desktop_url').value != "") {
             var desktopRedirectCgen = document.getElementById('desktop_url_cgen').checked;
             if (desktopRedirectCgen == true) {
-              var url = "$desktop_url=" + encodeURIComponent(document.getElementById('desktop_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              if (document.getElementById('desktop_url').value.indexOf('?') == -1) {
+                var url = "$desktop_url=" + encodeURIComponent(document.getElementById('desktop_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              } else {
+                var url = "$desktop_url=" + encodeURIComponent(document.getElementById('desktop_url').value) + "%26trackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              }
               linkParameters += '&' + url;
             } else {
               linkBody.data['$desktop_url'] = document.getElementById('desktop_url').value;
@@ -494,7 +506,11 @@
           if (document.getElementById('mac_desktop_url').value != "") {
             var macRedirectCgen = document.getElementById('mac_desktop_url_cgen').checked;
             if (macRedirectCgen == true) {
-              var url = "$mac_desktop_url=" + encodeURIComponent(document.getElementById('mac_desktop_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              if (document.getElementById('mac_desktop_url').value.indexOf('?') == -1) {
+                var url = "$mac_desktop_url=" + encodeURIComponent(document.getElementById('mac_desktop_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              } else {
+                var url = "$mac_desktop_url=" + encodeURIComponent(document.getElementById('mac_desktop_url').value) + "%26trackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              }
               linkParameters += '&' + url;
             } else {
               linkBody.data['$mac_desktop_url'] = document.getElementById('mac_desktop_url').value;
@@ -504,7 +520,11 @@
           if (document.getElementById('windows_desktop_url').value != "") {
             var windowsRedirectCgen = document.getElementById('windows_desktop_url_cgen').checked;
             if (windowsRedirectCgen == true) {
-              var url = "$windows_desktop_url=" + encodeURIComponent(document.getElementById('windows_desktop_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              if (document.getElementById('windows_desktop_url').value.indexOf('?') == -1) {
+                var url = "$windows_desktop_url=" + encodeURIComponent(document.getElementById('windows_desktop_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              } else {
+                var url = "$windows_desktop_url=" + encodeURIComponent(document.getElementById('windows_desktop_url').value) + "%26trackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              }
               linkParameters += '&' + url;
             } else {
               linkBody.data['$windows_desktop_url'] = document.getElementById('windows_desktop_url').value;
@@ -514,7 +534,11 @@
           if (document.getElementById('samsung_url').value != "") {
             var samsungRedirectCgen = document.getElementById('samsung_url_cgen').checked;
             if (samsungRedirectCgen == true) {
-              var url = "$samsung_url=" + encodeURIComponent(document.getElementById('samsung_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              if (document.getElementById('samsung_url').value.indexOf('?') == -1) {
+                var url = "$samsung_url=" + encodeURIComponent(document.getElementById('samsung_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              } else {
+                var url = "$samsung_url=" + encodeURIComponent(document.getElementById('samsung_url').value) + "%26trackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              }
               linkParameters += '&' + url;
             } else {
               linkBody.data['$samsung_url'] = document.getElementById('samsung_url').value;
@@ -524,7 +548,11 @@
           if (document.getElementById('ipad_url').value != "") {
             var ipadRedirectCgen = document.getElementById('ipad_url_cgen').checked;
             if (ipadRedirectCgen == true) {
-              var url = "$ipad_url=" + encodeURIComponent(document.getElementById('ipad_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              if (document.getElementById('ipad_url').value.indexOf('?') == -1) {
+                var url = "$ipad_url=" + encodeURIComponent(document.getElementById('ipad_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              } else {
+                var url = "$ipad_url=" + encodeURIComponent(document.getElementById('ipad_url').value) + "%26trackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              }
               linkParameters += '&' + url;
             } else {
               linkBody.data['$ipad_url'] = document.getElementById('ipad_url').value;
@@ -534,7 +562,11 @@
           if (document.getElementById('android_tablet_url').value != "") {
             var androidTabletRedirectCgen = document.getElementById('android_tablet_url_cgen').checked;
             if (androidTabletRedirectCgen == true) {
-              var url = "$android_tablet_url=" + encodeURIComponent(document.getElementById('android_tablet_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              if (document.getElementById('android_tablet_url').value.indexOf('?') == -1) {
+                var url = "$android_tablet_url=" + encodeURIComponent(document.getElementById('android_tablet_url').value) + "%3Ftrackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              } else {
+                var url = "$android_tablet_url=" + encodeURIComponent(document.getElementById('android_tablet_url').value) + "%26trackingid%3D<%=getTagId('ReplaceThis')%>%26mv%3Demail";
+              }
               linkParameters += '&' + url;
             } else {
               linkBody.data['$android_tablet_url'] = document.getElementById('android_tablet_url').value;
