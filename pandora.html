@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+
+  // load Branch
+  (function(b,r,a,n,c,h,_,s,d,k){if(!b[n]||!b[n]._q){for(;s<_.length;)c(h,_[s++]);d=r.createElement(a);d.async=1;d.src="https://cdn.branch.io/branch-latest.min.js";k=r.getElementsByTagName(a)[0];k.parentNode.insertBefore(d,k);b[n]=h}})(window,document,"script","branch",function(b,r){b[r]=function(){b._q.push([r,arguments])}},{_q:[],_v:1},"addListener applyCode autoAppIndex banner closeBanner closeJourney creditHistory credits data deepview deepviewCta first getCode init link logout redeem referrals removeListener sendSMS setBranchViewData setIdentity track validateCode trackCommerceEvent".split(" "), 0);
+  // init Branch
+  branch.init("key_live_pbtE4dcavETgqI5C3M8n0eabADiL8rYZ");
+  branch.setIdentity("pandora test 1234");
+
+  function fireBranchLink() {
+    branch.link({
+      channel:"test",
+      data: {
+        foo:"bar",
+        s2s:"true"
+      }
+    }, function(err, link) {
+      console.log(err, link);
+      if (err == null) {
+        document.getElementById("l").src = link;
+        document.getElementById("n").src = "pandora://open";
+
+        var hasURI = false;
+        var intervalExecuted = false;
+
+        window.setTimeout(function() {
+          if (!hasURI) {
+            window.top.location = "https://www.google.com"; // this is the link the user will go to if the app is not installed.
+          }
+          intervalExecuted = true;
+        }, 300);
+
+        window.onblur = function() {
+          hasURI = true;
+        };
+
+        window.onfocus = function() {
+          if (hasURI) {
+            window.top.location = "https://www.google.com"; // this is the link the user will go to if the app is installed and the user clicks to open it
+          } else if(intervalExecuted) {
+            window.top.location = "https://www.google.com"; // this is the link the user will go to if the app is not installed.
+          }
+        }
+      }
+    });
+  }
+  </script>
+</head>
+
+<body>
+  <button onclick="fireBranchLink()">Go!</button>
+  <iframe id="l" width="1" height="1" style="visibility:hidden"></iframe>
+  <iframe id="n" width="1" height="1" style="visibility:hidden"></iframe>
+</body>
+
+</html>
