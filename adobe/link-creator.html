@@ -326,13 +326,28 @@
           console.log(data);
         });
       }
+      function addWebOnlyModifiers(url) {
+        var iOS = document.getElementById('web_only_ios_checkbox').checked;
+        var android = document.getElementById('web_only_android_checkbox').checked;
+
+        if (iOS) {
+          url = url.substring(0, url.indexOf('.link/')+6) + 'e/' + url.substring(url.indexOf('.link/')+6);
+        }
+
+        if (android) {
+          url = url.substring(0, url.indexOf('.app')) + '-web.app' + url.substring(url.indexOf('.')+4);
+        }
+
+        return url;
+      }
       function createLinkViaAPI(linkBody, linkParameters) {
         linkBody = addBranchKey(linkBody);
         $.post('https://api2.branch.io/v1/url',JSON.stringify(linkBody),function(data) {
           console.log(data);
           if (data.url) {
-            document.getElementById('final_url').value = data.url + linkParameters;
-            trackUsageEventToBranch(data.url, linkParameters);
+            var url = addWebOnlyModifiers(data.url);
+            document.getElementById('final_url').value = url + linkParameters;
+            trackUsageEventToBranch(url, linkParameters);
           }
         });
       }
@@ -916,12 +931,14 @@
             <div class="panel-heading">
               <h3 class="panel-title">
                 <a data-toggle="collapse" data-parent="#accordion" href="#redirect_fields" aria-expanded="false" aria-controls="redirect_fields">
-                  Redirects - where the user will be taken if they do not have the app installed
+                  Redirects
                 </a>
               </h3>
             </div>
             <div id="redirect_fields" class="collapse">
               <div class="panel-body">
+                <label class="form-control"><input type="checkbox" value="" id="web_only_ios_checkbox">Link should always redirect to web on iOS</label>
+                <label class="form-control"><input type="checkbox" value="" id="web_only_android_checkbox">Link should always redirect to web on Android</label>
                 <label class="form-control"><input type="checkbox" value="" id="activity_id_required_checkbox">This link needs an ActivityID</label>
                 <hr/>
                 <label>iOS Redirect
